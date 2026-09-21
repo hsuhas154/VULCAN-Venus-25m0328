@@ -1,0 +1,105 @@
+\documentclass[10pt]{article}
+
+\usepackage[a4paper,margin=0.72in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xurl}
+\usepackage{seqsplit}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+    citecolor=black
+}
+
+\urlstyle{tt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=*}
+\pagestyle{plain}
+
+\newcommand{\filepath}[1]{\path{#1}}
+\newcommand{\hashval}[1]{\texttt{\seqsplit{#1}}}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Baseline Reproduction, Radiative-Transfer Audit, and UUV Experiment Preparation in VULCAN-Venus}
+\end{center}
+
+This document records the computational and scientific work completed in the Venus photochemistry project through the preparation checkpoint immediately before the first controlled Unknown UV Absorber (UUV) experiment. The investigation has deliberately proceeded from reproducibility to diagnosis and only then to experimentation. The supplied calculation was preserved unchanged, a fresh nominal calculation was reproduced, the resulting state and radiative-transfer fields were audited, the localized sulfur discrepancy was traced chemically, and the implementation of the UUV and aerosol terms was reconstructed directly from the source code and input files. No physical conclusion about the identity of the Venusian UUV has yet been made.
+
+The project is maintained under the roll-number-specific root \filepath{~/projects-25m0328/venus-photochemistry}, with the VULCAN-Venus repository at \filepath{~/projects-25m0328/venus-photochemistry/VULCAN-Venus}. The work was performed in WSL2 using Ubuntu 24.04.4 LTS. The active conda environment is \texttt{venus}, using Python 3.14.7. The principal numerical packages include NumPy 2.5.2, SciPy 1.18.0, Pandas 3.0.5, Matplotlib 3.11.1, netCDF4 1.7.4, h5py 3.16.0, xarray 2026.7.0, SymPy 1.14.0, scikit-learn 1.9.0, Pillow 12.3.0, and PyMieScatt 1.8.1.1. GCC/G++/GFortran are version 13.3.0. A complete package snapshot was saved as \texttt{venus-environment-25m0328.txt}. The embedded FastChem component uses the repository Makefile system and was successfully compiled; CMake was not required.
+
+Two compatibility corrections were required for the supplied older code. In \texttt{make\_chem\_funs.py}, a call to \texttt{decode()} was guarded so that only byte strings are decoded. This allowed the nominal chemistry network to regenerate successfully, reporting conservation of elements and no duplicate reactions. In PyMieScatt 1.8.1.1, the removed SciPy import \texttt{scipy.integrate.trapz} was replaced by the equivalent \texttt{trapezoid} operation imported as \texttt{trapz}; the original files were backed up. These changes were compatibility corrections only and did not alter chemical parameters, atmospheric parameters, cross sections, or the supplied UUV data. The environment also passes \texttt{python -m pip check}. The package \texttt{nose} is installed but is not used in the present workflow because its import is incompatible with Python 3.14; this has not affected VULCAN execution.
+
+The nominal model configuration uses \texttt{thermo/Networks/Nominal.txt} and \texttt{atm/atm\_Venus\_Bkzz.txt}, with photochemistry enabled, eddy diffusion from the supplied atmospheric profile, no molecular diffusion, and condensation enabled. The model contains 57 vertical atmospheric layers and 62 species. The photochemical wavelength grid has 1670 bins spanning 96--698 nm, with 0.1 nm binning below the 240 nm transition and 2 nm binning above it. The active Rayleigh scattering species are CO$_2$, N$_2$, H$_2$, and O$_2$; the temperature-dependent absorption species are H$_2$O$_2$, CO$_2$, and H$_2$O. The supplied UUV input is \texttt{atm/UV\_absorber.txt}, and the particle profile is \texttt{atm/mode1+2.txt}.
+
+Before any fresh integration, the supplied \texttt{output/Nominal\_Bkzz\_SO2.vul} was copied to \filepath{output/Nominal\_Bkzz\_SO2-25m0328-reference.vul}. The original and preserved reference were verified byte-for-byte identical, with SHA-256 hash \hashval{c38e858fb556bead09bea4ee79ad0101a99c10bb8c384640ef17cd3aa0407ebd}. A fresh nominal integration was then performed and saved as \filepath{output/Nominal\_Bkzz\_SO2-25m0328-baseline.vul}, together with the archived configuration \filepath{output/cfg\_Nominal\_Bkzz\_SO2-25m0328-baseline.txt}. The baseline reached VULCAN's reported steady-state criterion after 296 integration steps and a model time of approximately $5.33\times10^8$ s. The final reported long-step change was approximately $9.90\times10^{-3}$, with long-step derivative approximately $6.97\times10^{-11}$. The negative-solution and loss-rejection counters were zero; one delta rejection occurred. A warning concerning temperatures outside the Gibbs free-energy validity range and two divide-related runtime warnings in truncation-error diagnostics were retained as documented numerical issues. The final saved arrays were finite.
+
+The baseline audit first established structural consistency of the saved model fields. The reference and baseline contain the same principal dictionaries and expected dimensions. Both contain 99 stored photolysis-rate entries, each with 57 vertical values. Their wavelength arrays are exactly identical. All 91,850 stored \texttt{cross\_J} values are exactly identical. Independent reconstruction of ordinary photolysis rates from saved actinic flux and cross sections reproduces the stored rates to approximately machine precision; the largest reconstruction errors for the V2 and V temperature-dependent branches are about $1.62\times10^{-4}$ and $1.21\times10^{-4}$, respectively. The later numerical comparison of saved photolysis rates found a maximum meaningful relative difference of approximately 0.620\%, with a mean meaningful difference of approximately 0.00744\%.
+
+The volume mixing ratio arrays have shape $(57,62)$. The major atmospheric constituents are reproduced closely. The largest absolute difference is $8.91\times10^{-5}$ for upper-level N$_2$, corresponding to a relative difference of about 0.263\%. Larger differences are concentrated in sulfur-bearing trace species. SO$_2$ reaches a maximum relative difference of approximately 37.0\%, while very small sulfur abundances can have much larger relative ratios because of their small absolute magnitude.
+
+The optical-depth arrays have shape $(58,1670)$. The maximum absolute values are about $2.0710\times10^{11}$ in both calculations. The largest absolute difference is approximately $3.36\times10^4$ and occurs in an extremely optically thick region where the relative error is very small. The important anomaly is instead localized around interfaces 28--30 and wavelengths near 200--220 nm. At interface 28 and 201.6 nm, the reference optical depth is approximately 1376.44785 and the baseline value is approximately 933.95015, giving a difference of about 442.50. The actinic-flux arrays are also structurally identical. Approximately 60.95\% of their stored values are exactly identical; the maximum meaningful relative difference is approximately 3.26\%, localized near the same atmospheric region.
+
+The active absorber decomposition showed that the saved optical-depth field is generated by gas absorption plus Rayleigh scattering. All compared absorber cross sections are identical between the reference and baseline. At the precise Stage 4 anomaly, the cumulative SO$_2$ contribution is approximately 1348.89 in the reference and 906.40 in the baseline. The local layer contribution differs by approximately 406.55, accounting for about 92\% of the total local optical-depth difference of 442.50. This is a known molecular absorption contribution and is not itself evidence for the Unknown UV Absorber.
+
+The SO$_2$ difference was traced to the atmospheric state rather than the grid or cross-section data. Pressure, temperature, altitude grid, layer thickness, K$_{zz}$, and the SO$_2$ cross section are identical in the reference and baseline. At level 28, around 291 K and pressure $4.398\times10^5$ dyn cm$^{-2}$, the SO$_2$ mixing ratio is approximately $8.1342\times10^{-5}$ in the reference and $5.4848\times10^{-5}$ in the baseline, a relative difference of approximately 32.57\%. Level 29 differs by about 37.04\%, and level 30 by about 29.64\%. The discrepancy becomes small again by level 32.
+
+Chemical tracing then showed that condensation-related sulfur chemistry dominates the local SO$_2$ source and sink balance. Reactions involving SO$_2$, SO$_2$(l), H$_2$SO$_4$(g), and H$_2$SO$_4$(l), including the important R585, R587, and R589 pathways, differ strongly between the two saved atmospheric states. At level 28, the R589 forward contribution is approximately $9.11\times10^8$ in the reference and $7.99\times10^7$ in the baseline. The relevant rate coefficients are essentially identical, so the rate differences are state-driven. Gas-phase H$_2$SO$_4$ and SO$_3$ are much lower in the baseline while H$_2$SO$_4$(l) is identical. For example, at level 28, H$_2$SO$_4$(g) changes from approximately $2.8549\times10^{12}$ to $2.0226\times10^{11}$, while SO$_3$ changes from approximately $2.6295\times10^7$ to $1.8672\times10^6$. The direct R727/R728 gas--liquid pair has zero forward and reverse contributions at levels 27--31 in the diagnostic, so it is not valid to attribute the observed H$_2$SO$_4$ state difference directly to that pair. The reproducibility chain is therefore H$_2$SO$_4$(g), SO$_3$(g) state difference $\rightarrow$ sulfur reaction-rate difference $\rightarrow$ SO$_2$ state difference $\rightarrow$ SO$_2$ optical-depth difference.
+
+The UUV and aerosol implementation was then inspected directly in \texttt{op.py}. The code reads \texttt{UV\_absorber.txt}, constructs a wavelength interpolation for its $Q_{\rm abs}(\lambda)$ values, takes the UUV particle diameter as the mode-1 diameter, and sets the UUV particle number density equal to the mode-1 number density. The supplied UUV table spans 300--4670 nm, with a maximum listed $Q_{\rm abs}$ of 0.379. Its scientifically relevant portion for the present 96--698 nm model grid is therefore the approximately 300--620 nm region. The mode-1 particle number density begins in the upper cloud region, with nonzero values beginning around 58 km.
+
+The important source-code finding is that the Longkang Dai aerosol/UUV optical-depth calculation is enclosed in a triple-quoted block inside \texttt{compute\_tau()} and is therefore inactive in the present source. The active computation sums molecular absorption and Rayleigh scattering and then adds the optical depth of the layer above. The commented block, if activated, computes mode-1 and mode-2 Mie extinction using \texttt{PyMieScatt.MieQ()} and computes the explicit UUV term as
+\[
+\tau_{\rm UV,local}(j,\lambda)
+=
+Q_{\rm abs}(\lambda)
+\frac{\pi D_{\rm UV}^2}{4}
+N_{\rm UV}(j)\,dz_j.
+\]
+The corresponding mode-1 and mode-2 terms use $Q_{\rm ext}$ with the supplied particle diameters and number densities.
+
+Because the UUV arrays are not separately stored in the \texttt{.vul} output, they were reconstructed directly from the supplied input files and the exact implementation details. The reconstructed UUV cumulative optical depth has a maximum of approximately 1.094968 at 320 nm and is exactly identical between the reference and baseline. The reconstructed local maximum is approximately 0.31955. Therefore, the supplied UUV input cannot account for the reference--baseline optical-depth discrepancy.
+
+The two Mie aerosol modes were also reconstructed directly from \texttt{mode1+2.txt} using the exact source-code diameters, refractive index, interpolation method, and \texttt{PyMieScatt.MieQ()} calculation. The maximum cumulative mode-1 contribution is approximately 13.0833 and the maximum cumulative mode-2 contribution approximately 7.48481, giving a combined maximum of approximately 20.1241. At interface 28 and 201.6 nm, the reconstructed mode-1 contribution is approximately 6.20344 and mode-2 contribution approximately 5.14005, for a combined value of approximately 11.3435. Compared with the saved reference--baseline difference of 442.498 at this location, the combined reconstructed aerosol contribution is only about 2.56\%. This rules out the supplied mode-1/mode-2 Mie terms as the main explanation of the localized discrepancy.
+
+A further full reconstruction of the currently active \texttt{compute\_tau()} pathway was performed by calculating gas absorption and Rayleigh scattering from the saved state and cross sections and applying the same cumulative convention as the source code. At interface 28 and 201.6 nm, the reconstructed reference optical depth is 1376.44572 versus 1376.44785 saved, a difference of only $2.13\times10^{-3}$. For the baseline, the reconstruction is 933.95005 versus 933.95015 saved, a difference of only $9.83\times10^{-5}$. The remaining maximum absolute reconstruction differences occur in extremely optically thick regions and are numerically tiny relative to the corresponding optical depths. The reconstructed reference--baseline difference at the anomaly is 442.49567, essentially identical to the saved difference. Thus the saved optical depth is, to the numerical precision relevant here, the active gas-absorption plus Rayleigh-scattering calculation rather than a field containing the commented aerosol/UUV addition.
+
+The actinic-flux and photolysis pathway was also traced from the source. \texttt{compute\_flux()} receives the total optical depth, forms the direct-beam transmission using Beer--Lambert attenuation, applies the scattering treatment, and converts the resulting total flux to actinic flux. In simplified form, the direct beam contains the factor
+\[
+\exp\!\left[-\frac{\tau}{\cos\theta}\right].
+\]
+The resulting actinic flux is then integrated against the wavelength-dependent photolysis cross sections in \texttt{compute\_J()} to form branch-specific $J$ values, and those $J$ values are inserted into the photochemical rate coefficients. Consequently, an explicitly activated UUV term has a well-defined causal path: increased UUV optical depth changes attenuation, which changes actinic flux, which changes photolysis rates, which can then change atmospheric chemistry.
+
+The repository-wide inspection therefore leads to a clean experimental interpretation. The previously observed 200--220 nm reference--baseline discrepancy is a reproducibility/state issue dominated locally by SO$_2$ and associated sulfur chemistry. It should not be used as an empirical proxy for the Unknown UV Absorber. The separate UUV experiment must instead deliberately introduce the inactive explicit UUV pathway and compare the resulting state against a control in which that pathway is absent.
+
+The first proposed controlled experiment is consequently an amplitude experiment. Let $A_{\rm UUV}$ be a dimensionless multiplier applied only to the explicit UUV optical-depth term,
+\[
+\tau_{\rm UUV}^{*}(j,\lambda)
+=
+A_{\rm UUV}\,\tau_{\rm UUV}(j,\lambda).
+\]
+The supplied wavelength dependence, particle profile, particle diameter, and all other model settings remain unchanged. $A_{\rm UUV}=0$ represents the explicit-UUV-off control, while $A_{\rm UUV}=1$ represents exactly the supplied UUV representation from the model inputs. Larger or intermediate amplitudes can be tested later as sensitivity experiments, but the first comparison is intended to be the controlled pair $A_{\rm UUV}=0$ versus $A_{\rm UUV}=1$.
+
+The scientific response variables for each experiment will be retained at several levels. The primary radiative quantities are the explicit UUV optical depth and the total optical depth as functions of altitude and wavelength. The primary photochemical quantity is the stored $J_{\rm sp}(z)$ field, with special attention to species and branches whose photolysis cross sections overlap the UUV wavelength region. The actinic flux field is the direct radiation diagnostic linking optical depth to photolysis. The atmospheric response will include SO$_2$, H$_2$SO$_4$(g), H$_2$SO$_4$(l), SO$_3$, and other sulfur species identified by the source/sink diagnostics. The chemical source and sink terms responsible for any change in SO$_2$ will be compared to the control. Each experimental run is to retain the nominal baseline configuration except for the explicitly stated UUV parameter so that causal attribution remains clear.
+
+The experiment has not yet been executed. Before the first modification of the live model source, \texttt{op.py} was copied to \filepath{op-25m0328-pre-UUV-experiment.py}. The SHA-256 hashes of the two files are identical:
+\[
+\hashval{442cb2bcc3a1d923912e19e0ccd9c762f695c65df638e0a9fda02230adde9d87}.
+\]
+This checkpoint preserves the exact pre-experiment source state. The next implementation step is therefore to introduce the amplitude factor into the already existing, currently commented UUV term while leaving all chemistry, atmospheric inputs, Mie settings, spectral shape, and vertical distribution unchanged. The actual experiment will be run only after that code modification has been inspected for correctness.
+
+At this checkpoint, the project status is: the supplied reference output is preserved; the nominal VULCAN-Venus calculation is executable in the current environment; FastChem builds successfully; the baseline reaches steady state; the major state, radiative-transfer, and photochemical fields have been independently audited; the localized reference--baseline difference has been traced from optical depth to SO$_2$ abundance and then to gas-phase H$_2$SO$_4$ and SO$_3$ state differences; the supplied UUV and aerosol terms have been reconstructed and shown not to explain that discrepancy; the active optical-depth pathway has been independently reproduced; the UUV-to-photolysis causal pathway has been identified; and a source-code checkpoint has been created immediately before the first controlled UUV experiment. No claim has yet been made about the physical identity of the Venusian Unknown UV Absorber.
+
+\end{document}

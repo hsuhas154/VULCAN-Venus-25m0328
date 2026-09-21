@@ -1,0 +1,30 @@
+# Python caches and compiled bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Python tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# C/C++ build artifacts
+*.o
+*.d
+
+# FastChem compiled executable
+fastchem_vulcan/fastchem
+
+# macOS filesystem metadata
+.DS_Store
+._*
+
+# Editor / IDE metadata
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.swp
+*~

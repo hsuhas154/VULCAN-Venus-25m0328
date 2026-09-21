@@ -1,0 +1,243 @@
+========================================================================================================================
+STAGE 6 — PHOTOLYSIS-RATE CONSISTENCY AUDIT
+========================================================================================================================
+
+Files
+------------------------------------------------------------------------------------------------------------------------
+Reference : output/Nominal_Bkzz_SO2-25m0328-reference.vul
+Baseline  : output/Nominal_Bkzz_SO2-25m0328-baseline.vul
+
+1. BASIC STRUCTURE
+------------------------------------------------------------------------------------------------------------------------
+aflux shape              : (57, 1670)
+number of atmospheric levels : 57
+number of wavelength bins    : 1670
+bins shape               : (1670,)
+dbin1 reference         : 1.000000000000e-01
+dbin1 baseline          : 1.000000000000e-01
+dbin2 reference         : 2.000000000000e+00
+dbin2 baseline          : 2.000000000000e+00
+cross_J entries ref     : 55
+cross_J entries base    : 55
+J_sp entries ref        : 99
+J_sp entries base       : 99
+Reference aflux finite  : True
+Baseline aflux finite   : True
+
+2. WAVELENGTH GRID
+------------------------------------------------------------------------------------------------------------------------
+Maximum wavelength difference : 0.000000000000e+00 nm
+Exactly identical bins        : 1670/1670
+Fine/coarse transition index  : 1441
+Transition wavelength         : 242.000000 nm
+First wavelength              : 96.000000 nm
+Last wavelength               : 698.000000 nm
+
+3. cross_J STRUCTURE
+------------------------------------------------------------------------------------------------------------------------
+Keys identical       : True
+Missing in baseline  : []
+Extra in baseline    : []
+
+Original stored shapes — reference:
+  (1670,): 55
+
+Original stored shapes — baseline:
+  (1670,): 55
+
+4. cross_J NUMERICAL COMPARISON
+------------------------------------------------------------------------------------------------------------------------
+Total values compared       : 91850
+Exactly identical           : 91850
+Exact-match fraction        : 100.000000%
+Meaningful values           : 24574
+Maximum absolute difference : 0.000000000000e+00
+Maximum relative difference : 0.000000000000e+00
+
+Top 20 cross_J branches by maximum relative difference:
+------------------------------------------------------------------------------------------------------------------------
+('CO', 1)                      max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('CO2', 1)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('CO2', 2)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('COCl2', 1)                   max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('COS', 1)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('Cl', 1)                      max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('Cl2', 1)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('ClCO3', 1)                   max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('ClO', 1)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('ClS2', 1)                    max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('H', 1)                       max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('H2', 1)                      max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('H2O', 1)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('H2O', 2)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('H2O', 3)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('H2O2', 1)                    max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('H2SO4', 1)                   max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('HCl', 1)                     max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('HNO2', 1)                    max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+('HNO3', 1)                    max_abs=0.000000e+00  max_rel=0.000000e+00  mean_rel=0.000000e+00
+
+5. TEMPERATURE-DEPENDENT CROSS-SECTION SPECIES
+------------------------------------------------------------------------------------------------------------------------
+Reference cross_T species : ['CO2', 'H2O', 'H2O2']
+Baseline cross_T species  : ['CO2', 'H2O', 'H2O2']
+
+These species are NOT independently reconstructed from cross_J because VULCAN's compute_J() uses cross_J_T for them.
+
+6. INDEPENDENT J_sp RECONSTRUCTION
+------------------------------------------------------------------------------------------------------------------------
+Non-T-dependent branch keys reconstructed : 49
+
+Top 20 reconstructed branches by reference relative reconstruction error:
+------------------------------------------------------------------------------------------------------------------------
+('V2', 1)                      ref_abs=1.433113e+06  ref_max_rel=1.623312e-04  ref_mean_rel=7.980445e-05  base_abs=1.433118e+06  base_max_rel=1.654253e-04
+('V', 1)                       ref_abs=2.499313e+05  ref_max_rel=1.208519e-04  ref_mean_rel=6.956487e-05  base_abs=2.499322e+05  base_max_rel=1.209014e-04
+('ClS2', 1)                    ref_abs=1.387779e-17  ref_max_rel=2.174935e-16  ref_mean_rel=7.933922e-17  base_abs=1.387779e-17  base_max_rel=2.101194e-16
+('S3', 1)                      ref_abs=2.220446e-16  ref_max_rel=2.162141e-16  ref_mean_rel=9.540953e-17  base_abs=2.220446e-16  base_max_rel=2.142180e-16
+('S2O2', 1)                    ref_abs=5.551115e-17  ref_max_rel=2.132491e-16  ref_mean_rel=5.261862e-17  base_abs=5.551115e-17  base_max_rel=2.940687e-16
+('S4', 1)                      ref_abs=2.775558e-17  ref_max_rel=2.114461e-16  ref_mean_rel=6.595226e-17  base_abs=2.775558e-17  base_max_rel=1.594598e-16
+('NO3', 1)                     ref_abs=2.775558e-17  ref_max_rel=2.097558e-16  ref_mean_rel=4.635967e-17  base_abs=2.775558e-17  base_max_rel=3.242676e-16
+('SCl', 1)                     ref_abs=3.469447e-18  ref_max_rel=1.451979e-16  ref_mean_rel=2.561039e-17  base_abs=3.469447e-18  base_max_rel=1.495480e-16
+('S2O', 1)                     ref_abs=6.938894e-18  ref_max_rel=1.443949e-16  ref_mean_rel=1.802022e-17  base_abs=6.938894e-18  base_max_rel=2.168331e-16
+('CO', 1)                      ref_abs=0.000000e+00  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=0.000000e+00  base_max_rel=0.000000e+00
+('COCl2', 1)                   ref_abs=1.394778e-06  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=1.394783e-06  base_max_rel=0.000000e+00
+('COS', 1)                     ref_abs=1.018182e-06  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=1.018185e-06  base_max_rel=0.000000e+00
+('Cl', 1)                      ref_abs=0.000000e+00  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=0.000000e+00  base_max_rel=0.000000e+00
+('Cl2', 1)                     ref_abs=6.648338e-09  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=6.648360e-09  base_max_rel=0.000000e+00
+('ClCO3', 1)                   ref_abs=5.438119e-05  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=5.438137e-05  base_max_rel=0.000000e+00
+('ClO', 1)                     ref_abs=2.537439e-05  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=2.537448e-05  base_max_rel=0.000000e+00
+('H', 1)                       ref_abs=0.000000e+00  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=0.000000e+00  base_max_rel=0.000000e+00
+('H2', 1)                      ref_abs=0.000000e+00  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=0.000000e+00  base_max_rel=0.000000e+00
+('H2SO4', 1)                   ref_abs=8.271806e-25  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=8.271806e-25  base_max_rel=0.000000e+00
+('HCl', 1)                     ref_abs=0.000000e+00  ref_max_rel=0.000000e+00  ref_mean_rel=0.000000e+00  base_abs=0.000000e+00  base_max_rel=0.000000e+00
+
+7. SAVED J_sp REFERENCE vs BASELINE
+------------------------------------------------------------------------------------------------------------------------
+Keys identical      : True
+Missing in baseline : []
+Extra in baseline   : []
+Total J values compared     : 5643
+Exactly identical           : 1935
+Exact-match fraction        : 34.290271%
+Meaningful values           : 373
+Maximum absolute difference : 8.491942285328e+05
+Maximum relative difference : 6.196830413159e-03
+Mean relative difference    : 7.439873368578e-05
+
+Worst absolute J_sp discrepancy:
+  Branch       : ('V2', 0)
+  Level        : 45
+  Reference    : 1.705258553293e+10
+  Baseline     : 1.705343472716e+10
+
+Worst relative J_sp discrepancy:
+  Branch       : ('V2', 0)
+  Level        : 29
+  Reference    : 2.669618303927e-02
+  Baseline     : 2.686161475824e-02
+  Relative     : 6.196830413159e-03
+
+8. WAVELENGTH-RESOLVED CONTRIBUTION AUDIT
+------------------------------------------------------------------------------------------------------------------------
+Top 30 wavelength-resolved discrepancies:
+------------------------------------------------------------------------------------------------------------------------
+('SO2', 3)                     level= 55  bin= 194  lambda=  115.400 nm  abs=7.085398e-22  rel=5.263353e-04
+('OH', 1)                      level= 55  bin= 257  lambda=  121.700 nm  abs=1.557391e-11  rel=1.190977e-04
+('H2SO4', 1)                   level= 55  bin= 257  lambda=  121.700 nm  abs=7.518440e-11  rel=1.190977e-04
+('O3', 3)                      level= 55  bin= 257  lambda=  121.700 nm  abs=1.197209e-11  rel=1.190977e-04
+('N2O', 1)                     level= 55  bin= 262  lambda=  122.200 nm  abs=5.264068e-12  rel=1.185544e-04
+('CO', 1)                      level= 55  bin= 258  lambda=  121.800 nm  abs=2.198417e-12  rel=1.163959e-04
+('SO2', 2)                     level= 55  bin= 258  lambda=  121.800 nm  abs=1.315177e-11  rel=1.163959e-04
+('O2', 2)                      level= 55  bin= 253  lambda=  121.300 nm  abs=7.063363e-13  rel=8.845547e-05
+('O2', 1)                      level= 55  bin= 253  lambda=  121.300 nm  abs=4.888853e-13  rel=8.845547e-05
+('NO3', 2)                     level= 45  bin=1619  lambda=  598.000 nm  abs=2.536534e-08  rel=5.112767e-05
+('NO3', 1)                     level= 45  bin=1615  lambda=  590.000 nm  abs=9.005679e-08  rel=5.111236e-05
+('V', 1)                       level= 45  bin=1610  lambda=  580.000 nm  abs=5.559882e+02  rel=5.105360e-05
+('V2', 1)                      level= 45  bin=1610  lambda=  580.000 nm  abs=2.846364e+03  rel=5.105360e-05
+('S4', 1)                      level= 45  bin=1570  lambda=  500.000 nm  abs=1.012337e-07  rel=5.007086e-05
+('SCl', 1)                     level= 45  bin=1560  lambda=  480.000 nm  abs=1.205280e-08  rel=4.965772e-05
+('S3', 1)                      level= 45  bin=1525  lambda=  410.000 nm  abs=9.243064e-07  rel=4.783803e-05
+('ClS2', 1)                    level= 45  bin=1525  lambda=  410.000 nm  abs=4.530579e-08  rel=4.783803e-05
+('SCl2', 1)                    level= 45  bin=1525  lambda=  410.000 nm  abs=8.507863e-10  rel=4.783803e-05
+('NO2', 1)                     level= 45  bin=1519  lambda=  398.000 nm  abs=4.923621e-09  rel=4.748243e-05
+('ClO', 1)                     level= 44  bin=1454  lambda=  268.000 nm  abs=6.344599e-09  rel=4.728713e-05
+('O3', 1)                      level= 44  bin=1454  lambda=  268.000 nm  abs=1.041220e-09  rel=4.728713e-05
+('O3', 2)                      level= 44  bin=1454  lambda=  268.000 nm  abs=9.372924e-09  rel=4.728713e-05
+('ClCO3', 1)                   level= 44  bin=1454  lambda=  268.000 nm  abs=3.114165e-09  rel=4.728713e-05
+('COCl2', 1)                   level= 44  bin=1449  lambda=  258.000 nm  abs=4.249877e-11  rel=4.700418e-05
+('S2Cl2', 2)                   level= 44  bin=1449  lambda=  258.000 nm  abs=2.633969e-08  rel=4.700418e-05
+('S2O2', 1)                    level= 45  bin=1504  lambda=  368.000 nm  abs=8.495343e-08  rel=4.653812e-05
+('HNO2', 1)                    level= 45  bin=1504  lambda=  368.000 nm  abs=2.367083e-09  rel=4.653812e-05
+('COS', 1)                     level= 44  bin=1291  lambda=  225.100 nm  abs=6.447407e-11  rel=4.628709e-05
+('HO2', 1)                     level= 44  bin=1290  lambda=  225.000 nm  abs=6.531192e-10  rel=4.628435e-05
+('SO2Cl2', 1)                  level= 44  bin=1290  lambda=  225.000 nm  abs=1.429887e-10  rel=4.628435e-05
+
+9. EXPLICIT 190–230 nm AUDIT
+------------------------------------------------------------------------------------------------------------------------
+Number of bins in 190–230 nm : 400
+First UV bin : 941, 190.100000 nm
+Last UV bin  : 1340, 230.000000 nm
+
+Top 30 190–230 nm contribution discrepancies:
+------------------------------------------------------------------------------------------------------------------------
+('O3', 2)                      level= 44  bin=1340  lambda=  230.000 nm  abs=8.325823e-10  rel=4.642699e-05
+('HOCl', 1)                    level= 44  bin=1340  lambda=  230.000 nm  abs=3.449239e-11  rel=4.642699e-05
+('O3', 1)                      level= 44  bin=1340  lambda=  230.000 nm  abs=1.143984e-10  rel=4.642699e-05
+('COCl2', 1)                   level= 44  bin=1340  lambda=  230.000 nm  abs=2.749272e-11  rel=4.642699e-05
+('S2Cl2', 2)                   level= 44  bin=1340  lambda=  230.000 nm  abs=1.291146e-09  rel=4.642699e-05
+('SCl2', 1)                    level= 44  bin=1334  lambda=  229.400 nm  abs=9.690105e-11  rel=4.640980e-05
+('V', 1)                       level= 44  bin=1308  lambda=  226.800 nm  abs=4.411465e+00  rel=4.633547e-05
+('COS', 1)                     level= 44  bin=1291  lambda=  225.100 nm  abs=6.447407e-11  rel=4.628709e-05
+('HO2', 1)                     level= 44  bin=1290  lambda=  225.000 nm  abs=6.531192e-10  rel=4.628435e-05
+('ClCO3', 1)                   level= 44  bin=1290  lambda=  225.000 nm  abs=1.557552e-09  rel=4.628435e-05
+('NO2', 1)                     level= 44  bin=1290  lambda=  225.000 nm  abs=8.012864e-11  rel=4.628435e-05
+('SO2Cl2', 1)                  level= 44  bin=1290  lambda=  225.000 nm  abs=1.429887e-10  rel=4.628435e-05
+('S2Cl2', 1)                   level= 44  bin=1290  lambda=  225.000 nm  abs=1.127635e-09  rel=4.628435e-05
+('V2', 1)                      level= 44  bin=1290  lambda=  225.000 nm  abs=2.546954e+01  rel=4.628435e-05
+('SO3', 1)                     level= 45  bin=1169  lambda=  212.900 nm  abs=4.028394e-11  rel=4.154701e-05
+('SCl2', 2)                    level= 45  bin=1164  lambda=  212.400 nm  abs=3.433154e-10  rel=4.150009e-05
+('SO2', 1)                     level= 45  bin=1154  lambda=  211.400 nm  abs=3.373361e-10  rel=4.140833e-05
+('SO', 1)                      level= 45  bin=1147  lambda=  210.700 nm  abs=6.304607e-10  rel=4.134551e-05
+('SO2', 2)                     level= 45  bin=1106  lambda=  206.600 nm  abs=2.243344e-12  rel=4.101230e-05
+('CO', 1)                      level= 45  bin=1090  lambda=  205.000 nm  abs=1.024014e-14  rel=4.082869e-05
+('HNO3', 1)                    level= 45  bin=1012  lambda=  197.200 nm  abs=1.516896e-10  rel=4.009797e-05
+('N2O', 1)                     level= 45  bin= 998  lambda=  195.800 nm  abs=1.107942e-12  rel=3.977100e-05
+('HCl', 1)                     level= 48  bin= 953  lambda=  191.300 nm  abs=1.252363e-12  rel=2.898054e-05
+('O3', 3)                      level= 48  bin= 946  lambda=  190.600 nm  abs=5.908455e-13  rel=2.861000e-05
+('O2', 1)                      level= 48  bin= 946  lambda=  190.600 nm  abs=1.283148e-14  rel=2.861000e-05
+('Cl', 1)                      level=  0  bin= 941  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+('Cl2', 1)                     level=  0  bin= 941  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+('ClO', 1)                     level=  0  bin= 941  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+('ClS2', 1)                    level=  0  bin= 941  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+('H', 1)                       level=  0  bin= 941  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+
+10. ~210 nm DETAILED CHECK
+------------------------------------------------------------------------------------------------------------------------
+Nearest wavelength to 210 nm : 210.000000 nm
+Wavelength bin               : 1140
+Top 20 branches at the wavelength nearest 210 nm:
+------------------------------------------------------------------------------------------------------------------------
+('SCl2', 2)                    level= 45  abs=3.313902e-10  rel=4.128382e-05
+('HO2', 1)                     level= 45  abs=3.704840e-10  rel=4.128382e-05
+('COS', 1)                     level= 45  abs=1.187248e-11  rel=4.128382e-05
+('ClCO3', 1)                   level= 45  abs=2.982347e-10  rel=4.128382e-05
+('O3', 1)                      level= 45  abs=1.440038e-11  rel=4.128382e-05
+('O3', 2)                      level= 45  abs=3.365862e-11  rel=4.128382e-05
+('SO', 1)                      level= 45  abs=6.277279e-10  rel=4.128382e-05
+('SO2Cl2', 1)                  level= 45  abs=4.974152e-11  rel=4.128382e-05
+('SO2', 1)                     level= 45  abs=3.322150e-10  rel=4.128382e-05
+('SO2', 2)                     level= 45  abs=1.682519e-12  rel=4.128382e-05
+('HCl', 1)                     level= 45  abs=3.598445e-13  rel=4.128382e-05
+('SO3', 1)                     level= 45  abs=3.826905e-11  rel=4.128382e-05
+('V', 1)                       level= 45  abs=1.701488e+00  rel=4.128382e-05
+('N2O', 1)                     level= 45  abs=6.676465e-13  rel=4.128382e-05
+('O2', 1)                      level= 45  abs=5.356842e-16  rel=4.128382e-05
+('COCl2', 1)                   level= 45  abs=1.165392e-11  rel=4.128382e-05
+('V2', 1)                      level= 45  abs=9.905416e+00  rel=4.128382e-05
+('HOCl', 1)                    level= 45  abs=4.754765e-12  rel=4.128382e-05
+('HNO3', 1)                    level= 45  abs=9.014671e-11  rel=4.128382e-05
+('SCl2', 1)                    level= 45  abs=4.638473e-11  rel=4.128382e-05
+
+========================================================================================================================
+END OF STAGE 6
+========================================================================================================================

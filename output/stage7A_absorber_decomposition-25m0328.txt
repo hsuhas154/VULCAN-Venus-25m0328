@@ -1,0 +1,415 @@
+========================================================================================================================
+STAGE 7A — ACTIVE ATMOSPHERIC ABSORBER DECOMPOSITION
+========================================================================================================================
+
+Files
+------------------------------------------------------------------------------------------------------------------------
+Reference : output/Nominal_Bkzz_SO2-25m0328-reference.vul
+Baseline  : output/Nominal_Bkzz_SO2-25m0328-baseline.vul
+
+Basic dimensions
+------------------------------------------------------------------------------------------------------------------------
+Atmospheric layers : 57
+Species            : 62
+Wavelength bins    : 1670
+Reference tau shape : (58, 1670)
+Baseline tau shape  : (58, 1670)
+
+1. ACTIVE ABSORBER INVENTORY
+------------------------------------------------------------------------------------------------------------------------
+Active absorption species are derived from the saved variable['cross'] dictionary.
+
+Number of active absorption species : 44
+  CO              ordinary cross
+  CO2             temperature-dependent cross_T
+  COCl2           ordinary cross
+  COS             ordinary cross
+  Cl              ordinary cross
+  Cl2             ordinary cross
+  ClCO3           ordinary cross
+  ClO             ordinary cross
+  ClS2            ordinary cross
+  H               ordinary cross
+  H2              ordinary cross
+  H2O             temperature-dependent cross_T
+  H2O2            temperature-dependent cross_T
+  H2SO4           ordinary cross
+  HCl             ordinary cross
+  HNO2            ordinary cross
+  HNO3            ordinary cross
+  HO2             ordinary cross
+  HOCl            ordinary cross
+  N               ordinary cross
+  N2              ordinary cross
+  N2O             ordinary cross
+  NO              ordinary cross
+  NO2             ordinary cross
+  NO3             ordinary cross
+  O               ordinary cross
+  O2              ordinary cross
+  O3              ordinary cross
+  OH              ordinary cross
+  S               ordinary cross
+  S2              ordinary cross
+  S2Cl2           ordinary cross
+  S2O             ordinary cross
+  S2O2            ordinary cross
+  S3              ordinary cross
+  S4              ordinary cross
+  SCl             ordinary cross
+  SCl2            ordinary cross
+  SO              ordinary cross
+  SO2             ordinary cross
+  SO2Cl2          ordinary cross
+  SO3             ordinary cross
+  V               ordinary cross
+  V2              ordinary cross
+
+Number of scattering species : 4
+  CO2
+  H2
+  N2
+  O2
+
+2. UNKNOWN UV ABSORBER STATUS
+------------------------------------------------------------------------------------------------------------------------
+The explicit Longkang Dai aerosol / unknown-UV-absorber optical-depth calculation is commented out in compute_tau().
+Therefore the present reference and baseline tau fields contain NO explicit tau_UV contribution from UV_absorber.txt.
+This audit does NOT add an unknown absorber.
+The purpose here is to identify the active atmospheric absorbers that already generate the saved tau field.
+
+3. CROSS-SECTION INVENTORY
+------------------------------------------------------------------------------------------------------------------------
+Ordinary absorption cross sections : 44
+Scattering cross sections           : 4
+T-dependent cross sections         : 3
+
+T-dependent species:
+  CO2
+  H2O
+  H2O2
+
+4. LOCAL LAYER OPTICAL-DEPTH DECOMPOSITION
+------------------------------------------------------------------------------------------------------------------------
+Active VULCAN formula:
+  local tau contribution = abundance × dz × cross section
+For T-dependent species, the saved cross_T[j] array is used.
+
+Maximum local absorption contribution (reference): 2.499387115054e+10
+Maximum local scattering contribution (reference): 1.000862235948e+03
+
+5. CHECK CUMULATIVE TAU RECONSTRUCTION
+------------------------------------------------------------------------------------------------------------------------
+Reference maximum reconstruction error : 8.431477661133e+02
+Baseline maximum reconstruction error  : 4.747100830078e+01
+Reference reconstruction finite : True
+Baseline reconstruction finite  : True
+
+6. ABSORBER INPUT DIFFERENCES
+------------------------------------------------------------------------------------------------------------------------
+Cross-section differences (reference → baseline):
+------------------------------------------------------------------------------------------------------------------------
+CO              max_abs=0.000000e+00  max_rel=0.000000e+00
+CO2             max_abs=0.000000e+00  max_rel=0.000000e+00
+COCl2           max_abs=0.000000e+00  max_rel=0.000000e+00
+COS             max_abs=0.000000e+00  max_rel=0.000000e+00
+Cl              max_abs=0.000000e+00  max_rel=0.000000e+00
+Cl2             max_abs=0.000000e+00  max_rel=0.000000e+00
+ClCO3           max_abs=0.000000e+00  max_rel=0.000000e+00
+ClO             max_abs=0.000000e+00  max_rel=0.000000e+00
+ClS2            max_abs=0.000000e+00  max_rel=0.000000e+00
+H               max_abs=0.000000e+00  max_rel=0.000000e+00
+H2              max_abs=0.000000e+00  max_rel=0.000000e+00
+H2O             max_abs=0.000000e+00  max_rel=0.000000e+00
+H2O2            max_abs=0.000000e+00  max_rel=0.000000e+00
+H2SO4           max_abs=0.000000e+00  max_rel=0.000000e+00
+HCl             max_abs=0.000000e+00  max_rel=0.000000e+00
+HNO2            max_abs=0.000000e+00  max_rel=0.000000e+00
+HNO3            max_abs=0.000000e+00  max_rel=0.000000e+00
+HO2             max_abs=0.000000e+00  max_rel=0.000000e+00
+HOCl            max_abs=0.000000e+00  max_rel=0.000000e+00
+N               max_abs=0.000000e+00  max_rel=0.000000e+00
+N2              max_abs=0.000000e+00  max_rel=0.000000e+00
+N2O             max_abs=0.000000e+00  max_rel=0.000000e+00
+NO              max_abs=0.000000e+00  max_rel=0.000000e+00
+NO2             max_abs=0.000000e+00  max_rel=0.000000e+00
+NO3             max_abs=0.000000e+00  max_rel=0.000000e+00
+O               max_abs=0.000000e+00  max_rel=0.000000e+00
+O2              max_abs=0.000000e+00  max_rel=0.000000e+00
+O3              max_abs=0.000000e+00  max_rel=0.000000e+00
+OH              max_abs=0.000000e+00  max_rel=0.000000e+00
+S               max_abs=0.000000e+00  max_rel=0.000000e+00
+S2              max_abs=0.000000e+00  max_rel=0.000000e+00
+S2Cl2           max_abs=0.000000e+00  max_rel=0.000000e+00
+S2O             max_abs=0.000000e+00  max_rel=0.000000e+00
+S2O2            max_abs=0.000000e+00  max_rel=0.000000e+00
+S3              max_abs=0.000000e+00  max_rel=0.000000e+00
+S4              max_abs=0.000000e+00  max_rel=0.000000e+00
+SCl             max_abs=0.000000e+00  max_rel=0.000000e+00
+SCl2            max_abs=0.000000e+00  max_rel=0.000000e+00
+SO              max_abs=0.000000e+00  max_rel=0.000000e+00
+SO2             max_abs=0.000000e+00  max_rel=0.000000e+00
+SO2Cl2          max_abs=0.000000e+00  max_rel=0.000000e+00
+SO3             max_abs=0.000000e+00  max_rel=0.000000e+00
+V               max_abs=0.000000e+00  max_rel=0.000000e+00
+V2              max_abs=0.000000e+00  max_rel=0.000000e+00
+
+7. SPECIES CONTRIBUTION TO LOCAL TAU DIFFERENCE
+------------------------------------------------------------------------------------------------------------------------
+Top active absorbers by local tau discrepancy:
+------------------------------------------------------------------------------------------------------------------------
+N2              level=  9  lambda=   97.200 nm  abs=4.919427e+04  rel=6.356628e-05
+CO2             level=  9  lambda=  112.200 nm  abs=2.271873e+04  rel=2.334171e-06
+SO2             level= 28  lambda=  125.000 nm  abs=4.290575e+03  rel=3.257142e-01
+COS             level=  1  lambda=  152.600 nm  abs=7.060571e+02  rel=5.088610e-04
+CO              level=  1  lambda=   96.000 nm  abs=5.519077e+01  rel=7.659610e-04
+H2SO4           level= 27  lambda=  121.600 nm  abs=5.377176e+01  rel=6.749928e-01
+H2              level=  9  lambda=  102.600 nm  abs=3.190539e+00  rel=3.227530e-06
+H2O             level=  9  lambda=  111.500 nm  abs=3.173855e+00  rel=6.356628e-05
+S2              level=  3  lambda=  274.000 nm  abs=5.903310e-01  rel=1.466629e-03
+O2              level= 14  lambda=   96.000 nm  abs=1.960038e-02  rel=3.319608e-03
+ClS2            level=  1  lambda=  388.000 nm  abs=1.943561e-02  rel=7.057565e-03
+SO              level= 35  lambda=  103.500 nm  abs=3.553832e-03  rel=1.131102e-03
+S3              level=  3  lambda=  398.000 nm  abs=1.383244e-03  rel=2.548940e-03
+HCl             level=  7  lambda=   96.000 nm  abs=7.894051e-04  rel=4.059682e-06
+S2Cl2           level=  1  lambda=  111.100 nm  abs=2.203906e-04  rel=4.421547e-02
+S4              level=  4  lambda=  500.000 nm  abs=1.859817e-04  rel=3.322750e-03
+H2O2            level=  1  lambda=  121.600 nm  abs=1.592314e-04  rel=1.068529e-02
+V               level= 30  lambda=  610.000 nm  abs=1.017347e-04  rel=3.401669e-05
+V2              level= 26  lambda=  690.000 nm  abs=8.763823e-05  rel=5.383816e-05
+H               level= 50  lambda=  121.500 nm  abs=8.748009e-05  rel=5.227502e-04
+S2O             level=  1  lambda=  288.000 nm  abs=7.516631e-05  rel=4.683923e-04
+SCl2            level=  1  lambda=  195.000 nm  abs=7.500797e-05  rel=1.471268e-02
+SO3             level= 18  lambda=  200.100 nm  abs=5.613739e-05  rel=4.110303e-05
+N2O             level=  1  lambda=  130.000 nm  abs=3.688156e-05  rel=1.186586e-02
+O3              level= 36  lambda=  121.600 nm  abs=2.345996e-05  rel=9.236367e-03
+HNO2            level=  1  lambda=  368.000 nm  abs=4.837875e-06  rel=8.240500e-03
+HNO3            level=  1  lambda=  190.100 nm  abs=4.453149e-06  rel=1.304289e-02
+NO              level=  1  lambda=  180.100 nm  abs=2.518764e-06  rel=1.749481e-06
+NO2             level= 36  lambda=  430.000 nm  abs=8.518845e-08  rel=1.489503e-02
+SO2Cl2          level= 27  lambda=  190.100 nm  abs=5.395096e-08  rel=2.550117e-03
+Cl              level= 48  lambda=   96.000 nm  abs=4.963663e-08  rel=3.895181e-04
+HO2             level= 36  lambda=  205.000 nm  abs=3.043040e-08  rel=2.714731e-03
+S               level= 35  lambda=  111.100 nm  abs=2.062556e-08  rel=6.103316e-03
+Cl2             level=  1  lambda=  328.000 nm  abs=1.073472e-08  rel=7.731730e-03
+ClO             level= 36  lambda=  266.000 nm  abs=1.219010e-09  rel=1.018772e-02
+OH              level= 48  lambda=  106.000 nm  abs=9.269165e-10  rel=3.995033e-04
+HOCl            level=  1  lambda=  240.000 nm  abs=7.362672e-10  rel=9.636262e-03
+NO3             level= 36  lambda=  660.000 nm  abs=4.897642e-10  rel=2.101216e-02
+COCl2           level= 43  lambda=  185.100 nm  abs=1.475295e-10  rel=2.637528e-04
+S2O2            level= 35  lambda=  318.000 nm  abs=8.446967e-11  rel=2.259115e-03
+SCl             level= 36  lambda=  470.000 nm  abs=4.371971e-11  rel=2.323656e-02
+ClCO3           level= 43  lambda=  225.000 nm  abs=1.710381e-13  rel=1.010135e-04
+N               level=  0  lambda=   96.000 nm  abs=0.000000e+00  rel=0.000000e+00
+O               level=  0  lambda=   96.000 nm  abs=0.000000e+00  rel=0.000000e+00
+
+8. ABSORBER DECOMPOSITION — 190–230 nm
+------------------------------------------------------------------------------------------------------------------------
+Number of wavelength bins : 400
+SO2             level= 28  lambda=  195.000 nm  abs=4.405424e+02  rel=3.257142e-01
+CO2             level=  6  lambda=  190.100 nm  abs=1.072286e+00  rel=1.358221e-06
+COS             level=  1  lambda=  225.100 nm  abs=7.221680e-01  rel=5.088610e-04
+S2              level=  3  lambda=  195.000 nm  abs=1.737915e-01  rel=1.466629e-03
+H2O             level=  9  lambda=  190.100 nm  abs=1.011212e-03  rel=6.356628e-05
+CO              level=  1  lambda=  205.000 nm  abs=6.027957e-04  rel=7.659610e-04
+SO              level= 35  lambda=  200.000 nm  abs=9.149958e-05  rel=1.131102e-03
+V               level= 30  lambda=  230.000 nm  abs=8.320129e-05  rel=3.401669e-05
+V2              level= 26  lambda=  230.000 nm  abs=8.061915e-05  rel=5.383816e-05
+SCl2            level=  1  lambda=  195.000 nm  abs=7.500797e-05  rel=1.471268e-02
+SO3             level= 18  lambda=  200.100 nm  abs=5.613739e-05  rel=4.110303e-05
+S2Cl2           level=  1  lambda=  210.000 nm  abs=4.672613e-05  rel=4.421547e-02
+HCl             level=  7  lambda=  190.100 nm  abs=2.058362e-05  rel=4.059682e-06
+H2O2            level=  1  lambda=  190.100 nm  abs=9.707052e-06  rel=1.068529e-02
+O3              level= 36  lambda=  230.000 nm  abs=4.589191e-06  rel=9.236367e-03
+HNO3            level=  1  lambda=  190.100 nm  abs=4.453149e-06  rel=1.304289e-02
+O2              level= 14  lambda=  190.100 nm  abs=2.073172e-06  rel=3.319608e-03
+NO2             level= 36  lambda=  215.000 nm  abs=6.884186e-08  rel=1.489503e-02
+SO2Cl2          level= 27  lambda=  190.100 nm  abs=5.395096e-08  rel=2.550117e-03
+N2O             level=  1  lambda=  190.100 nm  abs=4.566028e-08  rel=1.186586e-02
+HO2             level= 36  lambda=  205.000 nm  abs=3.043040e-08  rel=2.714731e-03
+HOCl            level=  1  lambda=  230.000 nm  abs=5.830267e-10  rel=9.636262e-03
+COCl2           level= 43  lambda=  190.100 nm  abs=1.386313e-10  rel=2.637528e-04
+ClCO3           level= 43  lambda=  225.000 nm  abs=1.710381e-13  rel=1.010135e-04
+H               level= 50  lambda=  190.100 nm  abs=7.327948e-15  rel=5.227502e-04
+Cl              level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+Cl2             level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+ClO             level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+ClS2            level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+H2              level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+H2SO4           level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+HNO2            level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+N               level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+N2              level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+NO              level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+NO3             level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+O               level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+OH              level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S               level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S2O             level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S2O2            level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S3              level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S4              level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+SCl             level=  0  lambda=  190.100 nm  abs=0.000000e+00  rel=0.000000e+00
+
+9. ABSORBER DECOMPOSITION — 200–220 nm
+------------------------------------------------------------------------------------------------------------------------
+Number of wavelength bins : 200
+SO2             level= 28  lambda=  200.100 nm  abs=4.322733e+02  rel=3.257142e-01
+COS             level=  1  lambda=  219.000 nm  abs=6.088133e-01  rel=5.088610e-04
+CO2             level=  2  lambda=  200.100 nm  abs=3.369038e-01  rel=4.562150e-07
+S2              level=  3  lambda=  200.100 nm  abs=1.700500e-01  rel=1.466629e-03
+CO              level=  1  lambda=  205.000 nm  abs=6.027957e-04  rel=7.659610e-04
+H2O             level=  7  lambda=  200.100 nm  abs=1.581658e-04  rel=4.877971e-05
+SO              level= 35  lambda=  200.100 nm  abs=9.094789e-05  rel=1.131102e-03
+V               level= 30  lambda=  220.000 nm  abs=8.276380e-05  rel=3.401669e-05
+V2              level= 26  lambda=  220.000 nm  abs=8.048546e-05  rel=5.383816e-05
+SCl2            level=  1  lambda=  200.100 nm  abs=7.379719e-05  rel=1.471268e-02
+SO3             level= 18  lambda=  200.100 nm  abs=5.613739e-05  rel=4.110303e-05
+S2Cl2           level=  1  lambda=  210.000 nm  abs=4.672613e-05  rel=4.421547e-02
+H2O2            level=  1  lambda=  200.100 nm  abs=6.903940e-06  rel=1.068529e-02
+HCl             level=  7  lambda=  200.100 nm  abs=3.720693e-06  rel=4.059682e-06
+HNO3            level=  1  lambda=  200.100 nm  abs=1.963949e-06  rel=1.304289e-02
+O3              level= 36  lambda=  220.000 nm  abs=1.843134e-06  rel=9.236367e-03
+NO2             level= 36  lambda=  215.000 nm  abs=6.884186e-08  rel=1.489503e-02
+HO2             level= 36  lambda=  205.000 nm  abs=3.043040e-08  rel=2.714731e-03
+O2              level= 14  lambda=  200.100 nm  abs=2.099951e-08  rel=3.319608e-03
+N2O             level=  1  lambda=  200.100 nm  abs=1.710020e-08  rel=1.186586e-02
+SO2Cl2          level= 27  lambda=  200.100 nm  abs=1.158715e-08  rel=2.550117e-03
+HOCl            level=  1  lambda=  220.000 nm  abs=3.447911e-10  rel=9.636262e-03
+COCl2           level= 43  lambda=  200.100 nm  abs=3.557389e-11  rel=2.637528e-04
+ClCO3           level= 43  lambda=  220.000 nm  abs=1.560673e-13  rel=1.010135e-04
+Cl              level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+Cl2             level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+ClO             level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+ClS2            level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+H               level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+H2              level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+H2SO4           level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+HNO2            level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+N               level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+N2              level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+NO              level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+NO3             level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+O               level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+OH              level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S               level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S2O             level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S2O2            level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S3              level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+S4              level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+SCl             level=  0  lambda=  200.100 nm  abs=0.000000e+00  rel=0.000000e+00
+
+10. UNKNOWN-UV-ABSORBER REGION — 250–450 nm
+------------------------------------------------------------------------------------------------------------------------
+Number of wavelength bins : 101
+SO2             level= 28  lambda=  288.000 nm  abs=4.645330e+01  rel=3.257142e-01
+S2              level=  3  lambda=  274.000 nm  abs=5.903310e-01  rel=1.466629e-03
+COS             level=  1  lambda=  250.000 nm  abs=4.998951e-02  rel=5.088610e-04
+ClS2            level=  1  lambda=  388.000 nm  abs=1.943561e-02  rel=7.057565e-03
+S3              level=  3  lambda=  398.000 nm  abs=1.383244e-03  rel=2.548940e-03
+S2Cl2           level=  1  lambda=  256.000 nm  abs=1.371349e-04  rel=4.421547e-02
+V               level= 30  lambda=  450.000 nm  abs=9.724051e-05  rel=3.401669e-05
+S4              level=  4  lambda=  450.000 nm  abs=9.093233e-05  rel=3.322750e-03
+V2              level= 26  lambda=  450.000 nm  abs=8.536539e-05  rel=5.383816e-05
+S2O             level=  1  lambda=  288.000 nm  abs=7.516631e-05  rel=4.683923e-04
+O3              level= 36  lambda=  254.000 nm  abs=1.170305e-05  rel=9.236367e-03
+HNO2            level=  1  lambda=  368.000 nm  abs=4.837875e-06  rel=8.240500e-03
+SCl2            level=  1  lambda=  250.000 nm  abs=1.641310e-06  rel=1.471268e-02
+SO3             level= 18  lambda=  250.000 nm  abs=1.384824e-06  rel=4.110303e-05
+H2O2            level=  1  lambda=  250.000 nm  abs=1.208078e-06  rel=1.068529e-02
+NO2             level= 36  lambda=  430.000 nm  abs=8.518845e-08  rel=1.489503e-02
+Cl2             level=  1  lambda=  328.000 nm  abs=1.073472e-08  rel=7.731730e-03
+HNO3            level=  1  lambda=  250.000 nm  abs=6.530290e-09  rel=1.304289e-02
+HO2             level= 36  lambda=  250.000 nm  abs=2.314980e-09  rel=2.714731e-03
+ClO             level= 36  lambda=  266.000 nm  abs=1.219010e-09  rel=1.018772e-02
+SO2Cl2          level= 27  lambda=  250.000 nm  abs=1.060586e-09  rel=2.550117e-03
+HOCl            level=  1  lambda=  250.000 nm  abs=6.154566e-10  rel=9.636262e-03
+O2              level= 14  lambda=  250.000 nm  abs=4.238224e-10  rel=3.319608e-03
+S2O2            level= 35  lambda=  318.000 nm  abs=8.446967e-11  rel=2.259115e-03
+SCl             level= 36  lambda=  440.000 nm  abs=3.945726e-11  rel=2.323656e-02
+NO3             level= 36  lambda=  450.000 nm  abs=1.908760e-11  rel=2.101216e-02
+COCl2           level= 43  lambda=  250.000 nm  abs=1.001235e-11  rel=2.637528e-04
+ClCO3           level= 43  lambda=  250.000 nm  abs=7.956554e-14  rel=1.010135e-04
+CO              level=  0  lambda=  250.000 nm  abs=0.000000e+00  rel=0.000000e+00
+CO2             level=  0  lambda=  250.000 nm  abs=0.000000e+00  rel=0.000000e+00
+
+11. SCATTERING CONTRIBUTION
+------------------------------------------------------------------------------------------------------------------------
+CO2             level=  9  lambda=   96.000 nm  abs=9.020766e-04  rel=2.334171e-06
+N2              level=  9  lambda=  121.000 nm  abs=4.648511e-04  rel=6.356628e-05
+H2              level=  9  lambda=   96.000 nm  abs=6.938363e-09  rel=3.227530e-06
+O2              level= 14  lambda=   96.000 nm  abs=6.194520e-09  rel=3.319608e-03
+
+12. EXACT STAGE-4 ANOMALY LOCATION
+------------------------------------------------------------------------------------------------------------------------
+Target interface : 28
+Target wavelength : 201.600000 nm
+Reference tau     : 1.376447849766e+03
+Baseline tau      : 9.339501453185e+02
+Tau difference    : 4.424977044474e+02
+
+Absorption contributions at this location:
+------------------------------------------------------------------------------------------------------------------------
+SO2             ref=1.248193244973e+03  base=8.416390361960e+02  abs_diff=4.065542087771e+02
+V               ref=2.006776094484e+00  base=2.006807633024e+00  abs_diff=3.153854084115e-05
+V2              ref=1.622654944815e+00  base=1.622680446499e+00  abs_diff=2.550168371496e-05
+SO              ref=2.378892432078e-05  base=3.430788855833e-05  abs_diff=1.051896423756e-05
+SO3             ref=3.654005330386e-06  base=2.594667717826e-07  abs_diff=3.394538558604e-06
+H2O             ref=8.724626972090e-02  base=8.724764088535e-02  abs_diff=1.371164450481e-06
+HCl             ref=2.001547203271e-02  base=2.001646708530e-02  abs_diff=9.950525881181e-07
+SCl2            ref=7.142318814059e-05  base=7.225594407429e-05  abs_diff=8.327559337011e-07
+S2Cl2           ref=7.167894574724e-06  base=7.488125601913e-06  abs_diff=3.202310271889e-07
+CO              ref=2.770965492970e-02  base=2.770955559540e-02  abs_diff=9.933430894851e-08
+COS             ref=5.926360785800e-05  base=5.916829875656e-05  abs_diff=9.530910143320e-08
+H2O2            ref=8.112871936064e-06  base=8.165354805567e-06  abs_diff=5.248286950319e-08
+HNO3            ref=1.667770999769e-06  base=1.680021559666e-06  abs_diff=1.225055989617e-08
+O2              ref=3.316720934996e-06  base=3.306268747969e-06  abs_diff=1.045218702660e-08
+SO2Cl2          ref=3.706413239502e-06  base=3.696968204481e-06  abs_diff=9.445035021777e-09
+N2O             ref=1.578054974710e-08  base=1.596842743169e-08  abs_diff=1.878776845955e-10
+NO2             ref=1.588379995403e-10  base=1.482081809751e-10  abs_diff=1.062981856527e-11
+O3              ref=4.342012653917e-12  base=6.517848402911e-12  abs_diff=2.175835748994e-12
+HOCl            ref=3.040953886442e-10  base=3.052209345475e-10  abs_diff=1.125545903310e-12
+S2              ref=5.440516648176e-13  base=8.080705455984e-13  abs_diff=2.640188807808e-13
+COCl2           ref=2.658764116051e-11  base=2.682860050332e-11  abs_diff=2.409593428100e-13
+HO2             ref=1.840333235675e-13  base=1.791282970835e-13  abs_diff=4.905026484068e-15
+CO2             ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+Cl              ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+Cl2             ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+ClCO3           ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+ClO             ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+ClS2            ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+H               ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+H2              ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+H2SO4           ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+HNO2            ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+N               ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+N2              ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+NO              ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+NO3             ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+O               ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+OH              ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+S               ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+S2O             ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+S2O2            ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+S3              ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+S4              ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+SCl             ref=0.000000000000e+00  base=0.000000000000e+00  abs_diff=0.000000000000e+00
+
+Scattering contributions at this location:
+------------------------------------------------------------------------------------------------------------------------
+CO2             ref=1.843855991820e+00  base=1.843855419746e+00  abs_diff=5.720741633741e-07
+H2              ref=1.610531834425e-06  base=1.610529016825e-06  abs_diff=2.817599683817e-12
+N2              ref=2.490201782162e-02  base=2.490240918233e-02  abs_diff=3.913607044964e-07
+O2              ref=6.715055254056e-08  base=6.693893686717e-08  abs_diff=2.116156733862e-10
+
+========================================================================================================================
+STAGE 7A COMPLETE
+========================================================================================================================
+
+No model parameters were changed.
+No VULCAN integration was performed.
+No unknown UV absorber was added.
+
+The present audit decomposes only the optical depth already contained in the reference and baseline outputs.
+
+The explicit unknown-UV-absorber optical-depth pathway in the supplied compute_tau() is inactive.
