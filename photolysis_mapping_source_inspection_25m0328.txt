@@ -1,0 +1,1366 @@
+===== SEARCHING op.py FOR PHOTOLYSIS MAPPING =====
+
+===== OCCURRENCES OF: cross_J =====
+Total occurrences: 34
+
+--- lines 521 to 536 ---
+  521:     
+  522:     def make_bins_read_cross(self,var,atm):
+  523:         '''
+  524:         determining the bin range and only use the min and max wavelength that the molecules absorb
+  525:         to avoid photons with w0=1 (pure scatteing) in certain wavelengths
+  526:         var.cross stores the total absorption cross sections of each species, e.g. var.cross['H2O']
+  527:         var.cross stores the IDIVIDUAL photodissociation cross sections for each bracnh, e.g. var.cross_J[('H2O',1)], which is equvilent to var.cross['H2O'] times the branching ratio of branch 1   
+  528:         '''
+  529:         photo_sp = list(var.photo_sp)
+  530:         ion_sp = list(var.ion_sp)
+  531:         absp_sp = photo_sp + ion_sp
+  532:         sp0 = photo_sp[0]
+  533:         
+  534:         cross_raw, scat_raw = {}, {}
+  535:         ratio_raw, ion_ratio_raw = {}, {}
+  536:         cross_T_raw = {}
+
+--- lines 631 to 646 ---
+  631:         
+  632:         # read_cross
+  633:         # creat a dict of cross section with key=sp and values=bins in data_var
+  634:         var.cross = dict([(sp, np.zeros(var.nbin)) for sp in absp_sp ]) # including photo_sp and ion_sp 
+  635:         
+  636:         # read cross of disscoiation
+  637:         var.cross_J = dict([((sp,i), np.zeros(var.nbin)) for sp in photo_sp for i in range(1,var.n_branch[sp]+1)])
+  638:         var.cross_scat = dict([(sp, np.zeros(var.nbin)) for sp in vulcan_cfg.scat_sp])
+  639:         
+  640:         # for temperature-dependent cross sections
+  641:         var.cross_T = dict([(sp, np.zeros((nz, var.nbin) )) for sp in vulcan_cfg.T_cross_sp ])
+  642:         var.cross_J_T = dict([((sp,i), np.zeros((nz, var.nbin) )) for sp in vulcan_cfg.T_cross_sp for i in range(1,var.n_branch[sp]+1) ])
+  643:         
+  644:         #read cross of ionisation
+  645:         if vulcan_cfg.use_ion == True: var.cross_Jion = dict([((sp,i), np.zeros(var.nbin)) for sp in ion_sp for i in range(1,var.ion_branch[sp]+1)])
+  646:         
+
+--- lines 636 to 651 ---
+  636:         # read cross of disscoiation
+  637:         var.cross_J = dict([((sp,i), np.zeros(var.nbin)) for sp in photo_sp for i in range(1,var.n_branch[sp]+1)])
+  638:         var.cross_scat = dict([(sp, np.zeros(var.nbin)) for sp in vulcan_cfg.scat_sp])
+  639:         
+  640:         # for temperature-dependent cross sections
+  641:         var.cross_T = dict([(sp, np.zeros((nz, var.nbin) )) for sp in vulcan_cfg.T_cross_sp ])
+  642:         var.cross_J_T = dict([((sp,i), np.zeros((nz, var.nbin) )) for sp in vulcan_cfg.T_cross_sp for i in range(1,var.n_branch[sp]+1) ])
+  643:         
+  644:         #read cross of ionisation
+  645:         if vulcan_cfg.use_ion == True: var.cross_Jion = dict([((sp,i), np.zeros(var.nbin)) for sp in ion_sp for i in range(1,var.ion_branch[sp]+1)])
+  646:         
+  647:         for sp in photo_sp: # photodissociation only; photoionization takes a separate branch ratio file
+  648:             # for values outside the boundary => fill_value = 0
+  649:             inter_cross = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['cross'], bounds_error=False, fill_value=0)
+  650:             inter_cross_J = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['disso'], bounds_error=False, fill_value=0)
+  651:             inter_ratio = {} # excluding ionization branches
+
+--- lines 639 to 654 ---
+  639:         
+  640:         # for temperature-dependent cross sections
+  641:         var.cross_T = dict([(sp, np.zeros((nz, var.nbin) )) for sp in vulcan_cfg.T_cross_sp ])
+  642:         var.cross_J_T = dict([((sp,i), np.zeros((nz, var.nbin) )) for sp in vulcan_cfg.T_cross_sp for i in range(1,var.n_branch[sp]+1) ])
+  643:         
+  644:         #read cross of ionisation
+  645:         if vulcan_cfg.use_ion == True: var.cross_Jion = dict([((sp,i), np.zeros(var.nbin)) for sp in ion_sp for i in range(1,var.ion_branch[sp]+1)])
+  646:         
+  647:         for sp in photo_sp: # photodissociation only; photoionization takes a separate branch ratio file
+  648:             # for values outside the boundary => fill_value = 0
+  649:             inter_cross = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['cross'], bounds_error=False, fill_value=0)
+  650:             inter_cross_J = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['disso'], bounds_error=False, fill_value=0)
+  651:             inter_ratio = {} # excluding ionization branches
+  652:                                     
+  653:             for i in range(1,var.n_branch[sp]+1): # fill_value extends the first and last elements for branching ratios
+  654:                 br_key = 'br_ratio_' + str(i)
+
+--- lines 644 to 659 ---
+  644:         #read cross of ionisation
+  645:         if vulcan_cfg.use_ion == True: var.cross_Jion = dict([((sp,i), np.zeros(var.nbin)) for sp in ion_sp for i in range(1,var.ion_branch[sp]+1)])
+  646:         
+  647:         for sp in photo_sp: # photodissociation only; photoionization takes a separate branch ratio file
+  648:             # for values outside the boundary => fill_value = 0
+  649:             inter_cross = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['cross'], bounds_error=False, fill_value=0)
+  650:             inter_cross_J = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['disso'], bounds_error=False, fill_value=0)
+  651:             inter_ratio = {} # excluding ionization branches
+  652:                                     
+  653:             for i in range(1,var.n_branch[sp]+1): # fill_value extends the first and last elements for branching ratios
+  654:                 br_key = 'br_ratio_' + str(i)
+  655:                 try:                  
+  656:                     inter_ratio[i] = interpolate.interp1d(ratio_raw[sp]['lambda'], ratio_raw[sp][br_key], bounds_error=False, fill_value=(ratio_raw[sp][br_key][0],ratio_raw[sp][br_key][-1]))
+  657:                 except: print("The branches in the network file does not match the branchong ratio file for " + str(sp))
+  658:             
+  659:             # using a loop instead of an array because it's easier to handle the branching ratios              
+
+--- lines 659 to 674 ---
+  659:             # using a loop instead of an array because it's easier to handle the branching ratios              
+  660:             for n, ld in enumerate(bins):
+  661:                 var.cross[sp][n] = inter_cross(ld)
+  662:                 
+  663:                 # using the branching ratio (from the files) to construct the individual cross section of each branch
+  664:                 for i in range(1,var.n_branch[sp]+1):
+  665:                     var.cross_J[(sp,i)][n] = inter_cross_J(ld) * inter_ratio[i](ld)
+  666:             
+  667:             # make var.cross_T[(sp,i)] and var.cross_J_T[(sp,i)] here in 2D array: nz * bins (same shape as tau)
+  668:             # T-dependent cross sections are usually only measured in the photodissociation-relavent wavelengths so cross_tot = cross_diss
+  669:             if sp in vulcan_cfg.T_cross_sp:
+  670:                 
+  671:                 # T list of species sp that have T-depedent cross sections (inclduing 300 K for inter_cross)
+  672:                 T_list = np.array(var.cross_T_sp_list[sp])
+  673:                 max_T_sp = np.amax(T_list)
+  674:                 min_T_sp = np.amin(T_list)
+
+--- lines 661 to 676 ---
+  661:                 var.cross[sp][n] = inter_cross(ld)
+  662:                 
+  663:                 # using the branching ratio (from the files) to construct the individual cross section of each branch
+  664:                 for i in range(1,var.n_branch[sp]+1):
+  665:                     var.cross_J[(sp,i)][n] = inter_cross_J(ld) * inter_ratio[i](ld)
+  666:             
+  667:             # make var.cross_T[(sp,i)] and var.cross_J_T[(sp,i)] here in 2D array: nz * bins (same shape as tau)
+  668:             # T-dependent cross sections are usually only measured in the photodissociation-relavent wavelengths so cross_tot = cross_diss
+  669:             if sp in vulcan_cfg.T_cross_sp:
+  670:                 
+  671:                 # T list of species sp that have T-depedent cross sections (inclduing 300 K for inter_cross)
+  672:                 T_list = np.array(var.cross_T_sp_list[sp])
+  673:                 max_T_sp = np.amax(T_list)
+  674:                 min_T_sp = np.amin(T_list)
+  675:                 
+  676:                 for lev, Tz in enumerate(atm.Tco): # looping z 
+
+--- lines 684 to 699 ---
+  684: 
+  685:                         # find the wavelength range that are included in both cross_T_raw[(sp,Tlow)] and cross_T_raw[(sp,Thigh)] 
+  686:                         ld_min = max( cross_T_raw[(sp,Tlow)]['lambda'][0], cross_T_raw[(sp,Thigh)]['lambda'][0] )
+  687:                         ld_max = min( cross_T_raw[(sp,Tlow)]['lambda'][-1], cross_T_raw[(sp,Thigh)]['lambda'][-1] )
+  688:                         inter_cross_lowT = interpolate.interp1d(cross_T_raw[(sp,Tlow)]['lambda'], cross_T_raw[(sp,Tlow)]['cross'], bounds_error=False, fill_value=0)
+  689:                         inter_cross_highT = interpolate.interp1d(cross_T_raw[(sp,Thigh)]['lambda'], cross_T_raw[(sp,Thigh)]['cross'], bounds_error=False, fill_value=0)
+  690:                         inter_cross_J_lowT = interpolate.interp1d(cross_T_raw[(sp,Tlow)]['lambda'], cross_T_raw[(sp,Tlow)]['disso'], bounds_error=False, fill_value=0)
+  691:                         inter_cross_J_highT = interpolate.interp1d(cross_T_raw[(sp,Thigh)]['lambda'], cross_T_raw[(sp,Thigh)]['disso'], bounds_error=False, fill_value=0)
+  692:             
+  693:                         for n, ld in enumerate(bins): # looping bins
+  694: 
+  695:                             # not within the T-cross wavelength range
+  696:                             if ld < ld_min or ld > ld_max: 
+  697:                                 var.cross_T[sp][lev, n] = var.cross[sp][n]
+  698:                                 # don't forget the cross_J_T branches
+  699:                                 for i in range(1,var.n_branch[sp]+1):
+
+--- lines 685 to 700 ---
+  685:                         # find the wavelength range that are included in both cross_T_raw[(sp,Tlow)] and cross_T_raw[(sp,Thigh)] 
+  686:                         ld_min = max( cross_T_raw[(sp,Tlow)]['lambda'][0], cross_T_raw[(sp,Thigh)]['lambda'][0] )
+  687:                         ld_max = min( cross_T_raw[(sp,Tlow)]['lambda'][-1], cross_T_raw[(sp,Thigh)]['lambda'][-1] )
+  688:                         inter_cross_lowT = interpolate.interp1d(cross_T_raw[(sp,Tlow)]['lambda'], cross_T_raw[(sp,Tlow)]['cross'], bounds_error=False, fill_value=0)
+  689:                         inter_cross_highT = interpolate.interp1d(cross_T_raw[(sp,Thigh)]['lambda'], cross_T_raw[(sp,Thigh)]['cross'], bounds_error=False, fill_value=0)
+  690:                         inter_cross_J_lowT = interpolate.interp1d(cross_T_raw[(sp,Tlow)]['lambda'], cross_T_raw[(sp,Tlow)]['disso'], bounds_error=False, fill_value=0)
+  691:                         inter_cross_J_highT = interpolate.interp1d(cross_T_raw[(sp,Thigh)]['lambda'], cross_T_raw[(sp,Thigh)]['disso'], bounds_error=False, fill_value=0)
+  692:             
+  693:                         for n, ld in enumerate(bins): # looping bins
+  694: 
+  695:                             # not within the T-cross wavelength range
+  696:                             if ld < ld_min or ld > ld_max: 
+  697:                                 var.cross_T[sp][lev, n] = var.cross[sp][n]
+  698:                                 # don't forget the cross_J_T branches
+  699:                                 for i in range(1,var.n_branch[sp]+1):
+  700:                                     var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]
+
+--- lines 692 to 707 ---
+  692:             
+  693:                         for n, ld in enumerate(bins): # looping bins
+  694: 
+  695:                             # not within the T-cross wavelength range
+  696:                             if ld < ld_min or ld > ld_max: 
+  697:                                 var.cross_T[sp][lev, n] = var.cross[sp][n]
+  698:                                 # don't forget the cross_J_T branches
+  699:                                 for i in range(1,var.n_branch[sp]+1):
+  700:                                     var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]
+  701:                             
+  702:                             else:                          
+  703:                                 # update: inerpolation in log10 for cross sections and linearly between Tlow and Thigh 
+  704:                                 log_lowT = np.log10(inter_cross_lowT(ld))
+  705:                                 log_highT = np.log10(inter_cross_highT(ld))
+  706:                                 if np.isinf(log_lowT ): log_lowT = -100. # replacing -inf with -100 
+  707:                                 if np.isinf(log_highT ): log_highT = -100.
+
+--- lines 694 to 709 ---
+  694: 
+  695:                             # not within the T-cross wavelength range
+  696:                             if ld < ld_min or ld > ld_max: 
+  697:                                 var.cross_T[sp][lev, n] = var.cross[sp][n]
+  698:                                 # don't forget the cross_J_T branches
+  699:                                 for i in range(1,var.n_branch[sp]+1):
+  700:                                     var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]
+  701:                             
+  702:                             else:                          
+  703:                                 # update: inerpolation in log10 for cross sections and linearly between Tlow and Thigh 
+  704:                                 log_lowT = np.log10(inter_cross_lowT(ld))
+  705:                                 log_highT = np.log10(inter_cross_highT(ld))
+  706:                                 if np.isinf(log_lowT ): log_lowT = -100. # replacing -inf with -100 
+  707:                                 if np.isinf(log_highT ): log_highT = -100.
+  708:                                 
+  709:                                 inter_T = interpolate.interp1d([Tlow,Thigh], [log_lowT,log_highT], axis=0) # at wavelength ld, interpolating between Tlow and Thigh in log10
+
+--- lines 710 to 725 ---
+  710:                                 if inter_T(Tz) == -100: var.cross_T[sp][lev, n] == 0.
+  711:                                 else: var.cross_T[sp][lev, n] = 10**(inter_T(Tz))
+  712:                                 
+  713:                                 # update: inerpolation in log10 for cross sections and linearly between Tlow and Thigh 
+  714:                                 # using the branching ratio (from the files) to construct the individual cross section of each branch
+  715:                                 for i in range(1,var.n_branch[sp]+1):
+  716:                                     J_log_lowT = np.log10(inter_cross_J_lowT(ld))
+  717:                                     J_log_highT = np.log10(inter_cross_J_highT(ld))
+  718:                                     if np.isinf(J_log_lowT): J_log_lowT = -100. # replacing -inf with -100 
+  719:                                     if np.isinf(J_log_highT): J_log_highT = -100.
+  720: 
+  721:                                     inter_cross_J_T = interpolate.interp1d([Tlow,Thigh], [J_log_lowT,J_log_highT], axis=0)
+  722:                                     
+  723:                                     if inter_cross_J_T(Tz) == -100: var.cross_J_T[(sp,i)][lev, n] = 0.
+  724:                                     else: var.cross_J_T[(sp,i)][lev, n] = 10**(inter_cross_J_T(Tz)) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  725: 
+
+--- lines 711 to 726 ---
+  711:                                 else: var.cross_T[sp][lev, n] = 10**(inter_T(Tz))
+  712:                                 
+  713:                                 # update: inerpolation in log10 for cross sections and linearly between Tlow and Thigh 
+  714:                                 # using the branching ratio (from the files) to construct the individual cross section of each branch
+  715:                                 for i in range(1,var.n_branch[sp]+1):
+  716:                                     J_log_lowT = np.log10(inter_cross_J_lowT(ld))
+  717:                                     J_log_highT = np.log10(inter_cross_J_highT(ld))
+  718:                                     if np.isinf(J_log_lowT): J_log_lowT = -100. # replacing -inf with -100 
+  719:                                     if np.isinf(J_log_highT): J_log_highT = -100.
+  720: 
+  721:                                     inter_cross_J_T = interpolate.interp1d([Tlow,Thigh], [J_log_lowT,J_log_highT], axis=0)
+  722:                                     
+  723:                                     if inter_cross_J_T(Tz) == -100: var.cross_J_T[(sp,i)][lev, n] = 0.
+  724:                                     else: var.cross_J_T[(sp,i)][lev, n] = 10**(inter_cross_J_T(Tz)) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  725: 
+  726:                                     
+
+--- lines 715 to 730 ---
+  715:                                 for i in range(1,var.n_branch[sp]+1):
+  716:                                     J_log_lowT = np.log10(inter_cross_J_lowT(ld))
+  717:                                     J_log_highT = np.log10(inter_cross_J_highT(ld))
+  718:                                     if np.isinf(J_log_lowT): J_log_lowT = -100. # replacing -inf with -100 
+  719:                                     if np.isinf(J_log_highT): J_log_highT = -100.
+  720: 
+  721:                                     inter_cross_J_T = interpolate.interp1d([Tlow,Thigh], [J_log_lowT,J_log_highT], axis=0)
+  722:                                     
+  723:                                     if inter_cross_J_T(Tz) == -100: var.cross_J_T[(sp,i)][lev, n] = 0.
+  724:                                     else: var.cross_J_T[(sp,i)][lev, n] = 10**(inter_cross_J_T(Tz)) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  725: 
+  726:                                     
+  727:                     elif not list(T_list[T_list < Tz]): # Tz equal or smaller than all T in T_list including 300K (empty list)  
+  728: 
+  729:                         if min_T_sp == 300:
+  730:                             var.cross_T[sp][lev] = var.cross[sp] # using the cross section at room T
+
+--- lines 717 to 732 ---
+  717:                                     J_log_highT = np.log10(inter_cross_J_highT(ld))
+  718:                                     if np.isinf(J_log_lowT): J_log_lowT = -100. # replacing -inf with -100 
+  719:                                     if np.isinf(J_log_highT): J_log_highT = -100.
+  720: 
+  721:                                     inter_cross_J_T = interpolate.interp1d([Tlow,Thigh], [J_log_lowT,J_log_highT], axis=0)
+  722:                                     
+  723:                                     if inter_cross_J_T(Tz) == -100: var.cross_J_T[(sp,i)][lev, n] = 0.
+  724:                                     else: var.cross_J_T[(sp,i)][lev, n] = 10**(inter_cross_J_T(Tz)) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  725: 
+  726:                                     
+  727:                     elif not list(T_list[T_list < Tz]): # Tz equal or smaller than all T in T_list including 300K (empty list)  
+  728: 
+  729:                         if min_T_sp == 300:
+  730:                             var.cross_T[sp][lev] = var.cross[sp] # using the cross section at room T
+  731:                             for i in range(1,var.n_branch[sp]+1):
+  732:                                 var.cross_J_T[(sp,i)][lev] = var.cross_J[(sp,i)]
+
+--- lines 718 to 733 ---
+  718:                                     if np.isinf(J_log_lowT): J_log_lowT = -100. # replacing -inf with -100 
+  719:                                     if np.isinf(J_log_highT): J_log_highT = -100.
+  720: 
+  721:                                     inter_cross_J_T = interpolate.interp1d([Tlow,Thigh], [J_log_lowT,J_log_highT], axis=0)
+  722:                                     
+  723:                                     if inter_cross_J_T(Tz) == -100: var.cross_J_T[(sp,i)][lev, n] = 0.
+  724:                                     else: var.cross_J_T[(sp,i)][lev, n] = 10**(inter_cross_J_T(Tz)) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  725: 
+  726:                                     
+  727:                     elif not list(T_list[T_list < Tz]): # Tz equal or smaller than all T in T_list including 300K (empty list)  
+  728: 
+  729:                         if min_T_sp == 300:
+  730:                             var.cross_T[sp][lev] = var.cross[sp] # using the cross section at room T
+  731:                             for i in range(1,var.n_branch[sp]+1):
+  732:                                 var.cross_J_T[(sp,i)][lev] = var.cross_J[(sp,i)]
+  733:                         else: # min_T_sp != 300; T-cross lower than room temperature
+
+--- lines 726 to 741 ---
+  726:                                     
+  727:                     elif not list(T_list[T_list < Tz]): # Tz equal or smaller than all T in T_list including 300K (empty list)  
+  728: 
+  729:                         if min_T_sp == 300:
+  730:                             var.cross_T[sp][lev] = var.cross[sp] # using the cross section at room T
+  731:                             for i in range(1,var.n_branch[sp]+1):
+  732:                                 var.cross_J_T[(sp,i)][lev] = var.cross_J[(sp,i)]
+  733:                         else: # min_T_sp != 300; T-cross lower than room temperature
+  734:                             # the wavelength range of cross_T_raw at T = min_T_sp
+  735:                             ld_min, ld_max = cross_T_raw[(sp,min_T_sp)]['lambda'][0], cross_T_raw[(sp,min_T_sp)]['lambda'][-1]
+  736:                             inter_cross_lowT = interpolate.interp1d(cross_T_raw[(sp,min_T_sp)]['lambda'], cross_T_raw[(sp,min_T_sp)]['cross'], bounds_error=False, fill_value=0)
+  737:                             inter_cross_J_lowT = interpolate.interp1d(cross_T_raw[(sp,min_T_sp)]['lambda'], cross_T_raw[(sp,min_T_sp)]['disso'], bounds_error=False, fill_value=0)
+  738:                             for n, ld in enumerate(bins): # looping bins
+  739:                                 # not within the T-cross wavelength range
+  740:                                 if ld < ld_min or ld > ld_max: 
+  741:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+
+--- lines 731 to 746 ---
+  731:                             for i in range(1,var.n_branch[sp]+1):
+  732:                                 var.cross_J_T[(sp,i)][lev] = var.cross_J[(sp,i)]
+  733:                         else: # min_T_sp != 300; T-cross lower than room temperature
+  734:                             # the wavelength range of cross_T_raw at T = min_T_sp
+  735:                             ld_min, ld_max = cross_T_raw[(sp,min_T_sp)]['lambda'][0], cross_T_raw[(sp,min_T_sp)]['lambda'][-1]
+  736:                             inter_cross_lowT = interpolate.interp1d(cross_T_raw[(sp,min_T_sp)]['lambda'], cross_T_raw[(sp,min_T_sp)]['cross'], bounds_error=False, fill_value=0)
+  737:                             inter_cross_J_lowT = interpolate.interp1d(cross_T_raw[(sp,min_T_sp)]['lambda'], cross_T_raw[(sp,min_T_sp)]['disso'], bounds_error=False, fill_value=0)
+  738:                             for n, ld in enumerate(bins): # looping bins
+  739:                                 # not within the T-cross wavelength range
+  740:                                 if ld < ld_min or ld > ld_max: 
+  741:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+  742:                                     # don't forget the cross_J_T branches
+  743:                                     for i in range(1,var.n_branch[sp]+1):
+  744:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]
+  745:                                 else:                          
+  746:                                     var.cross_T[sp][lev, n] = inter_cross_lowT(ld)                         
+
+--- lines 736 to 751 ---
+  736:                             inter_cross_lowT = interpolate.interp1d(cross_T_raw[(sp,min_T_sp)]['lambda'], cross_T_raw[(sp,min_T_sp)]['cross'], bounds_error=False, fill_value=0)
+  737:                             inter_cross_J_lowT = interpolate.interp1d(cross_T_raw[(sp,min_T_sp)]['lambda'], cross_T_raw[(sp,min_T_sp)]['disso'], bounds_error=False, fill_value=0)
+  738:                             for n, ld in enumerate(bins): # looping bins
+  739:                                 # not within the T-cross wavelength range
+  740:                                 if ld < ld_min or ld > ld_max: 
+  741:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+  742:                                     # don't forget the cross_J_T branches
+  743:                                     for i in range(1,var.n_branch[sp]+1):
+  744:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]
+  745:                                 else:                          
+  746:                                     var.cross_T[sp][lev, n] = inter_cross_lowT(ld)                         
+  747:                                     # using the branching ratio (from the files) to construct the individual cross section of each branch
+  748:                                     for i in range(1,var.n_branch[sp]+1):
+  749:                                         var.cross_J_T[(sp,i)][lev, n] = inter_cross_J_lowT(ld) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  750: 
+  751:                     else: # Tz equal or larger than all T in T_list (empty list)
+
+--- lines 738 to 753 ---
+  738:                             for n, ld in enumerate(bins): # looping bins
+  739:                                 # not within the T-cross wavelength range
+  740:                                 if ld < ld_min or ld > ld_max: 
+  741:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+  742:                                     # don't forget the cross_J_T branches
+  743:                                     for i in range(1,var.n_branch[sp]+1):
+  744:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]
+  745:                                 else:                          
+  746:                                     var.cross_T[sp][lev, n] = inter_cross_lowT(ld)                         
+  747:                                     # using the branching ratio (from the files) to construct the individual cross section of each branch
+  748:                                     for i in range(1,var.n_branch[sp]+1):
+  749:                                         var.cross_J_T[(sp,i)][lev, n] = inter_cross_J_lowT(ld) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  750: 
+  751:                     else: # Tz equal or larger than all T in T_list (empty list)
+  752:                         # the wavelength range of cross_T_raw[(sp,Thigh)]
+  753: 
+
+--- lines 743 to 758 ---
+  743:                                     for i in range(1,var.n_branch[sp]+1):
+  744:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]
+  745:                                 else:                          
+  746:                                     var.cross_T[sp][lev, n] = inter_cross_lowT(ld)                         
+  747:                                     # using the branching ratio (from the files) to construct the individual cross section of each branch
+  748:                                     for i in range(1,var.n_branch[sp]+1):
+  749:                                         var.cross_J_T[(sp,i)][lev, n] = inter_cross_J_lowT(ld) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  750: 
+  751:                     else: # Tz equal or larger than all T in T_list (empty list)
+  752:                         # the wavelength range of cross_T_raw[(sp,Thigh)]
+  753: 
+  754:                         if max_T_sp == 300:
+  755:                             var.cross_T[sp][lev] = var.cross[sp] # using the cross section at room T
+  756:                             for i in range(1,var.n_branch[sp]+1):
+  757:                                 var.cross_J_T[(sp,i)][lev] = var.cross_J[(sp,i)]
+  758:                         else:  # the wavelength range of cross_T_raw at T = max_T_sp
+
+--- lines 751 to 766 ---
+  751:                     else: # Tz equal or larger than all T in T_list (empty list)
+  752:                         # the wavelength range of cross_T_raw[(sp,Thigh)]
+  753: 
+  754:                         if max_T_sp == 300:
+  755:                             var.cross_T[sp][lev] = var.cross[sp] # using the cross section at room T
+  756:                             for i in range(1,var.n_branch[sp]+1):
+  757:                                 var.cross_J_T[(sp,i)][lev] = var.cross_J[(sp,i)]
+  758:                         else:  # the wavelength range of cross_T_raw at T = max_T_sp
+  759:                             ld_min, ld_max = cross_T_raw[(sp,max_T_sp)]['lambda'][0], cross_T_raw[(sp,max_T_sp)]['lambda'][-1]
+  760:                             inter_cross_highT = interpolate.interp1d(cross_T_raw[(sp,max_T_sp)]['lambda'], cross_T_raw[(sp,max_T_sp)]['cross'], bounds_error=False, fill_value=0)
+  761:                             inter_cross_J_highT = interpolate.interp1d(cross_T_raw[(sp,max_T_sp)]['lambda'], cross_T_raw[(sp,max_T_sp)]['disso'], bounds_error=False, fill_value=0)
+  762:                             for n, ld in enumerate(bins): # looping bins
+  763:                                 # not within the T-cross wavelength range
+  764:                                 if ld < ld_min or ld > ld_max: 
+  765:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+  766:                                     # don't forget the cross_J_T branches
+
+--- lines 755 to 770 ---
+  755:                             var.cross_T[sp][lev] = var.cross[sp] # using the cross section at room T
+  756:                             for i in range(1,var.n_branch[sp]+1):
+  757:                                 var.cross_J_T[(sp,i)][lev] = var.cross_J[(sp,i)]
+  758:                         else:  # the wavelength range of cross_T_raw at T = max_T_sp
+  759:                             ld_min, ld_max = cross_T_raw[(sp,max_T_sp)]['lambda'][0], cross_T_raw[(sp,max_T_sp)]['lambda'][-1]
+  760:                             inter_cross_highT = interpolate.interp1d(cross_T_raw[(sp,max_T_sp)]['lambda'], cross_T_raw[(sp,max_T_sp)]['cross'], bounds_error=False, fill_value=0)
+  761:                             inter_cross_J_highT = interpolate.interp1d(cross_T_raw[(sp,max_T_sp)]['lambda'], cross_T_raw[(sp,max_T_sp)]['disso'], bounds_error=False, fill_value=0)
+  762:                             for n, ld in enumerate(bins): # looping bins
+  763:                                 # not within the T-cross wavelength range
+  764:                                 if ld < ld_min or ld > ld_max: 
+  765:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+  766:                                     # don't forget the cross_J_T branches
+  767:                                     for i in range(1,var.n_branch[sp]+1):
+  768:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]                               
+  769:                                 else:                          
+  770:                                     var.cross_T[sp][lev, n] = inter_cross_highT(ld)
+
+--- lines 760 to 775 ---
+  760:                             inter_cross_highT = interpolate.interp1d(cross_T_raw[(sp,max_T_sp)]['lambda'], cross_T_raw[(sp,max_T_sp)]['cross'], bounds_error=False, fill_value=0)
+  761:                             inter_cross_J_highT = interpolate.interp1d(cross_T_raw[(sp,max_T_sp)]['lambda'], cross_T_raw[(sp,max_T_sp)]['disso'], bounds_error=False, fill_value=0)
+  762:                             for n, ld in enumerate(bins): # looping bins
+  763:                                 # not within the T-cross wavelength range
+  764:                                 if ld < ld_min or ld > ld_max: 
+  765:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+  766:                                     # don't forget the cross_J_T branches
+  767:                                     for i in range(1,var.n_branch[sp]+1):
+  768:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]                               
+  769:                                 else:                          
+  770:                                     var.cross_T[sp][lev, n] = inter_cross_highT(ld)
+  771:                             
+  772:                                     # using the branching ratio (from the files) to construct the individual cross section of each branch
+  773:                                     for i in range(1,var.n_branch[sp]+1):
+  774:                                         var.cross_J_T[(sp,i)][lev, n] = inter_cross_J_highT(ld) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  775:                     
+
+--- lines 762 to 777 ---
+  762:                             for n, ld in enumerate(bins): # looping bins
+  763:                                 # not within the T-cross wavelength range
+  764:                                 if ld < ld_min or ld > ld_max: 
+  765:                                     var.cross_T[sp][lev, n] = var.cross[sp][n] 
+  766:                                     # don't forget the cross_J_T branches
+  767:                                     for i in range(1,var.n_branch[sp]+1):
+  768:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]                               
+  769:                                 else:                          
+  770:                                     var.cross_T[sp][lev, n] = inter_cross_highT(ld)
+  771:                             
+  772:                                     # using the branching ratio (from the files) to construct the individual cross section of each branch
+  773:                                     for i in range(1,var.n_branch[sp]+1):
+  774:                                         var.cross_J_T[(sp,i)][lev, n] = inter_cross_J_highT(ld) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  775:                     
+  776:                                             
+  777:         if vulcan_cfg.use_ion == True: 
+
+--- lines 768 to 783 ---
+  768:                                         var.cross_J_T[(sp,i)][lev, n] = var.cross_J[(sp,i)][n]                               
+  769:                                 else:                          
+  770:                                     var.cross_T[sp][lev, n] = inter_cross_highT(ld)
+  771:                             
+  772:                                     # using the branching ratio (from the files) to construct the individual cross section of each branch
+  773:                                     for i in range(1,var.n_branch[sp]+1):
+  774:                                         var.cross_J_T[(sp,i)][lev, n] = inter_cross_J_highT(ld) * inter_ratio[i](ld) # same inter_ratio[i](ld) as the standard one above
+  775:                     
+  776:                                             
+  777:         if vulcan_cfg.use_ion == True: 
+  778:             for sp in ion_sp:
+  779:                 if sp not in photo_sp: 
+  780:                     inter_cross = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['cross'], bounds_error=False, fill_value=0)
+  781:                               
+  782:                 inter_cross_Jion = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['ion'], bounds_error=False, fill_value=0)
+  783:                 ion_inter_ratio = {} # For ionization branches
+
+--- lines 776 to 791 ---
+  776:                                             
+  777:         if vulcan_cfg.use_ion == True: 
+  778:             for sp in ion_sp:
+  779:                 if sp not in photo_sp: 
+  780:                     inter_cross = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['cross'], bounds_error=False, fill_value=0)
+  781:                               
+  782:                 inter_cross_Jion = interpolate.interp1d(cross_raw[sp]['lambda'], cross_raw[sp]['ion'], bounds_error=False, fill_value=0)
+  783:                 ion_inter_ratio = {} # For ionization branches
+  784:                                     
+  785:                 for i in range(1,var.ion_branch[sp]+1): # fill_value extends the first and last elements for branching ratios
+  786:                     br_key = 'br_ratio_' + str(i)                
+  787:                     try:
+  788:                         ion_inter_ratio[i] = interpolate.interp1d(ion_ratio_raw[sp]['lambda'], ion_ratio_raw[sp][br_key], bounds_error=False, fill_value=(ion_ratio_raw[sp][br_key][0],ion_ratio_raw[sp][br_key][-1]))
+  789:                     except: print("The ionic branches in the network file does not match the branchong ratio file for " + str(sp))
+  790:                 
+  791:                 for n, ld in enumerate(bins):
+
+--- lines 789 to 804 ---
+  789:                     except: print("The ionic branches in the network file does not match the branchong ratio file for " + str(sp))
+  790:                 
+  791:                 for n, ld in enumerate(bins):
+  792:                     # for species noe appeared in photodissociation but only in photoionization, like H
+  793:                     if sp not in photo_sp: var.cross[sp][n] = inter_cross(ld)                
+  794:                     for i in range(1,var.ion_branch[sp]+1): 
+  795:                         var.cross_Jion[(sp,i)][n] = inter_cross_Jion(ld) * ion_inter_ratio[i](ld)
+  796:         # end of if vulcan_cfg.use_ion == True: 
+  797:                 
+  798:         # reading in cross sections of Rayleigh Scattering
+  799:         for sp in vulcan_cfg.scat_sp:
+  800:             scat_raw[sp] = np.genfromtxt(vulcan_cfg.cross_folder + 'rayleigh/' + sp+'_scat.txt',dtype=float,\
+  801:             skip_header=1, names = ['lambda','cross'])
+  802: 
+  803:             # for values outside the boundary => fill_value = 0
+  804:             inter_scat = interpolate.interp1d(scat_raw[sp]['lambda'], scat_raw[sp]['cross'], bounds_error=False, fill_value=0)
+
+--- lines 2376 to 2391 ---
+ 2376:         var.aflux_change = np.nanmax( np.abs(var.aflux-var.prev_aflux)[var.aflux>vulcan_cfg.flux_atol]/var.aflux[var.aflux>vulcan_cfg.flux_atol] )
+ 2377:         
+ 2378:         #print ('aflux change: ' + '{:.4E}'.format(var.aflux_change) )
+ 2379:         
+ 2380:     
+ 2381: 
+ 2382:     # def compute_cross_JT(self, var, atm):
+ 2383:     #     '''
+ 2384:     #     computing T-dependent dissociation cross section based on Tco and stored in the 2D nz*nbins array
+ 2385:     #     only call once at the start
+ 2386:     #     '''
+ 2387:         
+ 2388:         
+ 2389:     
+ 2390:     def compute_J(self, var, atm): # the vectorized version
+ 2391:         '''
+
+--- lines 2390 to 2405 ---
+ 2390:     def compute_J(self, var, atm): # the vectorized version
+ 2391:         '''
+ 2392:         computes photodissociation/photoionization rates; including T-dependent cross sections
+ 2393:         '''
+ 2394:         flux = var.aflux
+ 2395:         
+ 2396:         diss_cross = var.cross_J # use the key (sp, branch index) e.g. ("H2O", 1); 1D array 
+ 2397:         diss_cross_T = var.cross_J_T # 2D array with the shape of nz * bins
+ 2398:             
+ 2399:         bins = var.bins
+ 2400:         n_branch = var.n_branch
+ 2401: 
+ 2402:         # reset to zeros every time, sp = str(species), bn = int(branch+1), bn=0 means total
+ 2403:         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 2404:          
+ 2405:         for sp in var.photo_sp:
+
+--- lines 2391 to 2406 ---
+ 2391:         '''
+ 2392:         computes photodissociation/photoionization rates; including T-dependent cross sections
+ 2393:         '''
+ 2394:         flux = var.aflux
+ 2395:         
+ 2396:         diss_cross = var.cross_J # use the key (sp, branch index) e.g. ("H2O", 1); 1D array 
+ 2397:         diss_cross_T = var.cross_J_T # 2D array with the shape of nz * bins
+ 2398:             
+ 2399:         bins = var.bins
+ 2400:         n_branch = var.n_branch
+ 2401: 
+ 2402:         # reset to zeros every time, sp = str(species), bn = int(branch+1), bn=0 means total
+ 2403:         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 2404:          
+ 2405:         for sp in var.photo_sp:
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+
+--- lines 2435 to 2450 ---
+ 2435:     def compute_Jion(self, var, atm): 
+ 2436:         '''
+ 2437:         compute the photoionization rate
+ 2438:         haven't considered any temperature dependence yet
+ 2439:         '''
+ 2440:         flux = var.aflux
+ 2441:         ion_cross = var.cross_Jion # use the key (sp, br) e.g. ("H2O", 1)
+ 2442:         
+ 2443:         bins = var.bins
+ 2444:         n_branch = var.ion_branch
+ 2445: 
+ 2446:         # reset to zeros every time
+ 2447:         var.Jion_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.ion_sp for bn in range(n_branch[sp]+1) ])
+ 2448: 
+ 2449:         for sp in var.ion_sp:
+ 2450:             # shape: flux (nz,nbin) cross (nbin)
+
+--- lines 3725 to 3740 ---
+ 3725: #
+ 3726: #
+ 3727: #     def compute_J(self, var, atm): # the vectorised version
+ 3728: #         flux = var.aflux
+ 3729: #
+ 3730: #         #cross = var.cross
+ 3731: #         diss_cross = var.cross_J # use the key (sp, br) e.g. ("H2O", 1)
+ 3732: #
+ 3733: #         bins = var.bins
+ 3734: #         n_branch = var.n_branch
+ 3735: #
+ 3736: #         # reset to zeros every time
+ 3737: #         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 3738: #
+ 3739: #         for sp in var.photo_sp:
+ 3740: #             # shape: flux (nz,nbin) cross (nbin)
+
+--- lines 3763 to 3778 ---
+ 3763: #     # Do Jion here
+ 3764: #     def compute_Jion(self, var, atm):
+ 3765: #         '''
+ 3766: #         compute the photoionisation rate
+ 3767: #         '''
+ 3768: #         flux = var.aflux
+ 3769: #         ion_cross = var.cross_Jion # use the key (sp, br) e.g. ("H2O", 1)
+ 3770: #
+ 3771: #         bins = var.bins
+ 3772: #         n_branch = var.ion_branch
+ 3773: #
+ 3774: #         # reset to zeros every time
+ 3775: #         var.Jion_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.ion_sp for bn in range(n_branch[sp]+1) ])
+ 3776: #
+ 3777: #         for sp in var.ion_sp:
+ 3778: #             # shape: flux (nz,nbin) cross (nbin)
+
+===== OCCURRENCES OF: J_sp =====
+Total occurrences: 19
+
+--- lines 2397 to 2412 ---
+ 2397:         diss_cross_T = var.cross_J_T # 2D array with the shape of nz * bins
+ 2398:             
+ 2399:         bins = var.bins
+ 2400:         n_branch = var.n_branch
+ 2401: 
+ 2402:         # reset to zeros every time, sp = str(species), bn = int(branch+1), bn=0 means total
+ 2403:         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 2404:          
+ 2405:         for sp in var.photo_sp:
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+
+--- lines 2404 to 2419 ---
+ 2404:          
+ 2405:         for sp in var.photo_sp:
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+
+--- lines 2405 to 2420 ---
+ 2405:         for sp in var.photo_sp:
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+
+--- lines 2406 to 2421 ---
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+
+--- lines 2407 to 2422 ---
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+
+--- lines 2410 to 2425 ---
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+
+--- lines 2411 to 2426 ---
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+
+--- lines 2412 to 2427 ---
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+ 2427:             # test
+
+--- lines 2413 to 2428 ---
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+ 2427:             # test
+ 2428:             if sp == 'CO2':
+
+--- lines 2416 to 2431 ---
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+ 2427:             # test
+ 2428:             if sp == 'CO2':
+ 2429:                 np.savetxt('debug/CO2_J.txt',var.J_sp[(sp, 1)].T)
+ 2430:                 np.savetxt('debug/Flux.txt',flux)
+ 2431:                 np.savetxt('debug/bins.txt',bins)
+
+--- lines 2419 to 2434 ---
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+ 2427:             # test
+ 2428:             if sp == 'CO2':
+ 2429:                 np.savetxt('debug/CO2_J.txt',var.J_sp[(sp, 1)].T)
+ 2430:                 np.savetxt('debug/Flux.txt',flux)
+ 2431:                 np.savetxt('debug/bins.txt',bins)
+ 2432:                 np.savetxt('debug/corss_CO2.txt',np.vstack((bins,diss_cross[(sp,1)])).T,fmt='%-11.5e')
+ 2433: 
+ 2434:      
+
+--- lines 2423 to 2438 ---
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+ 2427:             # test
+ 2428:             if sp == 'CO2':
+ 2429:                 np.savetxt('debug/CO2_J.txt',var.J_sp[(sp, 1)].T)
+ 2430:                 np.savetxt('debug/Flux.txt',flux)
+ 2431:                 np.savetxt('debug/bins.txt',bins)
+ 2432:                 np.savetxt('debug/corss_CO2.txt',np.vstack((bins,diss_cross[(sp,1)])).T,fmt='%-11.5e')
+ 2433: 
+ 2434:      
+ 2435:     def compute_Jion(self, var, atm): 
+ 2436:         '''
+ 2437:         compute the photoionization rate
+ 2438:         haven't considered any temperature dependence yet
+
+--- lines 3731 to 3746 ---
+ 3731: #         diss_cross = var.cross_J # use the key (sp, br) e.g. ("H2O", 1)
+ 3732: #
+ 3733: #         bins = var.bins
+ 3734: #         n_branch = var.n_branch
+ 3735: #
+ 3736: #         # reset to zeros every time
+ 3737: #         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 3738: #
+ 3739: #         for sp in var.photo_sp:
+ 3740: #             # shape: flux (nz,nbin) cross (nbin)
+ 3741: #
+ 3742: #             # I want to parallelize this bit
+ 3743: #             # for n in range(var.nbin):
+ 3744: #             # I want to parallelize this bit
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+
+--- lines 3742 to 3757 ---
+ 3742: #             # I want to parallelize this bit
+ 3743: #             # for n in range(var.nbin):
+ 3744: #             # I want to parallelize this bit
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+
+--- lines 3743 to 3758 ---
+ 3743: #             # for n in range(var.nbin):
+ 3744: #             # I want to parallelize this bit
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+
+--- lines 3744 to 3759 ---
+ 3744: #             # I want to parallelize this bit
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 3759: #                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+
+--- lines 3745 to 3760 ---
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 3759: #                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 3760: #
+
+--- lines 3750 to 3765 ---
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 3759: #                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 3760: #
+ 3761: #
+ 3762: #
+ 3763: #     # Do Jion here
+ 3764: #     def compute_Jion(self, var, atm):
+ 3765: #         '''
+
+--- lines 3753 to 3768 ---
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 3759: #                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 3760: #
+ 3761: #
+ 3762: #
+ 3763: #     # Do Jion here
+ 3764: #     def compute_Jion(self, var, atm):
+ 3765: #         '''
+ 3766: #         compute the photoionisation rate
+ 3767: #         '''
+ 3768: #         flux = var.aflux
+
+===== OCCURRENCES OF: compute_J =====
+Total occurrences: 6
+
+--- lines 848 to 863 ---
+  848:                     print ('update_photo_frq changed to ' + str(vulcan_cfg.final_update_photo_frq) +'\n')
+  849:                     para.switch_final_photo_frq = True
+  850:             
+  851:             if vulcan_cfg.use_photo == True and para.count % self.update_photo_frq == 0:
+  852:                 self.odesolver.compute_tau(var, atm)
+  853:                 self.odesolver.compute_flux(var, atm)
+  854:                 self.odesolver.compute_J(var, atm)
+  855:                 if vulcan_cfg.use_ion == True: # photoionisation rate
+  856:                     self.odesolver.compute_Jion(var, atm)
+  857:                                     
+  858:             # integrating one step
+  859:             var, para = self.odesolver.one_step(var, atm, para)
+  860:             
+  861:             
+  862:             # Condensation (needs to be after solver.one_step)
+  863:             if vulcan_cfg.use_condense == True and var.t > vulcan_cfg.start_conden_time:
+
+--- lines 850 to 865 ---
+  850:             
+  851:             if vulcan_cfg.use_photo == True and para.count % self.update_photo_frq == 0:
+  852:                 self.odesolver.compute_tau(var, atm)
+  853:                 self.odesolver.compute_flux(var, atm)
+  854:                 self.odesolver.compute_J(var, atm)
+  855:                 if vulcan_cfg.use_ion == True: # photoionisation rate
+  856:                     self.odesolver.compute_Jion(var, atm)
+  857:                                     
+  858:             # integrating one step
+  859:             var, para = self.odesolver.one_step(var, atm, para)
+  860:             
+  861:             
+  862:             # Condensation (needs to be after solver.one_step)
+  863:             if vulcan_cfg.use_condense == True and var.t > vulcan_cfg.start_conden_time:
+  864:                 # updating the condensation rates 
+  865:                 var = self.conden(var,atm)
+
+--- lines 2384 to 2399 ---
+ 2384:     #     computing T-dependent dissociation cross section based on Tco and stored in the 2D nz*nbins array
+ 2385:     #     only call once at the start
+ 2386:     #     '''
+ 2387:         
+ 2388:         
+ 2389:     
+ 2390:     def compute_J(self, var, atm): # the vectorized version
+ 2391:         '''
+ 2392:         computes photodissociation/photoionization rates; including T-dependent cross sections
+ 2393:         '''
+ 2394:         flux = var.aflux
+ 2395:         
+ 2396:         diss_cross = var.cross_J # use the key (sp, branch index) e.g. ("H2O", 1); 1D array 
+ 2397:         diss_cross_T = var.cross_J_T # 2D array with the shape of nz * bins
+ 2398:             
+ 2399:         bins = var.bins
+
+--- lines 2429 to 2444 ---
+ 2429:                 np.savetxt('debug/CO2_J.txt',var.J_sp[(sp, 1)].T)
+ 2430:                 np.savetxt('debug/Flux.txt',flux)
+ 2431:                 np.savetxt('debug/bins.txt',bins)
+ 2432:                 np.savetxt('debug/corss_CO2.txt',np.vstack((bins,diss_cross[(sp,1)])).T,fmt='%-11.5e')
+ 2433: 
+ 2434:      
+ 2435:     def compute_Jion(self, var, atm): 
+ 2436:         '''
+ 2437:         compute the photoionization rate
+ 2438:         haven't considered any temperature dependence yet
+ 2439:         '''
+ 2440:         flux = var.aflux
+ 2441:         ion_cross = var.cross_Jion # use the key (sp, br) e.g. ("H2O", 1)
+ 2442:         
+ 2443:         bins = var.bins
+ 2444:         n_branch = var.ion_branch
+
+--- lines 3721 to 3736 ---
+ 3721: #         # the change of the actinic flux
+ 3722: #         var.aflux_change = np.nanmax( np.abs(var.aflux-var.prev_aflux)[var.aflux>vulcan_cfg.flux_atol]/var.aflux[var.aflux>vulcan_cfg.flux_atol] )
+ 3723: #
+ 3724: #         #print ('aflux change: ' + '{:.4E}'.format(var.aflux_change) )
+ 3725: #
+ 3726: #
+ 3727: #     def compute_J(self, var, atm): # the vectorised version
+ 3728: #         flux = var.aflux
+ 3729: #
+ 3730: #         #cross = var.cross
+ 3731: #         diss_cross = var.cross_J # use the key (sp, br) e.g. ("H2O", 1)
+ 3732: #
+ 3733: #         bins = var.bins
+ 3734: #         n_branch = var.n_branch
+ 3735: #
+ 3736: #         # reset to zeros every time
+
+--- lines 3758 to 3773 ---
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 3759: #                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 3760: #
+ 3761: #
+ 3762: #
+ 3763: #     # Do Jion here
+ 3764: #     def compute_Jion(self, var, atm):
+ 3765: #         '''
+ 3766: #         compute the photoionisation rate
+ 3767: #         '''
+ 3768: #         flux = var.aflux
+ 3769: #         ion_cross = var.cross_Jion # use the key (sp, br) e.g. ("H2O", 1)
+ 3770: #
+ 3771: #         bins = var.bins
+ 3772: #         n_branch = var.ion_branch
+ 3773: #
+
+===== OCCURRENCES OF: diss_cross =====
+Total occurrences: 16
+
+--- lines 2390 to 2405 ---
+ 2390:     def compute_J(self, var, atm): # the vectorized version
+ 2391:         '''
+ 2392:         computes photodissociation/photoionization rates; including T-dependent cross sections
+ 2393:         '''
+ 2394:         flux = var.aflux
+ 2395:         
+ 2396:         diss_cross = var.cross_J # use the key (sp, branch index) e.g. ("H2O", 1); 1D array 
+ 2397:         diss_cross_T = var.cross_J_T # 2D array with the shape of nz * bins
+ 2398:             
+ 2399:         bins = var.bins
+ 2400:         n_branch = var.n_branch
+ 2401: 
+ 2402:         # reset to zeros every time, sp = str(species), bn = int(branch+1), bn=0 means total
+ 2403:         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 2404:          
+ 2405:         for sp in var.photo_sp:
+
+--- lines 2391 to 2406 ---
+ 2391:         '''
+ 2392:         computes photodissociation/photoionization rates; including T-dependent cross sections
+ 2393:         '''
+ 2394:         flux = var.aflux
+ 2395:         
+ 2396:         diss_cross = var.cross_J # use the key (sp, branch index) e.g. ("H2O", 1); 1D array 
+ 2397:         diss_cross_T = var.cross_J_T # 2D array with the shape of nz * bins
+ 2398:             
+ 2399:         bins = var.bins
+ 2400:         n_branch = var.n_branch
+ 2401: 
+ 2402:         # reset to zeros every time, sp = str(species), bn = int(branch+1), bn=0 means total
+ 2403:         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 2404:          
+ 2405:         for sp in var.photo_sp:
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+
+--- lines 2404 to 2419 ---
+ 2404:          
+ 2405:         for sp in var.photo_sp:
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+
+--- lines 2405 to 2420 ---
+ 2405:         for sp in var.photo_sp:
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+
+--- lines 2406 to 2421 ---
+ 2406:             # shape: flux (nz,nbin) cross (nbin)
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+
+--- lines 2407 to 2422 ---
+ 2407: 
+ 2408:             for nbr in range(1, n_branch[sp]+1): # axis=1 is to sum over all wavelength
+ 2409:                 if sp in vulcan_cfg.T_cross_sp:
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+
+--- lines 2410 to 2425 ---
+ 2410:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+
+--- lines 2411 to 2426 ---
+ 2411:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross_T[(sp,nbr)][:,0] + flux[:,var.sflux_din12_indx-1] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx-1]) * var.dbin1
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+
+--- lines 2412 to 2427 ---
+ 2412:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+ 2427:             # test
+
+--- lines 2413 to 2428 ---
+ 2413:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross_T[(sp,nbr)][:,var.sflux_din12_indx] + flux[:,-1] * diss_cross_T[(sp,nbr)][:,-1]) * var.dbin2
+ 2414:                     
+ 2415:                 else:
+ 2416:                     var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 2417:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 2418:                     var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 2419:                     var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 2420:                 
+ 2421:                 # summing over all branches
+ 2422:                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 2423:                 # incoperating J into rate coefficients
+ 2424:                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 2425:                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 2426: 
+ 2427:             # test
+ 2428:             if sp == 'CO2':
+
+--- lines 2426 to 2441 ---
+ 2426: 
+ 2427:             # test
+ 2428:             if sp == 'CO2':
+ 2429:                 np.savetxt('debug/CO2_J.txt',var.J_sp[(sp, 1)].T)
+ 2430:                 np.savetxt('debug/Flux.txt',flux)
+ 2431:                 np.savetxt('debug/bins.txt',bins)
+ 2432:                 np.savetxt('debug/corss_CO2.txt',np.vstack((bins,diss_cross[(sp,1)])).T,fmt='%-11.5e')
+ 2433: 
+ 2434:      
+ 2435:     def compute_Jion(self, var, atm): 
+ 2436:         '''
+ 2437:         compute the photoionization rate
+ 2438:         haven't considered any temperature dependence yet
+ 2439:         '''
+ 2440:         flux = var.aflux
+ 2441:         ion_cross = var.cross_Jion # use the key (sp, br) e.g. ("H2O", 1)
+
+--- lines 3725 to 3740 ---
+ 3725: #
+ 3726: #
+ 3727: #     def compute_J(self, var, atm): # the vectorised version
+ 3728: #         flux = var.aflux
+ 3729: #
+ 3730: #         #cross = var.cross
+ 3731: #         diss_cross = var.cross_J # use the key (sp, br) e.g. ("H2O", 1)
+ 3732: #
+ 3733: #         bins = var.bins
+ 3734: #         n_branch = var.n_branch
+ 3735: #
+ 3736: #         # reset to zeros every time
+ 3737: #         var.J_sp = dict([( (sp,bn) , np.zeros(nz)) for sp in var.photo_sp for bn in range(n_branch[sp]+1) ])
+ 3738: #
+ 3739: #         for sp in var.photo_sp:
+ 3740: #             # shape: flux (nz,nbin) cross (nbin)
+
+--- lines 3742 to 3757 ---
+ 3742: #             # I want to parallelize this bit
+ 3743: #             # for n in range(var.nbin):
+ 3744: #             # I want to parallelize this bit
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+
+--- lines 3743 to 3758 ---
+ 3743: #             # for n in range(var.nbin):
+ 3744: #             # I want to parallelize this bit
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+
+--- lines 3744 to 3759 ---
+ 3744: #             # I want to parallelize this bit
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 3759: #                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+
+--- lines 3745 to 3760 ---
+ 3745: #
+ 3746: #             for nbr in range(1, n_branch[sp]+1):
+ 3747: #                 # axis=1 is to sum over all wavelength
+ 3748: #                 var.J_sp[(sp, nbr)] = np.sum( flux[:,:var.sflux_din12_indx] * diss_cross[(sp,nbr)][:var.sflux_din12_indx] * var.dbin1, axis=1)
+ 3749: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,0] * diss_cross[(sp,nbr)][0] + flux[:,var.sflux_din12_indx-1] * diss_cross[(sp,nbr)][var.sflux_din12_indx-1]) * var.dbin1
+ 3750: #                 var.J_sp[(sp, nbr)] += np.sum( flux[:,var.sflux_din12_indx:] * diss_cross[(sp,nbr)][var.sflux_din12_indx:] * var.dbin2, axis=1)
+ 3751: #                 var.J_sp[(sp, nbr)] -= 0.5* (flux[:,var.sflux_din12_indx] * diss_cross[(sp,nbr)][var.sflux_din12_indx] + flux[:,-1] * diss_cross[(sp,nbr)][-1]) * var.dbin2
+ 3752: #
+ 3753: #             # 0 is the total dissociation rate
+ 3754: #             # summing all branches
+ 3755: #             for nbr in range(1, n_branch[sp]+1):
+ 3756: #                 var.J_sp[(sp, 0)] += var.J_sp[(sp, nbr)]
+ 3757: #                 # incoperating J into rate coefficients
+ 3758: #                 if var.pho_rate_index[(sp, nbr)] not in vulcan_cfg.remove_list:
+ 3759: #                     var.k[ var.pho_rate_index[(sp, nbr)]  ] = var.J_sp[(sp, nbr)] * vulcan_cfg.f_diurnal # f_diurnal = 0.5 for Earth; = 1 for tidally-loced planets
+ 3760: #
+
+===== COMPLETE =====
+Read-only source inspection. No file was modified.

@@ -1,0 +1,115 @@
+===== EXACT VULCAN J QUADRATURE VALIDATION =====
+
+Number of bins       : 1670
+dbin1                : 0.1
+dbin2                : 2.0
+240 nm bin index     : 1440
+240 nm bin value     : 240.000000
+
+===== GRID AROUND 240 NM TRANSITION =====
+index=1437 lambda=239.700000
+index=1438 lambda=239.800000
+index=1439 lambda=239.900000
+index=1440 lambda=240.000000
+index=1441 lambda=242.000000
+index=1442 lambda=244.000000
+index=1443 lambda=246.000000
+index=1444 lambda=248.000000
+
+===== RECONSTRUCTION TEST =====
+('S2O', 1)                     max_error=8.056977394283e-18 mean_error=1.132460992783e-18
+('V', 1)                       max_error=1.324064214714e-06 mean_error=2.039855485305e-07
+('H2', 1)                      max_error=0.000000000000e+00 mean_error=0.000000000000e+00
+('OH', 1)                      max_error=6.614192521575e-22 mean_error=4.040439221534e-23
+('Cl2', 1)                     max_error=6.302983918756e-19 mean_error=6.917725986059e-20
+('H2O2', 1)                    max_error=6.933298140749e-08 mean_error=1.120504174210e-08
+('HCl', 1)                     max_error=5.399519267192e-22 mean_error=3.023913922587e-23
+('H2O', 1)                     max_error=7.821103763304e-22 mean_error=3.175188471410e-23
+('H2O', 2)                     max_error=1.174725117262e-23 mean_error=2.324937404102e-25
+('H2O', 3)                     max_error=4.560034128457e-25 mean_error=1.648303483846e-26
+('HOCl', 1)                    max_error=9.825582188150e-20 mean_error=1.191050113005e-20
+('S4', 1)                      max_error=3.515525544284e-17 mean_error=4.201945628161e-18
+('NO', 1)                      max_error=3.999865324946e-22 mean_error=2.754132469425e-23
+('COCl2', 1)                   max_error=7.103512868908e-21 mean_error=1.004280316093e-21
+('HNO3', 1)                    max_error=3.702739595244e-20 mean_error=3.932356062008e-21
+('O3', 1)                      max_error=4.486098246896e-19 mean_error=4.659566620382e-20
+('O3', 2)                      max_error=1.335082743550e-18 mean_error=1.115197721410e-19
+('O3', 3)                      max_error=9.602508449732e-23 mean_error=8.142219037206e-24
+('N2O', 1)                     max_error=2.845210564607e-22 mean_error=2.656265109419e-23
+('ClO', 1)                     max_error=1.992433250179e-18 mean_error=1.979469548696e-19
+('O2', 1)                      max_error=7.729072978182e-24 mean_error=6.715367618251e-25
+('O2', 2)                      max_error=1.730960881180e-23 mean_error=6.881141786127e-25
+('SO', 1)                      max_error=8.190047723033e-20 mean_error=1.153272211808e-20
+('S2O2', 1)                    max_error=5.418977983354e-17 mean_error=6.264481073854e-18
+('SO2Cl2', 1)                  max_error=5.737924434612e-20 mean_error=6.684464166937e-21
+('V2', 1)                      max_error=6.321817636490e-06 mean_error=7.337751557557e-07
+('HO2', 1)                     max_error=9.448429834091e-20 mean_error=1.359281646302e-20
+('HNO2', 1)                    max_error=3.413542777435e-19 mean_error=3.503762942825e-20
+('O', 1)                       max_error=0.000000000000e+00 mean_error=0.000000000000e+00
+('COS', 1)                     max_error=1.464776437029e-20 mean_error=1.859458882255e-21
+('ClS2', 1)                    max_error=3.037629555443e-17 mean_error=2.046477576208e-18
+('ClCO3', 1)                   max_error=1.029992063861e-18 mean_error=1.130505569220e-19
+('S2Cl2', 1)                   max_error=3.062871137272e-18 mean_error=2.583637405188e-19
+('S2Cl2', 2)                   max_error=2.753186710051e-18 mean_error=2.916313284484e-19
+('NO3', 1)                     max_error=2.560072379781e-17 mean_error=3.255699999258e-18
+('NO3', 2)                     max_error=3.491469808582e-18 mean_error=4.767260458374e-19
+('H', 1)                       max_error=0.000000000000e+00 mean_error=0.000000000000e+00
+('H2SO4', 1)                   max_error=1.404296104683e-23 mean_error=4.932300747185e-25
+('CO2', 1)                     max_error=5.416809462772e-16 mean_error=5.182979784386e-17
+('CO2', 2)                     max_error=1.697491197322e-16 mean_error=6.499617445172e-18
+('S2', 1)                      max_error=7.377925287296e-19 mean_error=7.679669050374e-20
+('CO', 1)                      max_error=2.137686204315e-23 mean_error=8.421925379558e-25
+('SCl2', 1)                    max_error=1.130577226348e-18 mean_error=7.583826960664e-20
+('SCl2', 2)                    max_error=5.048259771618e-20 mean_error=7.288961535484e-21
+('SO3', 1)                     max_error=1.011641889152e-20 mean_error=1.342916472735e-21
+('Cl', 1)                      max_error=0.000000000000e+00 mean_error=0.000000000000e+00
+('N', 1)                       max_error=0.000000000000e+00 mean_error=0.000000000000e+00
+('S3', 1)                      max_error=2.684484579074e-16 mean_error=2.713243429517e-17
+('NO2', 1)                     max_error=2.803679055412e-18 mean_error=2.558228740949e-19
+('SCl', 1)                     max_error=4.701879890209e-18 mean_error=5.740713560431e-19
+('N2', 1)                      max_error=0.000000000000e+00 mean_error=0.000000000000e+00
+('S', 1)                       max_error=0.000000000000e+00 mean_error=0.000000000000e+00
+('SO2', 1)                     max_error=5.004484711211e-20 mean_error=4.523777579788e-21
+('SO2', 2)                     max_error=3.440242034528e-22 mean_error=2.994426530432e-23
+('SO2', 3)                     max_error=4.477338772920e-32 mean_error=7.865350644641e-34
+
+===== SELECTED BRANCH VALIDATION =====
+
+('V', 1)
+  max exact reconstruction error : 1.324064214714e-06
+  mean exact reconstruction error: 2.039855485305e-07
+
+('V2', 1)
+  max exact reconstruction error : 6.321817636490e-06
+  mean exact reconstruction error: 7.337751557557e-07
+
+('S3', 1)
+  max exact reconstruction error : 2.684484579074e-16
+  mean exact reconstruction error: 2.713243429517e-17
+
+('S2O2', 1)
+  max exact reconstruction error : 5.418977983354e-17
+  mean exact reconstruction error: 6.264481073854e-18
+
+('ClS2', 1)
+  max exact reconstruction error : 3.037629555443e-17
+  mean exact reconstruction error: 2.046477576208e-18
+
+('S2Cl2', 1)
+  max exact reconstruction error : 3.062871137272e-18
+  mean exact reconstruction error: 2.583637405188e-19
+
+('Cl2', 1)
+  max exact reconstruction error : 6.302983918756e-19
+  mean exact reconstruction error: 6.917725986059e-20
+
+('HNO2', 1)
+  max exact reconstruction error : 3.413542777435e-19
+  mean exact reconstruction error: 3.503762942825e-20
+
+('SO3', 1)
+  max exact reconstruction error : 1.011641889152e-20
+  mean exact reconstruction error: 1.342916472735e-21
+
+===== COMPLETE =====
+Read-only validation. No source, configuration, or .vul output was modified.

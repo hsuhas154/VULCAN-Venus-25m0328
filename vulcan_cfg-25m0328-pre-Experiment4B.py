@@ -8,11 +8,11 @@ alt_path = 'atm/alt_venus.txt'
 #fix_sp_start = ['H2SO4', 'H2O', 'H2O_l_s', 'H2SO4_l', 'V', 'V2']
 # ====== cloud particle and UV absorber =======
 N_particle_path = 'atm/mode1+2.txt'
-UV_absorber_path = 'atm/UV_absorber_Experiment4B_B6_25m0328.txt'
+UV_absorber_path = 'atm/UV_absorber.txt'
 
 # Dimensionless amplitude of the explicit Unknown UV Absorber optical depth.
 # tau_UUV* = A_UUV * tau_UUV
-A_UUV = 1.0
+A_UUV = 0.0
 # ====== Setting up the elements included in the network ======
 atom_list = ['S','N','C','H','O','Cl','V']
 
@@ -34,7 +34,7 @@ vul_ini = 'output/Nominal_Bkzz_SO2.vul'
 output_dir = 'output/'
 plot_dir = 'plot/'
 movie_dir = 'plot/movie/'
-out_name =  'Experiment4B_B6_420-698-25m0328.vul' # output file name: Nominal_Bkzz_SO2, A_Dkzz_SO2
+out_name =  'Nominal_Bkzz_SO2-25m0328-baseline.vul' # output file name: Nominal_Bkzz_SO2, A_Dkzz_SO2
 
 # ====== Setting up the elemental abundance ======
 use_solar = True # True: using the solar abundance from Table 10. K.Lodders 2009; False: using the customized elemental abundance. 

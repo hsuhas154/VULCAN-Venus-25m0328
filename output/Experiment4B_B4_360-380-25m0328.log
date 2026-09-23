@@ -1,0 +1,67 @@
+Including condensation reactions.
+Elements conserved in the network.
+No duplicates in the network.
+/home/suhas/VULCAN-Venus-25m0328/op.py:2611: RuntimeWarning: invalid value encountered in divide
+  max_indx = np.nanargmax(delta/sol, axis=1)
+/home/suhas/VULCAN-Venus-25m0328/op.py:2612: RuntimeWarning: invalid value encountered in divide
+  max_lev_indx = np.nanargmax(delta/sol)
+Making chem_funs.py ...
+========== Pressure profile (dyne/cm2) =========
+[9.209e+07 8.108e+07 7.119e+07 6.238e+07 5.438e+07 4.728e+07 4.096e+07
+ 3.540e+07 3.048e+07 2.620e+07 2.239e+07 1.900e+07 1.608e+07 1.356e+07
+ 1.135e+07 9.449e+06 7.818e+06 6.427e+06 5.257e+06 4.247e+06 3.419e+06
+ 2.729e+06 2.170e+06 1.710e+06 1.336e+06 1.033e+06 7.910e+05 5.947e+05
+ 4.398e+05 3.181e+05 2.269e+05 1.590e+05 1.101e+05 7.590e+04 5.169e+04
+ 3.506e+04 2.379e+04 1.591e+04 1.054e+04 6.902e+03 4.411e+03 2.780e+03
+ 1.703e+03 1.035e+03 6.149e+02 3.600e+02 2.091e+02 1.204e+02 6.912e+01
+ 4.038e+01 2.435e+01 1.473e+01 8.808e+00 5.269e+00 3.164e+00 1.913e+00
+ 1.158e+00]
+========== Temperature profile (K) =============
+[733.  717.  701.  685.  669.  653.  637.  623.  609.  595.  579.  562.
+ 545.  529.  512.  495.  478.  461.  446.  430.  416.  403.  391.  379.
+ 366.  349.  332.  312.  291.  274.  263.  252.  244.  236.  237.  233.
+ 228.  223.  217.  211.  201.  190.  178.  170.  165.  161.  158.  156.
+ 156.  159.  168.  171.  172.  173.5 175.  177.  179. ]
+========================= Modifying Chemical Network Accomplished ======================
+Reverse rates from R1 to R723
+Rates greater than 1e-6:
+Initializing with compositions from the prvious run output/Nominal_Bkzz_SO2.vul
+H2SO4 condensed from nz = 27 to the minimum level nz = 47 (cold trap)
+Temperatures exceed the valid range of Gibbs free energy.
+
+Using the prescribed constant top flux.
+Input stellar spectrum from 96.0 to 700.0
+Photodissociation threshold: 800.0
+Using wavelength bins from 96.0 to 700.0
+The stellar flux is interpolated onto uniform grid of 0.1 (<240.0 nm) and 2.0 (>=240.0 nm) and conserving 100.01 % energy.
+No molecular diffusion.
+Largest delta (truncation error) from nz = 1
+['CO' 'S4' 'S4' 'S4' 'S4' 'S4' 'S4' 'S4' 'S' 'CO' 'S4' 'S6' 'S4' 'CO' 'S3'
+ 'CO' 'S3' 'CO' 'CO' 'CO' 'CO' 'CO' 'CO' 'S4' 'CO' 'CO' 'CO' 'SO3' 'SO3'
+ 'S2O2' 'S2O2' 'CO' 'H' 'COCl' 'CO' 'S' 'O_1' 'CO' 'O_1' 'O_1' 'O_1' 'O_1'
+ 'S' 'S' 'O_1' 'O_1' 'CO' 'CO' 'CO' 'O_1' 'CO' 'COCl' 'COCl' 'O_1' 'CO'
+ 'O_1' 'O_1']
+update_photo_frq changed to 5
+
+conv_indx: 155
+conv_indx: 250
+Integration successful with 341 steps and long dy, long dydt = 0.009511918664963965 ,6.840577422732916e-11
+Actinic flux change: 5.73E-05
+After ------- 34.70080852508545 seconds ------- s CPU time
+Experiment4B_B4_360-380-25m0328 has successfully run to steady-state with 341 steps and 6.62e+08 s
+long dy = 0.009511918664963965 and long dy/dt = 6.840577422732916e-11
+total atom loss:
+S: -3.628487066693669e-05 
+N: 9.292140396810671e-05 
+C: -9.780222882981386e-05 
+H: 4.0086194213900904e-05 
+O: -9.777539347350815e-05 
+Cl: 8.87188389825176e-06 
+V: 9.550129460487316e-08 
+negative solution counter:
+0
+loss rejected counter:
+0
+delta rejected counter:
+2
+------ Live long and prosper \V/ ------

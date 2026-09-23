@@ -1,0 +1,303 @@
+===== EXPERIMENT 4A FINAL SPECTRAL ATTRIBUTION =====
+Read-only analysis using exact interval-based quadrature.
+
+===== GRID =====
+bins   : 1670
+range  : 96.000 to 698.000 nm
+dbin1  : 0.1
+dbin2  : 2.0
+
+===== TEMPERATURE-DEPENDENT SPECIES =====
+H2O2, CO2, H2O
+
+===== NON-TEMPERATURE-DEPENDENT BRANCHES =====
+Branches analyzed: 49
+
+===== EXACT FULL-INTEGRAL VALIDATION =====
+('H2', 1)                      max_error=0.000000e+00 relative_error=nan
+('HO2', 1)                     max_error=3.214937e-12 relative_error=2.149420e-03
+('COCl2', 1)                   max_error=2.803481e-13 relative_error=1.899276e-03
+('O', 1)                       max_error=0.000000e+00 relative_error=nan
+('COS', 1)                     max_error=2.344491e-13 relative_error=2.792686e-03
+('S2Cl2', 2)                   max_error=1.883533e-11 relative_error=3.619610e-04
+('SO2Cl2', 1)                  max_error=9.847136e-13 relative_error=3.241572e-04
+('O2', 1)                      max_error=2.358336e-18 relative_error=1.025664e-04
+('O3', 2)                      max_error=1.710196e-11 relative_error=7.322719e-06
+('N2O', 1)                     max_error=1.600692e-17 relative_error=4.736561e-06
+('HNO3', 1)                    max_error=6.133690e-14 relative_error=1.593143e-06
+('ClCO3', 1)                   max_error=1.116791e-11 relative_error=7.084654e-07
+('ClO', 1)                     max_error=4.607436e-12 relative_error=5.851366e-07
+('HOCl', 1)                    max_error=4.819142e-13 relative_error=6.585556e-08
+('S2Cl2', 1)                   max_error=2.511533e-12 relative_error=1.312359e-08
+('V2', 1)                      max_error=2.824481e-01 relative_error=4.041459e-09
+('V', 1)                       max_error=4.922875e-02 relative_error=3.756908e-09
+('NO', 1)                      max_error=3.999869e-22 relative_error=1.134913e-09
+('OH', 1)                      max_error=6.614062e-22 relative_error=7.391147e-10
+('H', 1)                       max_error=0.000000e+00 relative_error=nan
+
+===== SPECTRAL ATTRIBUTION FOR SULFUR-RELATED BRANCHES =====
+
+ 1: ('S3', 1)  level=41
+    stored DeltaJ = -1.004931990088e-02
+    300-320  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    340-360  DeltaJ=-7.897044816607e-04 fraction=7.858288%
+    360-380  DeltaJ=-3.071687534640e-03 fraction=30.566124%
+    380-420  DeltaJ=-4.984998767109e-03 fraction=49.605335%
+    420-620  DeltaJ=-1.202929117472e-03 fraction=11.970254%
+    SUM      -1.004931990088e-02 error=1.040834e-16
+
+ 2: ('S2O2', 1)  level=41
+    stored DeltaJ = -3.569047124879e-03
+    300-320  DeltaJ=-4.830855294051e-04 fraction=13.535420%
+    320-340  DeltaJ=-8.984463907873e-04 fraction=25.173285%
+    340-360  DeltaJ=-7.614985321906e-04 fraction=21.336186%
+    360-380  DeltaJ=-6.846977663703e-04 fraction=19.184330%
+    380-420  DeltaJ=-5.277106337542e-04 fraction=14.785757%
+    420-620  DeltaJ=-2.136022583472e-04 fraction=5.984854%
+    SUM      -3.569041110855e-03 error=6.014024e-09
+
+ 3: ('ClS2', 1)  level=41
+    stored DeltaJ = -6.236224314557e-04
+    300-320  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    320-340  DeltaJ=-3.607816895016e-05 fraction=5.785258%
+    340-360  DeltaJ=-9.584555651782e-05 fraction=15.369164%
+    360-380  DeltaJ=-1.666120348836e-04 fraction=26.716812%
+    380-420  DeltaJ=-2.542871346953e-04 fraction=40.775816%
+    420-620  DeltaJ=-7.079953640887e-05 fraction=11.352949%
+    SUM      -6.236224314557e-04 error=9.757820e-19
+
+ 4: ('S4', 1)  level=41
+    stored DeltaJ = -4.726394746702e-04
+    300-320  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=-4.726394746702e-04 fraction=100.000000%
+    SUM      -4.726394746702e-04 error=3.794708e-18
+
+ 5: ('S2O', 1)  level=41
+    stored DeltaJ = -2.755683325974e-04
+    300-320  DeltaJ=-2.581772321981e-04 fraction=93.689006%
+    320-340  DeltaJ=-1.735883785269e-05 fraction=6.299286%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      -2.755360700508e-04 error=3.226255e-08
+
+ 6: ('S2Cl2', 1)  level=41
+    stored DeltaJ = -1.913754640314e-04
+    300-320  DeltaJ=-8.615012220045e-05 fraction=45.016284%
+    320-340  DeltaJ=-8.270379432752e-05 fraction=43.215464%
+    340-360  DeltaJ=-1.640880919841e-05 fraction=8.574145%
+    360-380  DeltaJ=-5.496764357440e-06 fraction=2.872241%
+    380-420  DeltaJ=-6.095841423426e-07 fraction=0.318528%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      -1.913690742262e-04 error=6.389805e-09
+
+ 7: ('SCl', 1)  level=41
+    stored DeltaJ = -1.110308591305e-04
+    300-320  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    320-340  DeltaJ=-7.432867181473e-07 fraction=0.669442%
+    340-360  DeltaJ=-5.987149516572e-06 fraction=5.392329%
+    360-380  DeltaJ=-1.121633306450e-05 fraction=10.101996%
+    380-420  DeltaJ=-3.444624317078e-05 fraction=31.024027%
+    420-620  DeltaJ=-5.863784666048e-05 fraction=52.812207%
+    SUM      -1.110308591305e-04 error=2.059984e-18
+
+ 8: ('SCl2', 1)  level=41
+    stored DeltaJ = -3.297805505029e-05
+    300-320  DeltaJ=-3.768303664584e-06 fraction=11.426701%
+    320-340  DeltaJ=-9.858832083427e-06 fraction=29.895129%
+    340-360  DeltaJ=-7.905313232481e-06 fraction=23.971436%
+    360-380  DeltaJ=-5.231271691522e-06 fraction=15.862887%
+    380-420  DeltaJ=-5.267841737954e-06 fraction=15.973779%
+    420-620  DeltaJ=-9.461844623595e-07 fraction=2.869134%
+    SUM      -3.297774687233e-05 error=3.081780e-10
+
+ 9: ('ClCO3', 1)  level=41
+    stored DeltaJ = -1.576350691853e-05
+    300-320  DeltaJ=-1.575542970784e-05 fraction=99.948760%
+    320-340  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      -1.575542970784e-05 error=8.077211e-09
+
+10: ('S2Cl2', 2)  level=39
+    stored DeltaJ = -5.201807618156e-08
+    300-320  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      0.000000000000e+00 error=5.201808e-08
+
+11: ('SO3', 1)  level=41
+    stored DeltaJ = -9.503082253786e-09
+    300-320  DeltaJ=-7.674154091944e-09 fraction=80.754369%
+    320-340  DeltaJ=-1.786098779778e-09 fraction=18.794942%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      -9.460252871723e-09 error=4.282938e-11
+
+12: ('S2', 1)  level=39
+    stored DeltaJ = -8.028658934943e-09
+    300-320  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      0.000000000000e+00 error=8.028659e-09
+
+13: ('SO2Cl2', 1)  level=41
+    stored DeltaJ = -3.037011906337e-09
+    300-320  DeltaJ=-2.723029034522e-09 fraction=89.661454%
+    320-340  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      -2.723029034522e-09 error=3.139829e-10
+
+14: ('SO', 1)  level=36
+    stored DeltaJ = 2.306975973640e-09
+    300-320  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    SUM      0.000000000000e+00 error=-2.306976e-09
+
+15: ('SCl2', 2)  level=36
+    stored DeltaJ = 1.454868465260e-09
+    300-320  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    SUM      0.000000000000e+00 error=-1.454868e-09
+
+16: ('SO2', 1)  level=36
+    stored DeltaJ = 1.302053420554e-09
+    300-320  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    SUM      0.000000000000e+00 error=-1.302053e-09
+
+17: ('SO2', 2)  level=36
+    stored DeltaJ = 7.084448981482e-12
+    300-320  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=0.000000%
+    SUM      0.000000000000e+00 error=-7.084449e-12
+
+18: ('SO2', 3)  level=55
+    stored DeltaJ = -1.397119327225e-25
+    300-320  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    320-340  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    340-360  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    360-380  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    380-420  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    420-620  DeltaJ=0.000000000000e+00 fraction=-0.000000%
+    SUM      0.000000000000e+00 error=1.397119e-25
+
+===== SULFUR BAND AGGREGATES =====
+300-320  mean_branch_fraction=24.112889% median_branch_fraction=0.000000% n=18
+320-340  mean_branch_fraction=7.212934% median_branch_fraction=0.000000% n=18
+340-360  mean_branch_fraction=4.583419% median_branch_fraction=0.000000% n=18
+360-380  mean_branch_fraction=5.850244% median_branch_fraction=0.000000% n=18
+380-420  mean_branch_fraction=8.471291% median_branch_fraction=0.000000% n=18
+420-620  mean_branch_fraction=10.277189% median_branch_fraction=0.000000% n=18
+
+===== SELECTED NON-SULFUR / OXIDATION-RELATED BRANCHES =====
+
+('O3', 1)  level=41  DeltaJ=-3.152483616321e-06
+    300-320  fraction=66.052741%
+    320-340  fraction=24.214578%
+    340-360  fraction=1.174153%
+    360-380  fraction=0.019302%
+    380-420  fraction=0.032208%
+    420-620  fraction=7.840378%
+
+('O3', 2)  level=41  DeltaJ=-2.335452966842e-06
+    300-320  fraction=97.108124%
+    320-340  fraction=2.062346%
+    340-360  fraction=-0.000000%
+    360-380  fraction=-0.000000%
+    380-420  fraction=-0.000000%
+    420-620  fraction=-0.000000%
+
+('NO2', 1)  level=41  DeltaJ=-1.333037403166e-04
+    300-320  fraction=6.945960%
+    320-340  fraction=19.641364%
+    340-360  fraction=23.024328%
+    360-380  fraction=26.345304%
+    380-420  fraction=23.965130%
+    420-620  fraction=0.077779%
+
+('NO3', 1)  level=41  DeltaJ=-2.221851386778e-04
+    300-320  fraction=-0.000000%
+    320-340  fraction=-0.000000%
+    340-360  fraction=-0.000000%
+    360-380  fraction=-0.000000%
+    380-420  fraction=0.723368%
+    420-620  fraction=99.045780%
+
+('NO3', 2)  level=41  DeltaJ=-7.138168107056e-06
+    300-320  fraction=-0.000000%
+    320-340  fraction=-0.000000%
+    340-360  fraction=-0.000000%
+    360-380  fraction=-0.000000%
+    380-420  fraction=-0.000000%
+    420-620  fraction=86.606236%
+
+('Cl2', 1)  level=41  DeltaJ=-5.212188786639e-05
+    300-320  fraction=17.512646%
+    320-340  fraction=40.009512%
+    340-360  fraction=25.975571%
+    360-380  fraction=11.615922%
+    380-420  fraction=4.207014%
+    420-620  fraction=0.679242%
+
+('HOCl', 1)  level=41  DeltaJ=-7.317745007758e-06
+    300-320  fraction=35.120186%
+    320-340  fraction=41.426323%
+    340-360  fraction=15.495590%
+    360-380  fraction=7.758077%
+    380-420  fraction=0.196131%
+    420-620  fraction=-0.000000%
+
+('ClO', 1)  level=41  DeltaJ=-7.874116081834e-06
+    300-320  fraction=91.260522%
+    320-340  fraction=8.594163%
+    340-360  fraction=-0.000000%
+    360-380  fraction=-0.000000%
+    380-420  fraction=-0.000000%
+    420-620  fraction=-0.000000%
+
+('HNO2', 1)  level=41  DeltaJ=-3.510526706351e-05
+    300-320  fraction=2.373191%
+    320-340  fraction=21.244015%
+    340-360  fraction=35.239266%
+    360-380  fraction=29.601877%
+    380-420  fraction=11.541652%
+    420-620  fraction=-0.000000%
+
+===== COMPLETE =====
+No source, configuration, or .vul output was modified.

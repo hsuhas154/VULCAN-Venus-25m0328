@@ -2216,28 +2216,23 @@ class ODESolver(object):
             for sp in vulcan_cfg.scat_sp: # scat_sp are not necessary photo_sp, e.g. He
                 var.tau[j] += var.y[j,species.index(sp)] * atm.dz[j] * var.cross_scat[sp]
 
-            # The calculation of aerosol optical depth and UV absorber by Longkang Dai 2024
-            # We convert it into the fitted cross sections of two modes to save computation.
-            # This calculation should be enabled (and remove the cross sections) if the clouds are released.
-            '''if var.t == 0:
-                # Longkang added for tau of clouds (1) and hazes (2) by mie calculation
+            # UUV experiment: activate ONLY the explicit UV-absorber optical depth.
+            # tau_UUV* = A_UUV * tau_UUV.
+            # Mode-1 and mode-2 Mie contributions remain disabled.
+            if var.t == 0:
                 bins = var.bins
-                if N_1[j] > 0:
-                    for i in range(var.nbin):
-                        Q_1 = mie.MieQ(refractive_indx, bins[i], D_1 * 1E7, asDict=True)
-                        var.tau_1[j][i] = Q_1['Qext'] * np.pi * D_1 ** 2 / 4 * N_1[j] * atm.dz[j]
-                if N_2[j] > 0:
-                    for i in range(var.nbin):
-                        Q_2 = mie.MieQ(refractive_indx, bins[i], D_2 * 1E7, asDict=True)
-                        var.tau_2[j][i] = Q_2['Qext'] * np.pi * D_2 ** 2 / 4 * N_2[j] * atm.dz[j]
-
-                # Longkang added for tau of unknown UV absorber (UV) by mode 1 particles
                 if N_UV[j] > 0:
                     for i in range(var.nbin):
                         if bins[i] >= UV_read[0,0] and bins[i] <= UV_read[-1,0]:
-                            var.tau_UV[j][i] = g_wavelen_Q(bins[i]) * np.pi * D_UV ** 2 / 4 * N_UV[j] * atm.dz[j]
+                            var.tau_UV[j][i] = (
+                                vulcan_cfg.A_UUV
+                                * g_wavelen_Q(bins[i])
+                                * np.pi * D_UV ** 2 / 4
+                                * N_UV[j]
+                                * atm.dz[j]
+                            )
 
-            var.tau[j] += var.tau_1[j] + var.tau_2[j] + var.tau_UV[j]'''
+            var.tau[j] += var.tau_UV[j]
 
             # adding the layer above at the end of species loop
             var.tau[j] += var.tau[j+1]

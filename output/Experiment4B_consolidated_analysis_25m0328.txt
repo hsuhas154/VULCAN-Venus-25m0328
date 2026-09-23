@@ -1,0 +1,423 @@
+===== EXPERIMENT 4B CONSOLIDATED ANALYSIS =====
+
+All comparisons use the same A=0 control.
+Common photochemical comparison level: 41
+Read-only analysis.
+
+===== RUN INVENTORY =====
+A0  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+A1  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+B1  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+B2  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+B3  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+B4  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+B5  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+B6  tau=(58, 1670) aflux=(57, 1670) ymix=(57, 62) J_sp=99
+
+===== ACTINIC-FLUX RESPONSE SUMMARY =====
+A1  global_max=4.698240980361e+12 level=41 lambda=328.000 signed=-4.698240980361e+12
+B1  global_max=3.449386340563e+12 level=41 lambda=318.000 signed=-3.449386340563e+12
+B2  global_max=4.698242277802e+12 level=41 lambda=328.000 signed=-4.698242277802e+12
+B3  global_max=3.956300680543e+12 level=41 lambda=340.000 signed=-3.956300680543e+12
+B4  global_max=3.715276595718e+12 level=41 lambda=368.000 signed=-3.715276595718e+12
+B5  global_max=2.981715417862e+12 level=41 lambda=410.000 signed=-2.981715417862e+12
+B6  global_max=1.853559115323e+12 level=41 lambda=420.000 signed=-1.853559115323e+12
+
+===== WINDOW ISOLATION METRICS =====
+
+B1  300-320 nm
+  A1  own_mean=3.537016404915e+11 own_max=3.449387189577e+12 outside_mean=2.557221619593e+10 outside_max=4.698240980361e+12
+  B1  own_mean=3.536980251335e+11 own_max=3.449386340563e+12 outside_mean=1.241299350738e+06 outside_max=4.290478428975e+08
+
+B2  320-340 nm
+  A1  own_mean=7.075187228755e+11 own_max=4.698240980361e+12 outside_mean=2.344078798880e+10 outside_max=3.956298081022e+12
+  B2  own_mean=7.075186647041e+11 own_max=4.698242277802e+12 outside_mean=1.102279646085e+06 outside_max=4.556333817021e+08
+
+B3  340-360 nm
+  A1  own_mean=6.072598757752e+11 own_max=3.956298081022e+12 outside_mean=2.404475694723e+10 outside_max=4.698240980361e+12
+  B3  own_mean=6.072603585143e+11 own_max=3.956300680543e+12 outside_mean=1.120065890632e+06 outside_max=4.607412990029e+08
+
+B4  360-380 nm
+  A1  own_mean=5.691096676133e+11 own_max=3.715278032844e+12 outside_mean=2.427457747833e+10 outside_max=4.698240980361e+12
+  B4  own_mean=5.691092312112e+11 own_max=3.715276595718e+12 outside_mean=5.675034157540e+05 outside_max=2.061683073154e+08
+
+B5  380-420 nm
+  A1  own_mean=4.027156201272e+11 own_max=2.981708441281e+12 outside_mean=2.298944417431e+10 outside_max=4.698240980361e+12
+  B5  own_mean=4.027162620323e+11 own_max=2.981715417862e+12 outside_mean=1.032214676458e+06 outside_max=4.274250553057e+08
+
+B6  420-698 nm
+  A1  own_mean=1.111137890442e+11 own_max=1.853576350768e+12 outside_mean=1.988951949279e+10 outside_max=4.698240980361e+12
+  B6  own_mean=1.111092029530e+11 own_max=1.853559115323e+12 outside_mean=2.195307823783e+05 outside_max=1.408801657793e+08
+
+===== SULFUR PHOTOLYSIS RESPONSE AT COMMON LEVEL =====
+
+('S2O', 0)                full_DeltaJ_level41=-2.755683325974e-04
+  B1  DeltaJ=-2.526731408483e-04 ratio_to_full=91.691646%
+  B2  DeltaJ=-2.288287855166e-05 ratio_to_full=8.303885%
+  B3  DeltaJ=5.133657575429e-09 ratio_to_full=-0.001863%
+  B4  DeltaJ=1.877143347012e-09 ratio_to_full=-0.000681%
+  B5  DeltaJ=5.252384461391e-09 ratio_to_full=-0.001906%
+  B6  DeltaJ=3.596663591954e-10 ratio_to_full=-0.000131%
+
+('S2O', 1)                full_DeltaJ_level41=-2.755683325974e-04
+  B1  DeltaJ=-2.526731408483e-04 ratio_to_full=91.691646%
+  B2  DeltaJ=-2.288287855166e-05 ratio_to_full=8.303885%
+  B3  DeltaJ=5.133657575429e-09 ratio_to_full=-0.001863%
+  B4  DeltaJ=1.877143347012e-09 ratio_to_full=-0.000681%
+  B5  DeltaJ=5.252384461391e-09 ratio_to_full=-0.001906%
+  B6  DeltaJ=3.596663591954e-10 ratio_to_full=-0.000131%
+
+('S4', 0)                 full_DeltaJ_level41=-4.726394746702e-04
+  B1  DeltaJ=-1.193822368739e-08 ratio_to_full=0.002526%
+  B2  DeltaJ=-1.107279318235e-08 ratio_to_full=0.002343%
+  B3  DeltaJ=-1.198421595294e-08 ratio_to_full=0.002536%
+  B4  DeltaJ=-6.971705518444e-09 ratio_to_full=0.001475%
+  B5  DeltaJ=-1.137732970335e-08 ratio_to_full=0.002407%
+  B6  DeltaJ=-4.726298802882e-04 ratio_to_full=99.997970%
+
+('S4', 1)                 full_DeltaJ_level41=-4.726394746702e-04
+  B1  DeltaJ=-1.193822368739e-08 ratio_to_full=0.002526%
+  B2  DeltaJ=-1.107279318235e-08 ratio_to_full=0.002343%
+  B3  DeltaJ=-1.198421595294e-08 ratio_to_full=0.002536%
+  B4  DeltaJ=-6.971705518444e-09 ratio_to_full=0.001475%
+  B5  DeltaJ=-1.137732970335e-08 ratio_to_full=0.002407%
+  B6  DeltaJ=-4.726298802882e-04 ratio_to_full=99.997970%
+
+('SO', 0)                 full_DeltaJ_level41=-2.021623658950e-10
+  B1  DeltaJ=3.620481480804e-10 ratio_to_full=-179.087807%
+  B2  DeltaJ=5.240278985210e-10 ratio_to_full=-259.211400%
+  B3  DeltaJ=5.758985355655e-10 ratio_to_full=-284.869309%
+  B4  DeltaJ=2.376290601195e-10 ratio_to_full=-117.543668%
+  B5  DeltaJ=5.490699762532e-10 ratio_to_full=-271.598511%
+  B6  DeltaJ=1.588837922719e-10 ratio_to_full=-78.592171%
+
+('SO', 1)                 full_DeltaJ_level41=-2.021623658950e-10
+  B1  DeltaJ=3.620481480804e-10 ratio_to_full=-179.087807%
+  B2  DeltaJ=5.240278985210e-10 ratio_to_full=-259.211400%
+  B3  DeltaJ=5.758985355655e-10 ratio_to_full=-284.869309%
+  B4  DeltaJ=2.376290601195e-10 ratio_to_full=-117.543668%
+  B5  DeltaJ=5.490699762532e-10 ratio_to_full=-271.598511%
+  B6  DeltaJ=1.588837922719e-10 ratio_to_full=-78.592171%
+
+('S2O2', 0)               full_DeltaJ_level41=-3.569047124879e-03
+  B1  DeltaJ=-4.418768983099e-04 ratio_to_full=12.380809%
+  B2  DeltaJ=-8.997431680405e-04 ratio_to_full=25.209619%
+  B3  DeltaJ=-7.644603420875e-04 ratio_to_full=21.419172%
+  B4  DeltaJ=-6.969871984088e-04 ratio_to_full=19.528663%
+  B5  DeltaJ=-5.461565789073e-04 ratio_to_full=15.302588%
+  B6  DeltaJ=-2.198643508636e-04 ratio_to_full=6.160310%
+
+('S2O2', 1)               full_DeltaJ_level41=-3.569047124879e-03
+  B1  DeltaJ=-4.418768983099e-04 ratio_to_full=12.380809%
+  B2  DeltaJ=-8.997431680405e-04 ratio_to_full=25.209619%
+  B3  DeltaJ=-7.644603420875e-04 ratio_to_full=21.419172%
+  B4  DeltaJ=-6.969871984088e-04 ratio_to_full=19.528663%
+  B5  DeltaJ=-5.461565789073e-04 ratio_to_full=15.302588%
+  B6  DeltaJ=-2.198643508636e-04 ratio_to_full=6.160310%
+
+('SO2Cl2', 0)             full_DeltaJ_level41=-3.037011906337e-09
+  B1  DeltaJ=-2.914032567940e-09 ratio_to_full=95.950647%
+  B2  DeltaJ=3.438550686590e-12 ratio_to_full=-0.113222%
+  B3  DeltaJ=5.751981830833e-11 ratio_to_full=-1.893961%
+  B4  DeltaJ=2.415949559820e-11 ratio_to_full=-0.795502%
+  B5  DeltaJ=5.807260012767e-11 ratio_to_full=-1.912162%
+  B6  DeltaJ=-7.169165570442e-13 ratio_to_full=0.023606%
+
+('SO2Cl2', 1)             full_DeltaJ_level41=-3.037011906337e-09
+  B1  DeltaJ=-2.914032567940e-09 ratio_to_full=95.950647%
+  B2  DeltaJ=3.438550686590e-12 ratio_to_full=-0.113222%
+  B3  DeltaJ=5.751981830833e-11 ratio_to_full=-1.893961%
+  B4  DeltaJ=2.415949559820e-11 ratio_to_full=-0.795502%
+  B5  DeltaJ=5.807260012767e-11 ratio_to_full=-1.912162%
+  B6  DeltaJ=-7.169165570442e-13 ratio_to_full=0.023606%
+
+('ClS2', 0)               full_DeltaJ_level41=-6.236224314557e-04
+  B1  DeltaJ=-3.845852455941e-09 ratio_to_full=0.000617%
+  B2  DeltaJ=-3.283516543886e-05 ratio_to_full=5.265232%
+  B3  DeltaJ=-9.260305549331e-05 ratio_to_full=14.849218%
+  B4  DeltaJ=-1.647382316530e-04 ratio_to_full=26.416342%
+  B5  DeltaJ=-2.590953904441e-04 ratio_to_full=41.546836%
+  B6  DeltaJ=-7.436085133451e-05 ratio_to_full=11.924018%
+
+('ClS2', 1)               full_DeltaJ_level41=-6.236224314557e-04
+  B1  DeltaJ=-3.845852455941e-09 ratio_to_full=0.000617%
+  B2  DeltaJ=-3.283516543886e-05 ratio_to_full=5.265232%
+  B3  DeltaJ=-9.260305549331e-05 ratio_to_full=14.849218%
+  B4  DeltaJ=-1.647382316530e-04 ratio_to_full=26.416342%
+  B5  DeltaJ=-2.590953904441e-04 ratio_to_full=41.546836%
+  B6  DeltaJ=-7.436085133451e-05 ratio_to_full=11.924018%
+
+('ClCO3', 0)              full_DeltaJ_level41=-1.576350691853e-05
+  B1  DeltaJ=-1.576156414865e-05 ratio_to_full=99.987676%
+  B2  DeltaJ=-1.231207283695e-09 ratio_to_full=0.007810%
+  B3  DeltaJ=1.248672905525e-10 ratio_to_full=-0.000792%
+  B4  DeltaJ=5.334762145925e-11 ratio_to_full=-0.000338%
+  B5  DeltaJ=2.054047622095e-10 ratio_to_full=-0.001303%
+  B6  DeltaJ=-3.889156978236e-10 ratio_to_full=0.002467%
+
+('ClCO3', 1)              full_DeltaJ_level41=-1.576350691853e-05
+  B1  DeltaJ=-1.576156414865e-05 ratio_to_full=99.987676%
+  B2  DeltaJ=-1.231207283695e-09 ratio_to_full=0.007810%
+  B3  DeltaJ=1.248672905525e-10 ratio_to_full=-0.000792%
+  B4  DeltaJ=5.334762145925e-11 ratio_to_full=-0.000338%
+  B5  DeltaJ=2.054047622095e-10 ratio_to_full=-0.001303%
+  B6  DeltaJ=-3.889156978236e-10 ratio_to_full=0.002467%
+
+('S2Cl2', 0)              full_DeltaJ_level41=-1.914151340682e-04
+  B1  DeltaJ=-8.008558358856e-05 ratio_to_full=41.838689%
+  B2  DeltaJ=-8.716380877020e-05 ratio_to_full=45.536529%
+  B3  DeltaJ=-1.762993852029e-05 ratio_to_full=9.210316%
+  B4  DeltaJ=-5.798745485237e-06 ratio_to_full=3.029408%
+  B5  DeltaJ=-7.449935133901e-07 ratio_to_full=0.389203%
+  B6  DeltaJ=-3.305141070553e-09 ratio_to_full=0.001727%
+
+('S2Cl2', 1)              full_DeltaJ_level41=-1.913754640314e-04
+  B1  DeltaJ=-8.005218031202e-05 ratio_to_full=41.829908%
+  B2  DeltaJ=-8.715433710116e-05 ratio_to_full=45.541019%
+  B3  DeltaJ=-1.762699845718e-05 ratio_to_full=9.210689%
+  B4  DeltaJ=-5.797610561577e-06 ratio_to_full=3.029443%
+  B5  DeltaJ=-7.426188656174e-07 ratio_to_full=0.388043%
+  B6  DeltaJ=-1.204805283317e-10 ratio_to_full=0.000063%
+
+('S2Cl2', 2)              full_DeltaJ_level41=-3.967003682059e-08
+  B1  DeltaJ=-3.340327654495e-08 ratio_to_full=84.202787%
+  B2  DeltaJ=-9.471669048036e-09 ratio_to_full=23.876129%
+  B3  DeltaJ=-2.940063107033e-09 ratio_to_full=7.411294%
+  B4  DeltaJ=-1.134923660259e-09 ratio_to_full=2.860909%
+  B5  DeltaJ=-2.374647773556e-09 ratio_to_full=5.985998%
+  B6  DeltaJ=-3.184660543956e-09 ratio_to_full=8.027874%
+
+('S2', 0)                 full_DeltaJ_level41=-6.095970945912e-09
+  B1  DeltaJ=-4.891892058101e-09 ratio_to_full=80.247956%
+  B2  DeltaJ=-1.212336366713e-09 ratio_to_full=19.887502%
+  B3  DeltaJ=-2.065137479426e-10 ratio_to_full=3.387709%
+  B4  DeltaJ=-8.118346403116e-11 ratio_to_full=1.331756%
+  B5  DeltaJ=-1.320966576141e-10 ratio_to_full=2.166950%
+  B6  DeltaJ=-4.016134293617e-10 ratio_to_full=6.588178%
+
+('S2', 1)                 full_DeltaJ_level41=-6.095970945912e-09
+  B1  DeltaJ=-4.891892058101e-09 ratio_to_full=80.247956%
+  B2  DeltaJ=-1.212336366713e-09 ratio_to_full=19.887502%
+  B3  DeltaJ=-2.065137479426e-10 ratio_to_full=3.387709%
+  B4  DeltaJ=-8.118346403116e-11 ratio_to_full=1.331756%
+  B5  DeltaJ=-1.320966576141e-10 ratio_to_full=2.166950%
+  B6  DeltaJ=-4.016134293617e-10 ratio_to_full=6.588178%
+
+('SCl2', 0)               full_DeltaJ_level41=-3.297821843029e-05
+  B1  DeltaJ=-3.395482876686e-06 ratio_to_full=10.296138%
+  B2  DeltaJ=-9.751660971828e-06 ratio_to_full=29.570005%
+  B3  DeltaJ=-8.079508829455e-06 ratio_to_full=24.499531%
+  B4  DeltaJ=-5.335214977153e-06 ratio_to_full=16.177996%
+  B5  DeltaJ=-5.408896666244e-06 ratio_to_full=16.401422%
+  B6  DeltaJ=-1.006069204014e-06 ratio_to_full=3.050708%
+
+('SCl2', 1)               full_DeltaJ_level41=-3.297805505029e-05
+  B1  DeltaJ=-3.395682410248e-06 ratio_to_full=10.296794%
+  B2  DeltaJ=-9.751984722663e-06 ratio_to_full=29.571134%
+  B3  DeltaJ=-8.079871256211e-06 ratio_to_full=24.500751%
+  B4  DeltaJ=-5.335364556205e-06 ratio_to_full=16.178530%
+  B5  DeltaJ=-5.409242604375e-06 ratio_to_full=16.402552%
+  B6  DeltaJ=-1.006167439904e-06 ratio_to_full=3.051021%
+
+('SCl2', 2)               full_DeltaJ_level41=-1.633800015036e-10
+  B1  DeltaJ=1.995335622261e-10 ratio_to_full=-122.128510%
+  B2  DeltaJ=3.237508351683e-10 ratio_to_full=-198.158179%
+  B3  DeltaJ=3.624267558972e-10 ratio_to_full=-221.830550%
+  B4  DeltaJ=1.495790522964e-10 ratio_to_full=-91.552853%
+  B5  DeltaJ=3.459381310193e-10 ratio_to_full=-211.738357%
+  B6  DeltaJ=9.823589017981e-11 ratio_to_full=-60.127243%
+
+('SO3', 0)                full_DeltaJ_level41=-9.503082253786e-09
+  B1  DeltaJ=-7.365435486266e-09 ratio_to_full=77.505753%
+  B2  DeltaJ=-2.072125163329e-09 ratio_to_full=21.804769%
+  B3  DeltaJ=3.422484501749e-11 ratio_to_full=-0.360145%
+  B4  DeltaJ=1.426328581408e-11 ratio_to_full=-0.150091%
+  B5  DeltaJ=3.292894070549e-11 ratio_to_full=-0.346508%
+  B6  DeltaJ=7.728128477192e-12 ratio_to_full=-0.081322%
+
+('SO3', 1)                full_DeltaJ_level41=-9.503082253786e-09
+  B1  DeltaJ=-7.365435486266e-09 ratio_to_full=77.505753%
+  B2  DeltaJ=-2.072125163329e-09 ratio_to_full=21.804769%
+  B3  DeltaJ=3.422484501749e-11 ratio_to_full=-0.360145%
+  B4  DeltaJ=1.426328581408e-11 ratio_to_full=-0.150091%
+  B5  DeltaJ=3.292894070549e-11 ratio_to_full=-0.346508%
+  B6  DeltaJ=7.728128477192e-12 ratio_to_full=-0.081322%
+
+('S3', 0)                 full_DeltaJ_level41=-1.004931990088e-02
+  B1  DeltaJ=-6.698178245390e-08 ratio_to_full=0.000667%
+  B2  DeltaJ=-6.249132467051e-08 ratio_to_full=0.000622%
+  B3  DeltaJ=-6.666763986882e-04 ratio_to_full=6.634045%
+  B4  DeltaJ=-3.042810424859e-03 ratio_to_full=30.278770%
+  B5  DeltaJ=-5.064918814650e-03 ratio_to_full=50.400613%
+  B6  DeltaJ=-1.275030705404e-03 ratio_to_full=12.687731%
+
+('S3', 1)                 full_DeltaJ_level41=-1.004931990088e-02
+  B1  DeltaJ=-6.698178245390e-08 ratio_to_full=0.000667%
+  B2  DeltaJ=-6.249132467051e-08 ratio_to_full=0.000622%
+  B3  DeltaJ=-6.666763986882e-04 ratio_to_full=6.634045%
+  B4  DeltaJ=-3.042810424859e-03 ratio_to_full=30.278770%
+  B5  DeltaJ=-5.064918814650e-03 ratio_to_full=50.400613%
+  B6  DeltaJ=-1.275030705404e-03 ratio_to_full=12.687731%
+
+('SCl', 0)                full_DeltaJ_level41=-1.110308591305e-04
+  B1  DeltaJ=-1.448720216707e-09 ratio_to_full=0.001305%
+  B2  DeltaJ=-4.974059739909e-07 ratio_to_full=0.447989%
+  B3  DeltaJ=-5.837148456643e-06 ratio_to_full=5.257231%
+  B4  DeltaJ=-1.096985498882e-05 ratio_to_full=9.880006%
+  B5  DeltaJ=-3.418091239259e-05 ratio_to_full=30.785056%
+  B6  DeltaJ=-5.954941377366e-05 ratio_to_full=53.633210%
+
+('SCl', 1)                full_DeltaJ_level41=-1.110308591305e-04
+  B1  DeltaJ=-1.448720216707e-09 ratio_to_full=0.001305%
+  B2  DeltaJ=-4.974059739909e-07 ratio_to_full=0.447989%
+  B3  DeltaJ=-5.837148456643e-06 ratio_to_full=5.257231%
+  B4  DeltaJ=-1.096985498882e-05 ratio_to_full=9.880006%
+  B5  DeltaJ=-3.418091239259e-05 ratio_to_full=30.785056%
+  B6  DeltaJ=-5.954941377366e-05 ratio_to_full=53.633210%
+
+('SO2', 0)                full_DeltaJ_level41=-9.692265741346e-11
+  B1  DeltaJ=2.281990507203e-10 ratio_to_full=-235.444484%
+  B2  DeltaJ=3.079893010413e-10 ratio_to_full=-317.768115%
+  B3  DeltaJ=3.343748698200e-10 ratio_to_full=-344.991438%
+  B4  DeltaJ=1.377137584741e-10 ratio_to_full=-142.086239%
+  B5  DeltaJ=3.186561102063e-10 ratio_to_full=-328.773600%
+  B6  DeltaJ=9.322012507350e-11 ratio_to_full=-96.179910%
+
+('SO2', 1)                full_DeltaJ_level41=-9.635464401727e-11
+  B1  DeltaJ=2.267081217850e-10 ratio_to_full=-235.285101%
+  B2  DeltaJ=3.060808318362e-10 ratio_to_full=-317.660695%
+  B3  DeltaJ=3.323195310920e-10 ratio_to_full=-344.892075%
+  B4  DeltaJ=1.368751699710e-10 ratio_to_full=-142.053527%
+  B5  DeltaJ=3.166948769201e-10 ratio_to_full=-328.676298%
+  B6  DeltaJ=9.264691860640e-11 ratio_to_full=-96.152001%
+
+===== SULFUR SPECIES STEADY-STATE RESPONSE =====
+
+SO2
+  Full A1 max_abs_delta = 1.260709342295e-08
+  B1  level41=-6.571206531660e-12 max_abs=1.195942731603e-08 max_level=11
+  B2  level41=-6.505286161147e-12 max_abs=1.210660487743e-08 max_level=11
+  B3  level41=-6.645443038006e-12 max_abs=1.220201851699e-08 max_level=11
+  B4  level41=-2.704544615863e-12 max_abs=5.493068485723e-09 max_level=1
+  B5  level41=-6.404987571717e-12 max_abs=1.110669433065e-08 max_level=11
+  B6  level41=-2.250404601311e-12 max_abs=2.819841425132e-08 max_level=12
+
+SO3
+  Full A1 max_abs_delta = 3.341978116873e-12
+  B1  level41=-8.162283132363e-14 max_abs=3.250954230155e-12 max_level=36
+  B2  level41=-4.478730549790e-14 max_abs=3.241017425553e-12 max_level=36
+  B3  level41=-3.634033365676e-14 max_abs=3.197610714757e-12 max_level=36
+  B4  level41=-2.344807663644e-14 max_abs=1.286595691442e-12 max_level=36
+  B5  level41=-3.594051971635e-14 max_abs=2.825032507051e-12 max_level=36
+  B6  level41=-1.160255329428e-14 max_abs=1.379398201424e-12 max_level=18
+
+H2SO4
+  Full A1 max_abs_delta = 1.652198339181e-13
+  B1  level41=7.664115962435e-22 max_abs=2.153580251955e-13 max_level=22
+  B2  level41=7.543731686222e-22 max_abs=2.102140190942e-13 max_level=22
+  B3  level41=7.533268771601e-22 max_abs=2.098742674028e-13 max_level=22
+  B4  level41=4.882667226194e-22 max_abs=1.360787389821e-13 max_level=22
+  B5  level41=7.108691715507e-22 max_abs=1.979260430952e-13 max_level=22
+  B6  level41=-3.116894386583e-22 max_abs=8.602213645925e-14 max_level=22
+
+H2SO4_l
+  Full A1 max_abs_delta = 8.294656850986e-15
+  B1  level41=8.762879266965e-17 max_abs=1.081178256923e-14 max_level=22
+  B2  level41=8.625236123523e-17 max_abs=1.055353413501e-14 max_level=22
+  B3  level41=8.613273189350e-17 max_abs=1.053647730020e-14 max_level=22
+  B4  level41=5.582669085644e-17 max_abs=6.831664323815e-15 max_level=22
+  B5  level41=8.127826778596e-17 max_abs=9.936631542727e-15 max_level=22
+  B6  level41=-3.563746865274e-17 max_abs=4.318634671616e-15 max_level=22
+
+S3
+  Full A1 max_abs_delta = 6.409867244283e-14
+  B1  level41=-1.024472915598e-26 max_abs=1.016907488710e-13 max_level=4
+  B2  level41=-1.024472915598e-26 max_abs=1.014218904300e-13 max_level=4
+  B3  level41=-1.024472915598e-26 max_abs=1.023459988451e-13 max_level=4
+  B4  level41=-6.921759040139e-27 max_abs=4.370118184884e-14 max_level=4
+  B5  level41=6.076353929236e-28 max_abs=9.724437473858e-14 max_level=4
+  B6  level41=-1.024472915598e-26 max_abs=5.849700692219e-14 max_level=3
+
+S2O2
+  Full A1 max_abs_delta = 9.519126052970e-15
+  B1  level41=5.461332565230e-18 max_abs=1.295885549262e-15 max_level=44
+  B2  level41=1.936671111562e-18 max_abs=2.307725345297e-15 max_level=44
+  B3  level41=5.939387165079e-19 max_abs=1.920506584637e-15 max_level=44
+  B4  level41=1.459430931156e-18 max_abs=1.774874754698e-15 max_level=44
+  B5  level41=3.195429370325e-19 max_abs=1.369132327325e-15 max_level=44
+  B6  level41=1.840416713927e-19 max_abs=5.668445652922e-16 max_level=44
+
+S2O
+  Full A1 max_abs_delta = 9.629517746542e-13
+  B1  level41=5.957255875349e-18 max_abs=1.033290171629e-12 max_level=35
+  B2  level41=5.419615526345e-19 max_abs=4.411510855830e-13 max_level=35
+  B3  level41=-1.708727938783e-20 max_abs=3.821575670226e-13 max_level=35
+  B4  level41=2.186205887668e-20 max_abs=1.845184751569e-13 max_level=35
+  B5  level41=4.623170229592e-21 max_abs=3.637001035017e-13 max_level=35
+  B6  level41=3.773825748397e-20 max_abs=1.116917737452e-13 max_level=35
+
+S2Cl2
+  Full A1 max_abs_delta = 2.676929897818e-15
+  B1  level41=4.280634503661e-24 max_abs=6.944424915472e-15 max_level=0
+  B2  level41=2.415073333158e-24 max_abs=7.108900788826e-15 max_level=0
+  B3  level41=1.821014672369e-24 max_abs=9.234867539203e-15 max_level=0
+  B4  level41=0.000000000000e+00 max_abs=4.937707480325e-16 max_level=14
+  B5  level41=0.000000000000e+00 max_abs=6.927596699425e-15 max_level=0
+  B6  level41=1.626843936585e-24 max_abs=6.177499203992e-16 max_level=0
+
+SCl
+  Full A1 max_abs_delta = 4.392435634647e-16
+  B1  level41=2.637224816977e-19 max_abs=9.490781672891e-16 max_level=36
+  B2  level41=9.106924420501e-20 max_abs=9.656083042608e-16 max_level=36
+  B3  level41=5.452959112062e-20 max_abs=9.608234880048e-16 max_level=36
+  B4  level41=5.862123530253e-20 max_abs=4.411211709522e-16 max_level=36
+  B5  level41=8.957051153374e-20 max_abs=8.786911997899e-16 max_level=36
+  B6  level41=8.678958205366e-20 max_abs=2.168596740555e-16 max_level=36
+
+SCl2
+  Full A1 max_abs_delta = 1.052363964165e-13
+  B1  level41=3.387195281870e-21 max_abs=2.645448839132e-14 max_level=31
+  B2  level41=8.107879711649e-21 max_abs=5.539451428434e-14 max_level=32
+  B3  level41=6.652447203522e-21 max_abs=4.125792437792e-14 max_level=32
+  B4  level41=4.427881018482e-21 max_abs=1.833865506376e-14 max_level=30
+  B5  level41=4.570415719688e-21 max_abs=3.114144963343e-14 max_level=31
+  B6  level41=1.029758741449e-21 max_abs=1.253855855393e-14 max_level=30
+
+ClS2
+  Full A1 max_abs_delta = 5.455397206299e-11
+  B1  level41=1.029789839330e-25 max_abs=1.018098850460e-12 max_level=21
+  B2  level41=1.040780992474e-25 max_abs=2.966607237623e-12 max_level=31
+  B3  level41=1.962002535384e-25 max_abs=8.321686570072e-12 max_level=31
+  B4  level41=3.057612881689e-25 max_abs=1.379484980047e-11 max_level=31
+  B5  level41=4.788447803645e-25 max_abs=2.191879266468e-11 max_level=31
+  B6  level41=1.724720480822e-25 max_abs=5.393834807463e-12 max_level=31
+
+S4
+  Full A1 max_abs_delta = 1.054284535139e-13
+  B1  level41=-2.418039215207e-26 max_abs=2.364037057383e-13 max_level=36
+  B2  level41=-2.418039215207e-26 max_abs=2.397544222169e-13 max_level=36
+  B3  level41=-2.418039215207e-26 max_abs=2.385649766123e-13 max_level=36
+  B4  level41=-2.418039215207e-26 max_abs=1.092632320772e-13 max_level=36
+  B5  level41=2.109418689119e-27 max_abs=2.191810437695e-13 max_level=36
+  B6  level41=-2.418039215207e-26 max_abs=9.116654176476e-14 max_level=5
+
+===== TEMPERATURE CHECK =====
+A0 : Tco not stored
+A1 : Tco not stored
+B1 : Tco not stored
+B2 : Tco not stored
+B3 : Tco not stored
+B4 : Tco not stored
+B5 : Tco not stored
+B6 : Tco not stored
+
+===== INTERPRETATION GUARDRAILS =====
+1. B1-B6 are independent steady-state experiments.
+2. Their steady-state perturbations are not assumed additive.
+3. Common-level J ratios are used for direct cross-run comparison.
+4. Very small full DeltaJ values are not treated as robust attribution metrics.
+5. Stage 4A kernel fractions and B1-B6 steady-state responses are compared
+   as independent pieces of evidence, not as mathematically identical quantities.
+
+===== COMPLETE =====
+No source, configuration, or .vul output was modified.
