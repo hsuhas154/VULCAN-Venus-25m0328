@@ -7,7 +7,7 @@ alt_path = 'atm/alt_venus.txt'
 # ====== fix sp from the begining (do not related to condensation) =====
 #fix_sp_start = ['H2SO4', 'H2O', 'H2O_l_s', 'H2SO4_l', 'V', 'V2']
 # ====== cloud particle and UV absorber =======
-N_particle_path = 'atm/mode1+2_Experiment7B_shiftDown18_25m0328.txt'
+N_particle_path = 'atm/mode1+2_Experiment7A_shift18_25m0328.txt'
 UV_absorber_path = 'atm/UV_absorber.txt'
 
 # Dimensionless amplitude of the explicit Unknown UV Absorber optical depth.
@@ -34,7 +34,7 @@ vul_ini = 'output/Nominal_Bkzz_SO2.vul'
 output_dir = 'output/'
 plot_dir = 'plot/'
 movie_dir = 'plot/movie/'
-out_name =  'Experiment7B_UUV-downward18-25m0328.vul' # output file name: Nominal_Bkzz_SO2, A_Dkzz_SO2
+out_name =  'Experiment7A_UUV-upward18-25m0328.vul' # output file name: Nominal_Bkzz_SO2, A_Dkzz_SO2
 
 # ====== Setting up the elemental abundance ======
 use_solar = True # True: using the solar abundance from Table 10. K.Lodders 2009; False: using the customized elemental abundance. 
