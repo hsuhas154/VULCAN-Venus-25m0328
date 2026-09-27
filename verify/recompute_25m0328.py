@@ -375,6 +375,56 @@ put("twoby2.cls2_ratio",    _L2(d10)/_L2(d9))
 put("twoby2.nominal_fielddiff_pct", 100*_L2(d8c-d8a)/_L2(d8a))
 resv(E10,B8,"e10")
 
+
+# ---- Experiment 11 -----------------------------------------------------
+E11A = L("Experiment11A_SSCl2-25m0328.vul"); E11B = L("Experiment11B_ClSSCl-25m0328.vul")
+radiative(E11A, B8, "e11a"); radiative(E11B, B8, "e11b")
+for t,s_ in [("e11a",E11A),("e11b",E11B)]:
+    for k in ("longdy","longdydt","dt"): put(f"conv.{t}.{k}", s_["variable"][k])
+tau_above("atm/UV_absorber_Experiment11A_SSCl2_25m0328.txt","atm/mode1+2.txt","spec_11A",False)
+tau_above("atm/UV_absorber_Experiment11B_ClSSCl_25m0328.txt","atm/mode1+2.txt","spec_11B",False)
+_m620=(grid>=300)&(grid<=620)
+put("spec_emp.int620", float(np.sum(Qgrid("atm/UV_absorber.txt",True)[_m620]*2.0)))
+for t,f in [("11A","atm/UV_absorber_Experiment11A_SSCl2_25m0328.txt"),
+            ("11B","atm/UV_absorber_Experiment11B_ClSSCl_25m0328.txt")]:
+    q=Qgrid(f,False)
+    put(f"corr.{t}", np.corrcoef(qe,q)[0,1])
+    put(f"share320400.{t}", 100*np.sum(q[sh]*2.)/np.sum(q*2.))
+for t,c in [("e11a",E11A),("e11b",E11B)]:
+    for p in PAR:
+        r=jmax(c,B8,p,"dJ")
+        if r: put(f"dJ.{t}.{p}", r[0]); put(f"dJz.{t}.{p}", r[1])
+    resv(c,B8,t)
+
+# isomer opacity screen with the computed cross sections
+_col_s2cl2 = float(np.sum(np.asarray(A1["variable"]["y"])[:,
+    list(A1["variable"]["species"]).index("S2Cl2")][z>=58.0]*dzcm[z>=58.0]))
+put("iso.col_s2cl2", _col_s2cl2)
+_PUB={"SSCl2":(3.37e-17,264.0),"ClSSCl":(2.63e-17,240.0)}
+for tag,f in [("SSCl2","csec-sscl2.dat"),("ClSSCl","csec-clsscl.dat")]:
+    d_=np.loadtxt("Experiment11/data/"+f); o=np.argsort(d_[:,0])
+    lam,sig=d_[o,0],d_[o,1]; mm=(lam>=SCREEN_NM[0])&(lam<=SCREEN_NM[1])
+    gp,gl=sig.max(),lam[int(np.argmax(sig))]
+    bp,bl=sig[mm].max(),lam[mm][int(np.argmax(sig[mm]))]
+    put(f"iso.{tag}.global_sigma",gp); put(f"iso.{tag}.global_lam",gl)
+    put(f"iso.{tag}.band_sigma",bp);   put(f"iso.{tag}.band_lam",bl)
+    put(f"iso.{tag}.tau",bp*_col_s2cl2); put(f"iso.{tag}.short",TAU_REQ/(bp*_col_s2cl2))
+    put(f"iso.{tag}.short_global",TAU_REQ/(gp*_col_s2cl2))
+    put(f"iso.{tag}.ratio_global_band",gp/bp)
+    pv,pl=_PUB[tag]
+    put(f"iso.{tag}.val_pct",100*abs(gp-pv)/pv); put(f"iso.{tag}.val_nm",abs(gl-pl))
+
+# five-point compatibility relation
+_r=np.array([REG["e8b.L2pct"],REG["e11a.L2pct"],REG["e11b.L2pct"],
+             REG["e8a.L2pct"],REG["e8c.L2pct"]])
+_c=np.array([REG["corr.8B"],REG["corr.11A"],REG["corr.11B"],
+             REG["corr.8A"],REG["corr.8C"]])
+put("five.pearson", np.corrcoef(_r,_c)[0,1])
+_rr=np.argsort(np.argsort(_r)).astype(float); _cc=np.argsort(np.argsort(_c)).astype(float)
+put("five.spearman", np.corrcoef(_rr,_cc)[0,1])
+put("iso.improve_sscl2", REG["scr.S2Cl2.short"]/REG["iso.SSCl2.short"])
+put("iso.worsen_clsscl", REG["iso.ClSSCl.short"]/REG["scr.S2Cl2.short"])
+
 REG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registry.json")
 json.dump(REG, open(REG_PATH, "w"), indent=1)
 print(f"registry written to {REG_PATH}")
