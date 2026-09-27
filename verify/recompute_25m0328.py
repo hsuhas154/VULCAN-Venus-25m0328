@@ -26,7 +26,7 @@ dzcm = np.asarray(A1["atm"]["dz"]); dzkm = dzcm/1e5
 bins = np.asarray(A1["variable"]["bins"])
 quad = np.where(bins<240.,0.1,2.0)
 band = (z>=69)&(z<=93)
-AREA = 7.542964e-9
+AREA = np.pi*(0.98e-4)**2/4.0   # pi D^2 / 4 with D = D_1, as op.py forms it
 TAU_REQ = 1.094968472081
 REG={}
 
@@ -329,6 +329,51 @@ for tag,c in [("e7a",E7A),("e7b",E7B)]: resv(c,A1,tag)
 put("corr.emp",1.0)
 put("id.inv_l2_ratio", 100.0/REG["id.l2_ratio_pct"])
 put("e9.tau_spec_change_pct", 100*(REG["spec_8A.tau69"]-REG["spec_emp.tau69"])/REG["spec_emp.tau69"])
+
+
+# ---- Experiment 10 -----------------------------------------------------
+E10 = L("Experiment10_S3-on-ClS2profile-25m0328.vul")
+d10 = radiative(E10, B8, "e10")
+for k in ("longdy","longdydt","dt"): put(f"conv.e10.{k}", E10["variable"][k])
+
+tau_above("atm/UV_absorber.txt","atm/mode1+2_Experiment7A_shift18_25m0328.txt","spec_7A",True)
+tau_above("atm/UV_absorber.txt","atm/mode1+2_Experiment7B_shiftDown18_25m0328.txt","spec_7B",True)
+tau_above("atm/UV_absorber_Experiment8C_S3_25m0328.txt",
+          "atm/mode1+2_Experiment9_ClS2profile_25m0328.txt","spec_10",False)
+put("tau.7A_over_A1", REG["spec_7A.tau69"]/REG["spec_emp.tau69"])
+put("tau.9_minus_10", abs(REG["spec_9.tau69"]-REG["spec_10.tau69"]))
+
+_L2 = lambda x: float(np.sqrt(np.sum(x**2*quad[None,:])))
+_diff = d10 - d9
+put("e10.fielddiff_pct", 100*_L2(_diff)/_L2(d9))
+for nm,(lo,hi_) in [("inband",(69,93)),("c5968",(59,68)),("above93",(94,112)),("below59",(0,58))]:
+    mz=(z>=lo)&(z<=hi_)
+    put(f"e10.fd_{nm}", 100*_L2(np.where(mz[:,None],_diff,0))/_L2(np.where(mz[:,None],d9,0)))
+    put(f"e9.norm_{nm}", _L2(np.where(mz[:,None],d9,0)))
+
+PAR8=["S2O2","SCl2","ClS2","S3","S2Cl2","SCl","S2O","S4"]
+for p in PAR8:
+    r=jmax(E10,B8,p,"dJ")
+    if r: put(f"dJ.e10.{p}", r[0]); put(f"dJz.e10.{p}", r[1])
+def _ratio(tagA,tagB,name):
+    r=np.array([REG[f"dJ.{tagA}.{p}"]/REG[f"dJ.{tagB}.{p}"] for p in PAR8])
+    put(f"{name}.mean", r.mean()); put(f"{name}.spread", r.max()-r.min())
+    put(f"{name}.sd", r.std()); return r
+_ratio("e10","e7b","chr8_10_7b"); _ratio("e9","e7b","chr8_9_7b")
+_ratio("e10","e9","chr8_10_9");  _ratio("e7a","e7b","chr8_7a_7b")
+_i81=int(np.argmin(np.abs(z-81))); _bw=(bins>=300)&(bins<=620)
+_d7b=np.asarray(E7B["variable"]["aflux"])-np.asarray(A1["variable"]["aflux"])
+put("chr8.flux_ratio_10_7b", float(np.sum(d10[_i81]*quad*_bw)/np.sum(_d7b[_i81]*quad*_bw)))
+put("chr8.flux_ratio_9_7b",  float(np.sum(d9[_i81]*quad*_bw)/np.sum(_d7b[_i81]*quad*_bw)))
+put("chr8.agree_10_7b", abs(REG["chr8_10_7b.mean"]-REG["chr8.flux_ratio_10_7b"]))
+put("chr8.agree_9_7b",  abs(REG["chr8_9_7b.mean"]-REG["chr8.flux_ratio_9_7b"]))
+
+d8a=np.asarray(E8A["variable"]["aflux"])-np.asarray(B8["variable"]["aflux"])
+d8c=np.asarray(E8C["variable"]["aflux"])-np.asarray(B8["variable"]["aflux"])
+put("twoby2.nominal_ratio", _L2(d8c)/_L2(d8a))
+put("twoby2.cls2_ratio",    _L2(d10)/_L2(d9))
+put("twoby2.nominal_fielddiff_pct", 100*_L2(d8c-d8a)/_L2(d8a))
+resv(E10,B8,"e10")
 
 REG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registry.json")
 json.dump(REG, open(REG_PATH, "w"), indent=1)
