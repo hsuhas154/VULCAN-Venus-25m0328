@@ -28,3 +28,4 @@ fastchem_vulcan/fastchem
 *.tmp
 *.swp
 *~
+verify/registry.json
