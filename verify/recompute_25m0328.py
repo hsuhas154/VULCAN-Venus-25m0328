@@ -425,6 +425,644 @@ put("five.spearman", np.corrcoef(_rr,_cc)[0,1])
 put("iso.improve_sscl2", REG["scr.S2Cl2.short"]/REG["iso.SSCl2.short"])
 put("iso.worsen_clsscl", REG["iso.ClSSCl.short"]/REG["scr.S2Cl2.short"])
 
+
+# ============================================================================
+# EXPERIMENTS 1 TO 6
+# Experiment 1's reference is the pre-UUV laptop baseline, identified by
+# reproducing all three published difference statistics exactly.
+# ============================================================================
+PRE = L("Nominal_Bkzz_SO2-25m0328-laptop-baseline.vul")
+A05 = L("Experiment3_A0p5_UUV-half-25m0328.vul")
+A2  = L("Experiment3_A2_UUV-double-25m0328.vul")
+B4  = {b: L(f"Experiment4B_B{i}_{r}-25m0328.vul")
+       for i, (b, r) in enumerate(
+           [("B1","300-320"),("B2","320-340"),("B3","340-360"),
+            ("B4","360-380"),("B5","380-420"),("B6","420-698")], start=1)}
+
+def _diffstats(a, b):
+    d = np.abs(np.asarray(a) - np.asarray(b))
+    ref = np.abs(np.asarray(b))
+    with np.errstate(divide="ignore", invalid="ignore"):
+        rel = np.where(ref > 0, d / ref, 0.0)
+    return float(d.max()), float(d.mean()), float(np.nanmean(rel))
+
+# ---- Experiment 1: the A=0 case against the pre-UUV model -------------------
+for key in ("ymix", "tau", "aflux"):
+    if key in A0["variable"] and key in PRE["variable"]:
+        mx, mn, mr = _diffstats(A0["variable"][key], PRE["variable"][key])
+        put(f"e1.{key}.maxabs", mx); put(f"e1.{key}.meanabs", mn)
+        put(f"e1.{key}.meanrel", mr)
+_ja = np.array([A0["variable"]["J_sp"][k] for k in sorted(A0["variable"]["J_sp"])])
+_jb = np.array([PRE["variable"]["J_sp"][k] for k in sorted(PRE["variable"]["J_sp"])])
+mx, mn, mr = _diffstats(_ja, _jb)
+put("e1.J_sp.maxabs", mx); put("e1.J_sp.meanabs", mn); put("e1.J_sp.meanrel", mr)
+
+# ---- Experiments 2 and 3: species response against the A=0 control ----------
+# Experiments 2 and 3 express relative change against the LARGER of the two
+# values, not against the reference. That convention is nowhere stated in those
+# documents; it was recovered by reproducing their published numbers, and it is
+# the only definition that matches every row of the Experiment 2 table.
+_sp = list(A0["variable"]["species"])
+_m0 = np.asarray(A0["variable"]["ymix"])
+SPECIES_1_6 = ("SO2", "SO3", "H2SO4", "H2SO4_l", "SO", "S2O2", "ClS2", "S2Cl2",
+               "S2O", "S3", "SCl2", "SCl", "S4")
+for tag, case in (("e2", A1), ("e3a", A05), ("e3b", A2)):
+    _mc = np.asarray(case["variable"]["ymix"])
+    for name in SPECIES_1_6:
+        if name not in _sp:
+            continue
+        i = _sp.index(name)
+        d = np.abs(_mc[:, i] - _m0[:, i])
+        put(f"{tag}.{name}.maxabs", d.max())
+        den = np.maximum(_m0[:, i], _mc[:, i])
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rel = np.where(den > 0, d / den, 0.0)
+        j = int(np.argmax(rel))
+        put(f"{tag}.{name}.maxrel", rel[j])
+        put(f"{tag}.{name}.level", j)
+        put(f"{tag}.{name}.ref_at_level", _m0[j, i])
+        put(f"{tag}.{name}.case_at_level", _mc[j, i])
+        put(f"{tag}.{name}.signed_at_level", _mc[j, i] - _m0[j, i])
+
+# ---- amplitude scaling, the four-point series ------------------------------
+_f0 = np.asarray(A0["variable"]["aflux"])
+for tag, case, amp in (("a05", A05, 0.5), ("a1", A1, 1.0), ("a2", A2, 2.0)):
+    d = np.asarray(case["variable"]["aflux"]) - _f0
+    put(f"amp.{tag}.L2", np.sqrt(np.sum(d ** 2 * quad[None, :])))
+    put(f"amp.{tag}.maxabs", np.abs(d).max())
+for a, b in (("a05", "a1"), ("a1", "a2"), ("a05", "a2")):
+    put(f"amp.ratio_{b}_over_{a}", REG[f"amp.{b}.L2"] / REG[f"amp.{a}.L2"])
+
+# ---- Experiment 4B: the six band runs --------------------------------------
+_BANDS = {"B1": (300, 320), "B2": (320, 340), "B3": (340, 360),
+          "B4": (360, 380), "B5": (380, 420), "B6": (420, 698)}
+for b, case in B4.items():
+    d = np.asarray(case["variable"]["aflux"]) - _f0
+    put(f"e4b.{b}.L2", np.sqrt(np.sum(d ** 2 * quad[None, :])))
+    put(f"e4b.{b}.maxabs", np.abs(d).max())
+    ij = np.unravel_index(np.argmax(np.abs(d)), d.shape)
+    put(f"e4b.{b}.peak_z", z[ij[0]]); put(f"e4b.{b}.peak_lam", bins[ij[1]])
+    u = np.loadtxt(f"atm/UV_absorber_Experiment4B_{b}_25m0328.txt", skiprows=1)
+    nz = u[u[:, 1] > 0]
+    put(f"e4b.{b}.support_lo", nz[0, 0]); put(f"e4b.{b}.support_hi", nz[-1, 0])
+    put(f"e4b.{b}.npoints", len(nz)); put(f"e4b.{b}.peakQ", nz[:, 1].max())
+_tot = sum(REG[f"e4b.{b}.L2"] for b in B4)
+for b in B4:
+    put(f"e4b.{b}.share", 100 * REG[f"e4b.{b}.L2"] / _tot)
+
+# ---------------------------------------------------------------------------
+# Solver convergence diagnostics. The Experiment 1, 2 and 3 documents quote the
+# run-termination state of each integration (longdy, longdydt, aflux_change and
+# the step statistics) as evidence that the runs converged. These are stored
+# scalars, not derived quantities: they are read straight out of each .vul.
+# ---------------------------------------------------------------------------
+LAP = L("Nominal_Bkzz_SO2-25m0328-laptop-baseline.vul")
+NBL = L("Nominal_Bkzz_SO2-25m0328-baseline.vul")
+NRF = L("Nominal_Bkzz_SO2-25m0328-reference.vul")
+RUNS_ALL = {
+    "e1.ref": LAP, "nom.base": NBL, "nom.ref": NRF,
+    "e1.A0": A0, "e2.A1": A1, "e3a.A05": A05, "e3b.A2": A2,
+    "e7a": E7A, "e7b": E7B, "e8.base": B8, "e8a": E8A, "e8b": E8B, "e8c": E8C,
+    "e9": E9,
+}
+for b, case in B4.items():
+    RUNS_ALL[f"e4b.{b}"] = case
+for tag, sol in RUNS_ALL.items():
+    for grp in ("variable", "parameter"):
+        for k, v in sol[grp].items():
+            if isinstance(v, (bool, str, dict)) or v is None:
+                continue
+            if np.isscalar(v) and np.isreal(v) and np.isfinite(float(v)):
+                put(f"{tag}.{grp[0]}.{k}", float(v))
+
+# ---------------------------------------------------------------------------
+# Whole-array comparisons for Experiments 2 and 3.
+#
+# Two conventions matter here and both are taken from the documents themselves.
+# (1) The mean is over EVERY element of the stored array, unweighted: no
+#     quadrature weight and no altitude weight. It is a diagnostic of the saved
+#     field, not a physical column integral.
+# (2) The relative difference divides by max(|ref|, |case|), which the
+#     Experiment 2 actinic-flux section prints explicitly as
+#     max|dF / max(|F0|,|F1|)|. The abundance tables in Experiments 2 and 3 use
+#     the same denominator, which is how that convention was recovered.
+# ---------------------------------------------------------------------------
+def array_pair(tag, field, ref, case):
+    a = np.asarray(ref["variable"][field]); b = np.asarray(case["variable"][field])
+    d = b - a
+    ad = np.abs(d)
+    put(f"{tag}.{field}.maxabs", ad.max())
+    put(f"{tag}.{field}.meanabs", ad.mean())
+    den = np.maximum(np.abs(a), np.abs(b))
+    with np.errstate(divide="ignore", invalid="ignore"):
+        rel = np.where(den > 0, ad / den, 0.0)
+    put(f"{tag}.{field}.maxrel", rel.max())
+    put(f"{tag}.{field}.meanrel", rel.mean())
+    put(f"{tag}.{field}.medianrel", np.median(rel))
+    ij = np.unravel_index(np.argmax(ad), ad.shape)
+    put(f"{tag}.{field}.arg_i", ij[0]); put(f"{tag}.{field}.arg_j", ij[1])
+    put(f"{tag}.{field}.ref_at_arg", a[ij]); put(f"{tag}.{field}.case_at_arg", b[ij])
+    put(f"{tag}.{field}.delta_at_arg", d[ij])
+
+def jsp_pair(tag, ref, case):
+    Ja, Jb = ref["variable"]["J_sp"], case["variable"]["J_sp"]
+    keys = sorted(set(Ja) & set(Jb), key=str)
+    put(f"{tag}.J.nbranch", len(keys))
+    put(f"{tag}.J.nvalues", sum(np.asarray(Ja[k]).size for k in keys))
+    allmax = 0.0; tot = 0.0; n = 0
+    for k in keys:
+        a = np.asarray(Ja[k]); b = np.asarray(Jb[k]); ad = np.abs(b - a)
+        allmax = max(allmax, ad.max()); tot += ad.sum(); n += ad.size
+        den = np.maximum(np.abs(a), np.abs(b))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rel = np.where(den > 0, ad / den, 0.0)
+        nm = f"{k[0]}_{k[1]}"
+        put(f"{tag}.J.{nm}.maxabs", ad.max())
+        put(f"{tag}.J.{nm}.maxrel", rel.max())
+        put(f"{tag}.J.{nm}.meanrel", rel.mean())
+    put(f"{tag}.J.maxabs", allmax); put(f"{tag}.J.meanabs", tot / n)
+    _rs = []
+    for k in keys:
+        a = np.asarray(Ja[k]); b = np.asarray(Jb[k])
+        den = np.maximum(np.abs(a), np.abs(b))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            _rs.append(np.where(den > 0, np.abs(b - a) / den, 0.0))
+    _rs = np.concatenate(_rs)
+    put(f"{tag}.J.meanrel", _rs.mean()); put(f"{tag}.J.maxrel", _rs.max())
+
+for tag, case in (("e2", A1), ("e3a", A05), ("e3b", A2)):
+    for field in ("tau", "aflux", "sflux"):
+        array_pair(tag, field, A0, case)
+    jsp_pair(tag, A0, case)
+
+# ---------------------------------------------------------------------------
+# Experiment 1 compares its control run against the laptop baseline. That file is
+# the reference identified by reproducing all three published diff statistics.
+# ---------------------------------------------------------------------------
+for field in ("tau", "aflux", "sflux"):
+    array_pair("e1", field, LAP, A0)
+jsp_pair("e1", LAP, A0)
+_spL = list(LAP["variable"]["species"]); _mL = np.asarray(LAP["variable"]["ymix"])
+_m0b = np.asarray(A0["variable"]["ymix"])
+_dm = np.abs(_m0b - _mL)
+put("e1.ymix.maxabs", _dm.max()); put("e1.ymix.meanabs", _dm.mean())
+_den = np.maximum(np.abs(_mL), np.abs(_m0b))
+with np.errstate(divide="ignore", invalid="ignore"):
+    _rel = np.where(_den > 0, _dm / _den, 0.0)
+put("e1.ymix.maxrel", _rel.max())
+put("e1.ymix.meanrel", _rel.mean())
+put("e1.ymix.medianrel", np.median(_rel))
+
+# ---------------------------------------------------------------------------
+# Conserved-element budgets. Experiment 3 tabulates the solver's own reported
+# total atom loss per element, a stored dict, not a recomputed quantity.
+# ---------------------------------------------------------------------------
+for tag, sol in RUNS_ALL.items():
+    for dn in ("atom_loss", "atom_sum", "atom_ini", "atom_conden"):
+        if dn in sol["variable"]:
+            for el, val in sol["variable"][dn].items():
+                put(f"{tag}.{dn}.{el}", float(np.asarray(val)))
+
+# ---------------------------------------------------------------------------
+# Linearity of the response in A. If the perturbation were exactly linear the
+# A=0.5 difference would be half the A=1 difference, so this ratio would be 1.
+# The median is taken over the elements where the A=1 difference is non-zero,
+# since the ratio is undefined where the denominator vanishes.
+# ---------------------------------------------------------------------------
+for field in ("tau", "aflux"):
+    f0 = np.asarray(A0["variable"][field])
+    fh = np.asarray(A05["variable"][field])
+    f1 = np.asarray(A1["variable"][field])
+    num = np.abs(fh - f0); den = 0.5 * np.abs(f1 - f0)
+    m = den > 0
+    put(f"e3.lin.{field}.median", np.median(num[m] / den[m]))
+    put(f"e3.lin.{field}.mean", np.mean(num[m] / den[m]))
+
+# The A=1 field sampled at the location where the A=0.5 difference peaks, which
+# is how Experiment 3 tabulates all three cases side by side at one location.
+for field in ("tau", "aflux"):
+    f0 = np.asarray(A0["variable"][field]); fh = np.asarray(A05["variable"][field])
+    f1 = np.asarray(A1["variable"][field]); f2 = np.asarray(A2["variable"][field])
+    ij = np.unravel_index(np.argmax(np.abs(fh - f0)), f0.shape)
+    put(f"e3a.{field}.arg_i", ij[0]); put(f"e3a.{field}.arg_j", ij[1])
+    put(f"e3a.{field}.at_arg.A0", f0[ij]); put(f"e3a.{field}.at_arg.A05", fh[ij])
+    put(f"e3a.{field}.at_arg.A1", f1[ij]); put(f"e3a.{field}.at_arg.A2", f2[ij])
+
+# ---------------------------------------------------------------------------
+# Linearity of the response in A, restricted to where the absorber acts.
+#
+# The absorber carries opacity only on 300 to 698 nm. Outside that range the
+# A=0.5 and A=1 fields differ from the control only by solver round-off: the
+# median |difference| there is 5e-7 of the field itself, against 1e-3 inside.
+# A ratio of two round-off differences carries no information, and the out-of-band
+# elements are 83790 of the 95190 in the optical-depth array, so any statistic
+# taken over the whole array is dominated by noise. The ratio is therefore
+# reported over the absorber's own wavelength range, where both differences are
+# real signal. Under that definition the response is linear in A.
+# ---------------------------------------------------------------------------
+_inb = (bins >= 300.0) & (bins <= 698.0)
+for field in ("tau", "aflux"):
+    f0 = np.asarray(A0["variable"][field]); fh = np.asarray(A05["variable"][field])
+    f1 = np.asarray(A1["variable"][field])
+    num = np.abs(fh - f0); den = 0.5 * np.abs(f1 - f0)
+    for nm, w in (("inband", _inb), ("outband", ~_inb), ("all", np.ones_like(_inb))):
+        m = (den > 0) & w[None, :]
+        r = num[m] / den[m]
+        put(f"e3.lin.{field}.{nm}.median", np.median(r))
+        put(f"e3.lin.{field}.{nm}.n", int(m.sum()))
+        sc = np.abs(f0)[m]
+        put(f"e3.lin.{field}.{nm}.median_relsize",
+            np.median(np.where(sc > 0, num[m] / np.maximum(sc, 1e-300), 0.0)))
+
+# ---------------------------------------------------------------------------
+# Experiment 5: exact tendency decomposition.
+#
+# The generated chem_funs.py builds each species' chemical tendency as a sum of
+# signed reaction terms. This block parses those terms out of the generated
+# source, evaluates each at a saved state, and checks they sum to the matching
+# column of the full chemdf() result. Summing in source order reproduces the
+# model's own arithmetic exactly, so the reconstruction error is identically
+# zero rather than the 1e-7 round-off an out-of-order summation leaves.
+#
+# Terms sharing a reaction id are added together before ranking: a reaction that
+# appears twice in one equation contributes once to that species' tendency.
+# ---------------------------------------------------------------------------
+sys.path.insert(0, ".")
+import re as _re
+from collections import defaultdict as _dd
+import chem_funs as _cf
+
+_SRC = open("chem_funs.py").read()
+_BODY = _re.search(r"def chemdf\(y, M, k\):.*?\n(?=def )", _SRC, _re.S).group(0)
+
+def _terms(sp_index):
+    line = _re.search(rf"^\s*dydt\[{sp_index}\]\s*=(.*)$", _BODY, _re.M).group(1)
+    return [(1 if m.group(1) == "+" else -1, int(m.group(3)), m.group(2), m.group(4))
+            for m in _re.finditer(r"([+-])1\*(v_(\d+))\(([^()]*)\)", line)]
+
+def _contrib(sol, sp_name):
+    var, atm = sol["variable"], sol["atm"]
+    i = list(var["species"]).index(sp_name)
+    yT = np.transpose(np.asarray(var["y"]))
+    M = np.asarray(atm["M"]); k = var["k"]
+    rows, ids = [], []
+    for sign, rid, fname, args in _terms(i):
+        vals = eval(f"[{args}]", {"k": k, "M": M, "y": yT, "np": np})
+        rows.append(sign * np.asarray(getattr(_cf, fname)(*vals), dtype=float))
+        ids.append(rid)
+    return np.array(rows), ids, i
+
+def _chemdf(sol):
+    return np.asarray(_cf.chemdf(np.asarray(sol["variable"]["y"]),
+                                 np.asarray(sol["atm"]["M"]), sol["variable"]["k"]))
+
+E5_SPECIES = ("SO2", "SO", "SO3", "H2SO4", "H2SO4_l")
+for sp in E5_SPECIES:
+    agg = {}
+    for nm, sol in (("A0", A0), ("A1", A1)):
+        rows, ids, i = _contrib(sol, sp)
+        recon = rows.sum(axis=0)
+        put(f"e5.{sp}.{nm}.extraction_error", np.abs(recon - _chemdf(sol)[:, i]).max())
+        put(f"e5.{sp}.nterms", len(ids)); put(f"e5.{sp}.nunique", len(set(ids)))
+        a = _dd(lambda: np.zeros(rows.shape[1]))
+        for rid, row in zip(ids, rows):
+            a[rid] = a[rid] + row
+        agg[nm] = a
+    for rid in agg["A0"]:
+        d = np.abs(agg["A1"][rid] - agg["A0"][rid])
+        j = int(np.argmax(d))
+        put(f"e5.{sp}.R{rid}.maxdelta", d[j])
+        put(f"e5.{sp}.R{rid}.level", j)
+        put(f"e5.{sp}.R{rid}.bg_A0", agg["A0"][rid][j])
+        put(f"e5.{sp}.R{rid}.bg_A1", agg["A1"][rid][j])
+        put(f"e5.{sp}.R{rid}.signed_delta", agg["A1"][rid][j] - agg["A0"][rid][j])
+        if agg["A0"][rid][j] != 0:
+            put(f"e5.{sp}.R{rid}.frac_pct", 100 * d[j] / abs(agg["A0"][rid][j]))
+
+# ---------------------------------------------------------------------------
+# Experiment 6: where in altitude the response sits.
+#
+# The vertical weight is the quadrature-weighted absolute actinic-flux change
+# summed over ALL wavelength bins, not only the band the run perturbed. That is
+# the definition that reproduces the published per-band mean altitudes, and it is
+# the physically sensible one: a band-limited opacity change alters the radiation
+# field outside its own window too, and that response belongs in the total.
+# ---------------------------------------------------------------------------
+def vweight(case, ref=A0):
+    d = np.abs(np.asarray(case["variable"]["aflux"]) - np.asarray(ref["variable"]["aflux"]))
+    return np.maximum((d * quad[None, :]).sum(axis=1), 0.0)
+
+def wquantiles(w, zz=z):
+    tot = w.sum(); c = np.cumsum(w) / tot
+    return [float(zz[np.searchsorted(c, p)]) for p in (0.25, 0.50, 0.75)]
+
+def narrowest(w, zz, frac):
+    """Narrowest contiguous altitude interval holding at least frac of the signal."""
+    tot = w.sum(); n = len(w); best = None
+    for i in range(n):
+        acc = 0.0
+        for j in range(i, n):
+            acc += w[j]
+            if acc >= frac * tot:
+                width = zz[j] - zz[i]
+                if best is None or width < best[0]:
+                    best = (width, zz[i], zz[j], 100.0 * acc / tot)
+                break
+    return best
+
+for b, case in B4.items():
+    w = vweight(case)
+    put(f"e6.{b}.meanz", np.sum(z * w) / w.sum())
+    q = wquantiles(w)
+    for nm, v in zip(("q25", "q50", "q75"), q):
+        put(f"e6.{b}.{nm}", v)
+
+_wtot = vweight(A1)
+put("e6.A1.meanz", np.sum(z * _wtot) / _wtot.sum())
+for nm, v in zip(("q25", "q50", "q75"), wquantiles(_wtot)):
+    put(f"e6.A1.{nm}", v)
+for frac in (0.50, 0.68, 0.80, 0.90, 0.95, 0.99):
+    r = narrowest(_wtot, z, frac)
+    if r:
+        put(f"e6.interval.{int(frac*100)}.width", r[0])
+        put(f"e6.interval.{int(frac*100)}.lo", r[1])
+        put(f"e6.interval.{int(frac*100)}.hi", r[2])
+        put(f"e6.interval.{int(frac*100)}.contained", r[3])
+
+# Containment of each reaction's response inside the response band.
+#
+# The quantity is the reaction's signed contribution to a species tendency, and
+# the containment is the share of the total absolute change that falls in
+# 69 to 93 km. It is species-independent: a reaction enters two equations with
+# opposite signs but the same magnitude, so reading R781 out of the SO2 equation
+# and out of the SO equation gives the same 99.1283 per cent. That is why this is
+# reported per reaction rather than per species.
+_aggs = {}
+for sp in E5_SPECIES:
+    for nm, sol in (("A0", A0), ("A1", A1)):
+        rows, ids, _ = _contrib(sol, sp)
+        a = _dd(lambda: np.zeros(rows.shape[1]))
+        for rid, row in zip(ids, rows):
+            a[rid] = a[rid] + row
+        _aggs[(sp, nm)] = a
+for sp in E5_SPECIES:
+    a0, a1 = _aggs[(sp, "A0")], _aggs[(sp, "A1")]
+    for rid in a0:
+        dd = np.abs(a1[rid] - a0[rid])
+        if dd.sum() <= 0:
+            continue
+        # Experiment 6 partitions the column into three regions and reports the
+        # share of each reaction's response in each: below the cloud base, the
+        # intermediate layer, and the response band itself.
+        for _bn, _bm in (("below59", z <= 59.0), ("b59_68", (z >= 59.0) & (z <= 68.0)),
+                         ("band69_93", band)):
+            put(f"e6.R{rid}.pct_{_bn}", 100.0 * dd[_bm].sum() / dd.sum())
+        put(f"e6.R{rid}.pct_in_band", 100.0 * dd[band].sum() / dd.sum())
+        put(f"e6.R{rid}.peak_z", z[int(np.argmax(dd))])
+        put(f"e6.R{rid}.peak_val", dd.max())
+
+# The photolysis rate coefficients themselves, for the Experiment 6 J tables.
+_Ja, _Jb = A0["variable"]["J_sp"], A1["variable"]["J_sp"]
+for kk in sorted(set(_Ja) & set(_Jb), key=str):
+    dd = np.abs(np.asarray(_Jb[kk]) - np.asarray(_Ja[kk]))
+    if dd.sum() <= 0:
+        continue
+    nm = f"{kk[0]}_{kk[1]}"
+    put(f"e6.J.{nm}.pct_in_band", 100.0 * dd[band].sum() / dd.sum())
+    put(f"e6.J.{nm}.peak_z", z[int(np.argmax(dd))])
+
+# ---------------------------------------------------------------------------
+# Experiment 4, Stage 4A: the exact spectral kernel.
+#
+# VULCAN integrates each photolysis branch with a trapezoidal rule that uses two
+# bin widths, 0.1 nm below the transition bin and 2 nm above it, and subtracts
+# half of each segment's two endpoint values. Reproducing that rule exactly gives
+# back the stored J_sp with an error of identically zero, which is what makes the
+# band decomposition below the model's own arithmetic rather than a separate
+# numerical scheme.
+#
+# Two conventions to keep straight:
+#  - A band integral applies the same endpoint half-weighting at the band edges.
+#    Omitting it inflates every band by a few per cent.
+#  - The fractions divide by the STORED full-spectrum change, not by the sum of
+#    the band contributions, so a branch's fractions need not total exactly 100.
+# ---------------------------------------------------------------------------
+IDX = int(np.searchsorted(bins, 240.0))          # 1440; bins[1440] is 240.0 nm
+DB1 = float(A1["variable"]["dbin1"]); DB2 = float(A1["variable"]["dbin2"])
+WQ = np.where(bins < 240.0, DB1, DB2)
+E4A_BANDS = [(300, 320), (320, 340), (340, 360), (360, 380), (380, 420), (420, 620)]
+LEVEL_4A = 41
+
+def vulcan_J(flux, sigma):
+    """VULCAN's own photolysis quadrature, reproduced exactly."""
+    r = np.sum(flux[:, :IDX] * sigma[None, :IDX] * DB1, axis=1)
+    r -= 0.5 * (flux[:, 0] * sigma[0] + flux[:, IDX - 1] * sigma[IDX - 1]) * DB1
+    r += np.sum(flux[:, IDX:] * sigma[None, IDX:] * DB2, axis=1)
+    r -= 0.5 * (flux[:, IDX] * sigma[IDX] + flux[:, -1] * sigma[-1]) * DB2
+    return r
+
+def band_integral(row, sigma, lo, hi):
+    m = np.where((bins >= lo) & (bins <= hi))[0]
+    r = np.sum(row[m] * sigma[m] * WQ[m])
+    r -= 0.5 * (row[m[0]] * sigma[m[0]] + row[m[-1]] * sigma[m[-1]]) * WQ[m[0]]
+    return r
+
+_cJ = A1["variable"]["cross_J"]
+_J0, _J1 = A0["variable"]["J_sp"], A1["variable"]["J_sp"]
+_dF = np.asarray(A1["variable"]["aflux"]) - np.asarray(A0["variable"]["aflux"])
+
+for kk in sorted(_cJ, key=str):
+    if kk not in _J1:
+        continue
+    sig = np.asarray(_cJ[kk]); nm = f"{kk[0]}_{kk[1]}"
+    # the reconstruction check, on both states
+    for tg, sol in (("A0", A0), ("A1", A1)):
+        err = np.abs(vulcan_J(np.asarray(sol["variable"]["aflux"]), sig)
+                     - np.asarray(sol["variable"]["J_sp"][kk]))
+        put(f"e4a.{nm}.{tg}.recon_maxerr", err.max())
+        put(f"e4a.{nm}.{tg}.recon_meanerr", err.mean())
+    den = _J1[kk][LEVEL_4A] - _J0[kk][LEVEL_4A]
+    raw = np.array([band_integral(_dF[LEVEL_4A], sig, lo, hi) for lo, hi in E4A_BANDS])
+    for (lo, hi), rv in zip(E4A_BANDS, raw):
+        put(f"e4a.{nm}.{lo}_{hi}.dJ", rv)
+        if den != 0:
+            put(f"e4a.{nm}.{lo}_{hi}.pct", 100.0 * rv / den)
+
+# Combined L2 of all explicit branch-rate changes, per Stage 4A band.
+for lo, hi in E4A_BANDS:
+    tot = 0.0
+    for kk in _cJ:
+        if kk not in _J1 or kk[1] == 0:
+            continue
+        sig = np.asarray(_cJ[kk])
+        col = np.array([band_integral(_dF[i], sig, lo, hi) for i in range(_dF.shape[0])])
+        tot += np.sum(col ** 2)
+    put(f"e4a.L2.{lo}_{hi}", np.sqrt(tot))
+
+# ---------------------------------------------------------------------------
+# Experiment 4, Stage 4B: isolated-window response ratios.
+#
+# Each of the six windows is its own steady-state run, so the ratio compares that
+# run's stored photolysis rate against the control, over the full-spectrum change:
+#     R_B = (J_B - J_A0) / (J_A1 - J_A0)   at level 41.
+# These are cross-run comparisons, not a decomposition, so they need not sum to
+# 100 per cent, and Stage 4A's fractions and these ratios are independent evidence.
+# ---------------------------------------------------------------------------
+for b, case in B4.items():
+    Jb = case["variable"]["J_sp"]
+    for kk in sorted(set(Jb) & set(_J1), key=str):
+        den = _J1[kk][LEVEL_4A] - _J0[kk][LEVEL_4A]
+        if den == 0:
+            continue
+        num = Jb[kk][LEVEL_4A] - _J0[kk][LEVEL_4A]
+        nm = f"{kk[0]}_{kk[1]}"
+        put(f"e4b.{b}.{nm}.ratio_pct", 100.0 * num / den)
+        put(f"e4b.{b}.{nm}.dJ", num)
+
+# Steady-state sulfur response of each isolated window against the control.
+_sp0 = list(A0["variable"]["species"]); _ym0 = np.asarray(A0["variable"]["ymix"])
+for b, case in B4.items():
+    _ymb = np.asarray(case["variable"]["ymix"])
+    for name in SPECIES_1_6:
+        if name not in _sp0:
+            continue
+        i = _sp0.index(name)
+        d = np.abs(_ymb[:, i] - _ym0[:, i])
+        put(f"e4b.{b}.{name}.maxabs", d.max())
+        put(f"e4b.{b}.{name}.level", int(np.argmax(d)))
+        den = np.maximum(_ym0[:, i], _ymb[:, i])
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rel = np.where(den > 0, d / den, 0.0)
+        put(f"e4b.{b}.{name}.maxrel", rel.max())
+
+# ---------------------------------------------------------------------------
+# Experiment 3, four-point amplitude sensitivity (A = 0, 0.5, 1, 2).
+#
+# Linearity is tested on the L2 norm of the response field, not element by
+# element: the norm is carried by the elements where the absorber actually acts,
+# so it measures the physical response rather than round-off. The residual is the
+# norm of the departure from exact proportionality, ||dF(A) - A dF(1)|| / ||A dF(1)||,
+# which is why it is larger than |1 - ratio|.
+# ---------------------------------------------------------------------------
+CLOUD_BASE_LEVEL = int(np.argmin(np.abs(z - 59.0)))   # level 30, z = 59.0 km
+put("e3fp.cloud_base_level", CLOUD_BASE_LEVEL)
+put("e3fp.cloud_base_z", z[CLOUD_BASE_LEVEL])
+_AF = {a: np.asarray(s_["variable"]["aflux"]) - np.asarray(A0["variable"]["aflux"])
+       for a, s_ in ((0.5, A05), (1.0, A1), (2.0, A2))}
+_TAUF = {a: np.asarray(s_["variable"]["tau"]) - np.asarray(A0["variable"]["tau"])
+         for a, s_ in ((0.5, A05), (1.0, A1), (2.0, A2))}
+def _l2(x, w=None):
+    return np.sqrt(np.sum(x ** 2 if w is None else x ** 2 * w))
+for fld, DD in (("aflux", _AF), ("tau", _TAUF)):
+    put(f"e3fp.{fld}.norm.A1", _l2(DD[1.0]))
+    for a in (0.5, 2.0):
+        tagA = str(a).replace(".", "p")
+        put(f"e3fp.{fld}.norm.A{tagA}", _l2(DD[a]))
+        put(f"e3fp.{fld}.ratio.A{tagA}", _l2(DD[a]) / (a * _l2(DD[1.0])))
+        put(f"e3fp.{fld}.resid.A{tagA}", _l2(DD[a] - a * DD[1.0]) / _l2(a * DD[1.0]))
+        put(f"e3fp.{fld}.resid_pct.A{tagA}",
+            100.0 * _l2(DD[a] - a * DD[1.0]) / _l2(a * DD[1.0]))
+
+# Four-point chemical amplitude response, per species, against the control.
+for tag, case in (("A0p5", A05), ("A1", A1), ("A2", A2)):
+    _ymc = np.asarray(case["variable"]["ymix"])
+    for name in SPECIES_1_6:
+        if name not in _sp:
+            continue
+        i = _sp.index(name)
+        d = np.abs(_ymc[:, i] - _m0[:, i])
+        j = int(np.argmax(d))
+        put(f"e3fp.{tag}.{name}.maxabs", d.max())
+        put(f"e3fp.{tag}.{name}.level", j)
+        den = np.maximum(_m0[:, i], _ymc[:, i])
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rel = np.where(den > 0, d / den, 0.0)
+        k = int(np.argmax(rel))
+        put(f"e3fp.{tag}.{name}.maxrel", rel[k])
+        put(f"e3fp.{tag}.{name}.maxrel_pct", 100.0 * rel[k])
+        put(f"e3fp.{tag}.{name}.maxrel_level", k)
+        put(f"e3fp.{tag}.{name}.ref_at", _m0[k, i])
+        put(f"e3fp.{tag}.{name}.case_at", _ymc[k, i])
+        put(f"e3fp.{tag}.{name}.signed_at", _ymc[k, i] - _m0[k, i])
+# amplitude ratios of the per-species response
+for name in SPECIES_1_6:
+    if name not in _sp:
+        continue
+    b = REG.get(f"e3fp.A1.{name}.maxabs")
+    if not b:
+        continue
+    for tag, a in (("A0p5", 0.5), ("A2", 2.0)):
+        v = REG.get(f"e3fp.{tag}.{name}.maxabs")
+        if v:
+            put(f"e3fp.{tag}.{name}.amp_ratio", v / (a * b))
+
+# ---------------------------------------------------------------------------
+# Bounded relative change of the stored fields, per amplitude.
+#
+# "Bounded" means the denominator is max(|ref|, |case|), so the ratio can never
+# exceed 1. The mean is taken over the elements where that denominator is
+# non-zero: an element where both states are exactly zero has no relative change
+# to average in, and including it as a zero would dilute the mean by an arbitrary
+# amount depending on how much of the grid is dark. This definition reproduces
+# the optical-depth table exactly.
+# ---------------------------------------------------------------------------
+for tag, case in (("A0p5", A05), ("A1", A1), ("A2", A2)):
+    for fld in ("tau", "aflux", "sflux"):
+        a = np.asarray(A0["variable"][fld]); b = np.asarray(case["variable"][fld])
+        ad = np.abs(b - a); den = np.maximum(np.abs(a), np.abs(b))
+        m = den > 0
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rel = np.where(m, ad / den, 0.0)
+        put(f"e3fp.bnd.{tag}.{fld}.max", rel[m].max())
+        put(f"e3fp.bnd.{tag}.{fld}.max_pct", 100.0 * rel[m].max())
+        put(f"e3fp.bnd.{tag}.{fld}.mean", rel[m].mean())
+        put(f"e3fp.bnd.{tag}.{fld}.mean_pct", 100.0 * rel[m].mean())
+        put(f"e3fp.bnd.{tag}.{fld}.n", int(m.sum()))
+        _mr = m[CLOUD_BASE_LEVEL] if rel.ndim == 2 else None
+        if rel.ndim == 2 and m[CLOUD_BASE_LEVEL].any():
+            _r = rel[CLOUD_BASE_LEVEL][m[CLOUD_BASE_LEVEL]]
+            put(f"e3fp.bnd.{tag}.{fld}.cb_max_pct", 100.0 * _r.max())
+            put(f"e3fp.bnd.{tag}.{fld}.cb_mean_pct", 100.0 * _r.mean())
+
+# Same bounded measure per photolysis branch, which is how the branch table ranks.
+for tag, case in (("A0p5", A05), ("A1", A1), ("A2", A2)):
+    Jc = case["variable"]["J_sp"]
+    for kk in sorted(set(_J0) & set(Jc), key=str):
+        a = np.asarray(_J0[kk]); b = np.asarray(Jc[kk])
+        ad = np.abs(b - a); den = np.maximum(np.abs(a), np.abs(b))
+        m = den > 0
+        if not m.any():
+            continue
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rel = np.where(m, ad / den, 0.0)
+        nm = f"{kk[0]}_{kk[1]}"
+        put(f"e3fp.bnd.{tag}.J.{nm}.max_pct", 100.0 * rel[m].max())
+        put(f"e3fp.bnd.{tag}.J.{nm}.mean_pct", 100.0 * rel[m].mean())
+        put(f"e3fp.bnd.{tag}.J.{nm}.argmax_level", int(np.argmax(rel)))
+        # The four-point branch tables report the response at the cloud base,
+        # level 30 = 59.0 km, which is the same boundary Experiment 6 partitions
+        # on. They are captioned as maxima over altitude, but every published
+        # value is the level-30 value; the true maximum sits at 53 to 55 km,
+        # inside the lower cloud, and is roughly half again as large.
+        put(f"e3fp.bnd.{tag}.J.{nm}.at_cloudbase_pct", 100.0 * rel[CLOUD_BASE_LEVEL])
+
+# L2 amplitude test on the sulfur reservoirs themselves. Unlike the radiative
+# response, these ratios sit far from 1, so the chemical response to amplitude is
+# not proportional even though the flux response is.
+for name in SPECIES_1_6:
+    if name not in _sp:
+        continue
+    i = _sp.index(name)
+    d1 = np.asarray(A1["variable"]["ymix"])[:, i] - _m0[:, i]
+    n1 = np.sqrt(np.sum(d1 ** 2))
+    if n1 == 0:
+        continue
+    for tag, a, case in (("A0p5", 0.5, A05), ("A2", 2.0, A2)):
+        da = np.asarray(case["variable"]["ymix"])[:, i] - _m0[:, i]
+        put(f"e3fp.L2.{tag}.{name}.ratio", np.sqrt(np.sum(da ** 2)) / (a * n1))
+        put(f"e3fp.L2.{tag}.{name}.norm", np.sqrt(np.sum(da ** 2)))
+    put(f"e3fp.L2.A1.{name}.norm", n1)
+
 REG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registry.json")
 json.dump(REG, open(REG_PATH, "w"), indent=1)
 print(f"registry written to {REG_PATH}")

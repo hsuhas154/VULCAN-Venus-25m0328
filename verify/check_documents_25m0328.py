@@ -24,7 +24,11 @@ def match(v,s):
         if abs(av-aw) <= 0.5*ulp*1.001: out.append(k)
     return out
 
-SCI=re.compile(r'([+-]?\d+\.?\d*)\s*\\times\s*10\^\{(-?\d+)\}')
+# The exponent may or may not be braced: both \times10^5 and \times10^{-5} occur
+# across these documents, and an unbraced exponent previously fell through to the
+# plain-decimal rule, which then compared the bare mantissa and reported a false
+# mismatch. \cdot is also used in a few places.
+SCI=re.compile(r'([+-]?\d+\.?\d*)\s*(?:\\times|\\cdot)\s*10\^\{?(-?\d+)\}?')
 PCT=re.compile(r'([+-]?\d+\.\d{2,})\s*\\%')
 DEC=re.compile(r'(?<![\d.])(\d+\.\d{3,})(?!\d)')
 
@@ -33,21 +37,25 @@ def scan(path):
     # LaTeX lengths and font sizes are typography, not data
     s=re.sub(r'\{[\d.]+\\(?:text|line|column|page)width\}', ' ', s)
     s=re.sub(r'\\(?:setlength|hspace|vspace|tabcolsep|emergencystretch)[^\n]*', ' ', s); out=[]
-    def eat(rx,conv):
+    def eat(rx,conv,pct=False):
         nonlocal s
-        for m in list(rx.finditer(s)): out.append((conv(m),m.group(1),m.group(0)))
+        for m in list(rx.finditer(s)):
+            out.append((conv(m),m.group(1),m.group(0),pct))
         s=rx.sub(lambda m:' '*len(m.group(0)),s)
     eat(SCI, lambda m: float(m.group(1))*10**int(m.group(2)))
-    eat(PCT, lambda m: float(m.group(1)))
+    # A percent sign is a unit: the literal is 100x the underlying fraction, and
+    # the registry stores fractions. Accept either reading.
+    eat(PCT, lambda m: float(m.group(1)), pct=True)
     eat(DEC, lambda m: float(m.group(1)))
     return out
 
 tot=0; allbad=[]
 for f in sys.argv[1:]:
     hits=scan(f); bad=[]
-    for v,lit,raw in hits:
+    for v,lit,raw,pct in hits:
         if v==0: continue          # a printed zero has nothing to verify against
-        if not match(v, sig_of(lit)): bad.append(raw.strip())
+        ok = match(v, sig_of(lit)) or (pct and match(v/100.0, sig_of(lit)))
+        if not ok: bad.append(raw.strip())
     tot+=len(hits); u=sorted(set(bad))
     allbad+=[(os.path.basename(f),b) for b in u]
     print(f"{os.path.basename(f):28s} {len(hits):4d} literals  {len(bad):3d} unmatched ({len(u)} distinct)")
