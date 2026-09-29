@@ -60,6 +60,7 @@ Run from the repository root:
 
 import os
 import sys
+import json
 import pickle
 import numpy as np
 from scipy import interpolate
@@ -236,6 +237,50 @@ def main():
     print(f"Best at {RANK_NM} nm from the column aloft: {best['name']}, short by "
           f"{tau_req[RANK_NM]/best['probe'][RANK_NM]:.4g}")
     print("=" * W)
+
+    # Emit the screen's own results for the verification registry. The arithmetic
+    # lives here and only here: recompute_25m0328.py reads this file rather than
+    # reimplementing the screen, so the two cannot drift apart.
+    out = {
+        "column_aloft": col_uv,
+        "tau_required_whole_column": TAU_REQUIRED,
+        "n_screened": len(rows),
+        "n_tracked": len(species),
+        "n_nosupport": len(nosupport),
+        "n_nocross": len(nocross),
+        "n_cov480": len(full),
+        "n_cov400": len(part),
+        "n_gap": len(gap),
+        "rank_nm": RANK_NM,
+        "q_at_probe": {str(l): float(q(l)) for l in PROBE_NM},
+        "tau_required_aloft": {str(l): float(tau_req[l]) for l in PROBE_NM},
+        "best_name": best["name"],
+        "best_shortfall": tau_req[RANK_NM] / best["probe"][RANK_NM],
+        "species": {},
+    }
+    if len(ranked_full) > 1:
+        a, b = ranked_full[0], ranked_full[1]
+        out["best_full_name"] = a["name"]
+        out["best_full_shortfall"] = tau_req[RANK_NM] / a["probe"][RANK_NM]
+        out["second_full_name"] = b["name"]
+        out["second_full_shortfall"] = tau_req[RANK_NM] / b["probe"][RANK_NM]
+        out["full_separation"] = a["probe"][RANK_NM] / b["probe"][RANK_NM]
+    for r in rows:
+        out["species"][r["name"]] = {
+            "col58": r["c58"], "col69": r["c69"], "centroid": r["centroid"],
+            "frac_in_band_pct": r["f_band"], "peak_lam": float(r["lam"]),
+            "peak_sigma": float(r["sigma"]), "tau58": r["tau58"], "tau69": r["tau69"],
+            "shortfall58": TAU_REQUIRED / r["tau58"] if r["tau58"] > 0 else None,
+            "corr": r["corr"], "share_320_400_pct": r["share"],
+            "support_lo": r["sup_lo"], "support_hi": r["sup_hi"],
+            "coverage": "full" if r["cov480"] else ("400" if r["cov400"] else "gap"),
+            "shortfall_at": {str(l): (tau_req[l] / r["probe"][l]) if r["probe"][l] > 0 else None
+                             for l in PROBE_NM},
+        }
+    dest = os.path.join("Experiment12", "screen_results_25m0328.json")
+    with open(dest, "w") as fh:
+        json.dump(out, fh, indent=1, sort_keys=True)
+    print(f"\nscreen results written to {dest}")
 
 
 if __name__ == "__main__":

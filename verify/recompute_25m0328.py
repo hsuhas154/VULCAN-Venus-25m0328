@@ -1239,6 +1239,43 @@ put("e13.fecl3.eps_per_gpl", 1.0)
 put("e13.fecl3.loading_kg_per_L", A_REQ_DECADIC / (1.0 / 0.001))
 put("e13.fecl3.published_loading", 1.3)
 
+# ---------------------------------------------------------------------------
+# Experiment 12: the three-axis admissibility screen.
+#
+# The screen's arithmetic is not reimplemented here. The screen writes its own
+# results to Experiment12/screen_results_25m0328.json and this block folds that
+# file into the registry. One implementation, so the two cannot drift apart, which
+# is the failure mode that produced most of the defects this harness has found.
+#
+# If the JSON is absent, run:
+#     python Experiment12/three_axis_screen_25m0328.py
+# ---------------------------------------------------------------------------
+_E12 = os.path.join("Experiment12", "screen_results_25m0328.json")
+if os.path.exists(_E12):
+    with open(_E12) as _fh:
+        _sc = json.load(_fh)
+    for _k in ("column_aloft", "n_screened", "n_tracked", "n_nosupport", "n_nocross",
+               "n_cov480", "n_cov400", "n_gap", "best_shortfall", "best_full_shortfall",
+               "second_full_shortfall", "full_separation"):
+        if _k in _sc and _sc[_k] is not None:
+            put(f"e12.{_k}", _sc[_k])
+    for _l, _v in _sc.get("q_at_probe", {}).items():
+        put(f"e12.q.{_l}", _v)
+    for _l, _v in _sc.get("tau_required_aloft", {}).items():
+        put(f"e12.tau_req_aloft.{_l}", _v)
+    for _name, _d in _sc.get("species", {}).items():
+        for _f in ("col58", "col69", "centroid", "frac_in_band_pct", "peak_lam",
+                   "peak_sigma", "tau58", "tau69", "shortfall58", "corr",
+                   "share_320_400_pct", "support_lo", "support_hi"):
+            if _d.get(_f) is not None:
+                put(f"e12.{_name}.{_f}", _d[_f])
+        for _l, _v in _d.get("shortfall_at", {}).items():
+            if _v is not None:
+                put(f"e12.{_name}.short.{_l}", _v)
+else:
+    print(f"NOTE: {_E12} not found, so Experiment 12 is absent from the registry.")
+    print("      Run: python Experiment12/three_axis_screen_25m0328.py")
+
 REG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registry.json")
 json.dump(REG, open(REG_PATH, "w"), indent=1)
 print(f"registry written to {REG_PATH}")
