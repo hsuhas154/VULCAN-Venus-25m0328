@@ -1,6 +1,35 @@
 #!/usr/bin/env python3
-"""Recompute every quantity quoted in Experiments 7, 8 and 9 from committed outputs.
-Emits a registry (JSON) plus a readable table. Read-only."""
+"""Recompute every quantity quoted in Experiments 1 through 13 from committed outputs.
+Emits a registry (JSON) plus a readable table. Read-only: no VULCAN rerun.
+
+TWO PHOTOLYSIS CONVENTIONS, WHICH MUST NEVER BE MIXED
+-----------------------------------------------------
+    dJ       the change in the photolysis RATE COEFFICIENT. This is the purely
+             radiative response, and it peaks where the flux change peaks.
+    d(J y)   the change in the photolysis RATE itself. This folds in the parent
+             species abundance and therefore peaks LOWER in the atmosphere,
+             because abundance rises going down while flux falls.
+
+Experiment 6 reported d(J y). Experiments 7 through 10 reported dJ. A number
+carried from one convention into a sentence written for the other will look like
+an altitude disagreement of several kilometres and is not one. This note
+supersedes the standalone verify_all_25m0328.py, which recorded it first.
+
+FOUR COMPARISON CONVENTIONS, RECOVERED FROM THE DOCUMENTS THEMSELVES
+--------------------------------------------------------------------
+ 1. A relative change divides by max(|reference|, |case|), not by the reference.
+    Experiment 2's actinic-flux section prints this formula explicitly; the
+    abundance tables of Experiments 1, 2 and 3 use it without saying so.
+ 2. A mean over a saved field is unweighted, over every element of the array.
+    The "bounded relative" means instead average only over elements whose
+    denominator is non-zero.
+ 3. A band integral carries VULCAN's endpoint half-weighting at the band edges.
+    Omitting it inflates every band by a few per cent.
+ 4. Where a tendency is integrated over altitude, the layer thickness must be in
+    cm for the result to be a column rate in cm^-2 s^-1. Experiment 7's table was
+    printed with the thickness in km, which leaves it 1e5 low; both forms are
+    registered, as .col and .col_km.
+"""
 import os, sys, pickle, json, numpy as np
 from scipy import interpolate
 
@@ -738,6 +767,7 @@ for sp in E5_SPECIES:
         put(f"e5.{sp}.R{rid}.signed_delta", agg["A1"][rid][j] - agg["A0"][rid][j])
         if agg["A0"][rid][j] != 0:
             put(f"e5.{sp}.R{rid}.frac_pct", 100 * d[j] / abs(agg["A0"][rid][j]))
+            put(f"e5.{sp}.R{rid}.frac", d[j] / abs(agg["A0"][rid][j]))
 
 # ---------------------------------------------------------------------------
 # Experiment 6: where in altitude the response sits.
@@ -814,7 +844,11 @@ for sp in E5_SPECIES:
         # Experiment 6 partitions the column into three regions and reports the
         # share of each reaction's response in each: below the cloud base, the
         # intermediate layer, and the response band itself.
-        for _bn, _bm in (("below59", z <= 59.0), ("b59_68", (z >= 59.0) & (z <= 68.0)),
+        # The three regions must partition the column. 59 km is a grid level, so it
+        # must belong to exactly one of them: it is counted in the 59 to 68 km
+        # layer, not in "below 59". Including it in both makes the shares sum to
+        # more than 100 per cent.
+        for _bn, _bm in (("below59", z < 59.0), ("b59_68", (z >= 59.0) & (z <= 68.0)),
                          ("band69_93", band)):
             put(f"e6.R{rid}.pct_{_bn}", 100.0 * dd[_bm].sum() / dd.sum())
         put(f"e6.R{rid}.pct_in_band", 100.0 * dd[band].sum() / dd.sum())
@@ -1062,6 +1096,148 @@ for name in SPECIES_1_6:
         put(f"e3fp.L2.{tag}.{name}.ratio", np.sqrt(np.sum(da ** 2)) / (a * n1))
         put(f"e3fp.L2.{tag}.{name}.norm", np.sqrt(np.sum(da ** 2)))
     put(f"e3fp.L2.A1.{name}.norm", n1)
+
+# ---------------------------------------------------------------------------
+# Experiment 7: reaction-tendency response to vertical displacement.
+#
+# Units matter here and the published table got them mixed. The tendency is a
+# volumetric rate, cm^-3 s^-1. Integrating it over altitude gives a column rate,
+# cm^-2 s^-1, only if the layer thickness is in cm. The published integrated
+# column used the thickness in km, which leaves the value 1e5 too small and the
+# units mixed. Both forms are registered: ".col" is the correct column integral
+# in cm^-2 s^-1, ".col_km" is the quantity as printed. The mantissas are
+# identical, so only the exponent distinguishes them.
+# ---------------------------------------------------------------------------
+E7_LEVEL_71 = int(np.argmin(np.abs(z - 71.0)))
+E7_LEVEL_69 = int(np.argmin(np.abs(z - 69.0)))
+put("e7.level71", E7_LEVEL_71); put("e7.level69", E7_LEVEL_69)
+
+def _agg_by_reaction(sol, sp):
+    rows, ids, _ = _contrib(sol, sp)
+    a = _dd(lambda: np.zeros(rows.shape[1]))
+    for rid, row in zip(ids, rows):
+        a[rid] = a[rid] + row
+    return a
+
+for sp in E5_SPECIES + ("SO",):
+    if sp not in _sp:
+        continue
+    base = _agg_by_reaction(A1, sp)
+    for tag, case in (("7a", E7A), ("7b", E7B)):
+        cur = _agg_by_reaction(case, sp)
+        for rid in base:
+            d = cur[rid] - base[rid]
+            if not np.any(d):
+                continue
+            k = f"e7.{tag}.{sp}.R{rid}"
+            put(f"{k}.col", np.sum(d[band] * dzcm[band]))
+            put(f"{k}.col_km", np.sum(d[band] * dzkm[band]))
+            put(f"{k}.at71", d[E7_LEVEL_71])
+            put(f"{k}.at69", d[E7_LEVEL_69])
+            put(f"{k}.peakabs", np.abs(d).max())
+
+# Signed global integral of the actinic-flux change, quadrature weighted.
+for tag, case in (("7a", E7A), ("7b", E7B)):
+    d = np.asarray(case["variable"]["aflux"]) - np.asarray(A1["variable"]["aflux"])
+    put(f"e7.{tag}.signed_global", np.sum(d * quad[None, :]))
+    put(f"e7.{tag}.signed_global_plain", d.sum())
+
+# Experiment 7 radiative norms, absorber columns and realized centroids.
+#
+# The displacement is NOT symmetric. Shifting the profile up truncates its tail at
+# the top of the grid, so renormalization leaves the realized centroid 17.844 km
+# above nominal, while shifting down has room and lands exactly 18 km below. The
+# published table reports both as +/- 17.844 km.
+_F0 = np.asarray(A1["variable"]["aflux"])
+put("e7.nominal_norm", np.sqrt(np.sum(_F0 ** 2 * quad[None, :])))
+for tag, case in (("7a", E7A), ("7b", E7B)):
+    d = np.asarray(case["variable"]["aflux"]) - _F0
+    put(f"e7.{tag}.L2_quad", np.sqrt(np.sum(d ** 2 * quad[None, :])))
+    put(f"e7.{tag}.L2_plain", np.sqrt(np.sum(d ** 2)))
+    put(f"e7.{tag}.L2_share_pct", 100 * np.sqrt(np.sum(d ** 2 * quad[None, :])) / REG["e7.nominal_norm"])
+
+import glob as _glob
+_PROFS = {"nominal": "atm/mode1+2.txt",
+          "7a": "atm/mode1+2_Experiment7A_shift18_25m0328.txt",
+          "7b": "atm/mode1+2_Experiment7B_shiftDown18_25m0328.txt"}
+_cols = {}
+for tag, pat in _PROFS.items():
+    g = _glob.glob(pat)
+    if not g:
+        continue
+    N = Nprof(g[0]); col = float(np.sum(N * dzcm))
+    _cols[tag] = col
+    put(f"e7.{tag}.column", col)
+    put(f"e7.{tag}.centroid", np.sum(zu * N * dzcm) / col)
+if "nominal" in _cols:
+    for tag in ("7a", "7b"):
+        if tag in _cols:
+            put(f"e7.{tag}.centroid_shift",
+                REG[f"e7.{tag}.centroid"] - REG["e7.nominal.centroid"])
+            put(f"e7.{tag}.column_reldiff",
+                abs(_cols[tag] - _cols["nominal"]) / _cols["nominal"])
+
+# Share of the integrated model Q-weight in the 620 to 698 nm tail. The boundary
+# convention matters at the second decimal: 620 nm is the last tabulated entry, so
+# excluding it gives 0.642 per cent and including it gives 0.664 per cent.
+_Qg = interpolate.interp1d(np.loadtxt("atm/UV_absorber.txt", skiprows=1)[:, 0],
+                           np.loadtxt("atm/UV_absorber.txt", skiprows=1)[:, 1],
+                           bounds_error=False, fill_value=0.0)(bins)
+_all = (bins >= 300) & (bins <= 698)
+_tot = np.sum(_Qg[_all] * quad[_all])
+for nm, m in (("excl", (bins > 620) & (bins <= 698)), ("incl", (bins >= 620) & (bins <= 698))):
+    put(f"e7.tail_share_pct.{nm}", 100 * np.sum(_Qg[m] * quad[m]) / _tot)
+
+# ---------------------------------------------------------------------------
+# Experiment 13: Candidate A against the published bulk-absorbance requirement.
+#
+# Spacek et al. (2026) derive a decadic absorbance of 1278 cm^-1 at 375 nm for the
+# bulk liquid of a Venus cloud droplet. Jiang et al. (2024) give mass extinction
+# coefficients for the two iron-sulfur minerals. Dividing one by the other gives
+# the mass loading each mineral would need, which is then compared with the droplet
+# mass implied by the stated solution density.
+#
+# Two conservatisms are worth recording. Jiang's coefficient is an EXTINCTION
+# coefficient measured through a suspension, so it includes scattering and
+# therefore overstates absorption, which makes every shortfall here a lower bound.
+# And the requirement is decadic; reading Jiang's optical depth as napierian
+# instead would raise the required loading by ln(10), not lower it.
+# ---------------------------------------------------------------------------
+A_REQ_DECADIC = 1278.0        # cm^-1 at 375 nm, Spacek et al. (2026)
+RHO_SOLUTION = 1.8            # g cm^-3, the droplet solution density they state
+LAMBDA_REQ = 375.0
+put("e13.A_required", A_REQ_DECADIC)
+put("e13.rho_solution", RHO_SOLUTION)
+
+_E13 = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+_MIN = {"rhomboclase": "jiang_rhomboclase_extracted.dat",
+        "acid_ferric_sulfate": "jiang_acid-ferric-sulfate_extracted.dat"}
+for _nm, _fn in _MIN.items():
+    _cands = [os.path.join("Experiment13", "data", _fn), os.path.join(_E13, _fn)]
+    _path = next((c for c in _cands if os.path.exists(c)), None)
+    if _path is None:
+        continue
+    d = np.loadtxt(_path)
+    lam, eps = d[:, 0], d[:, 1]
+    put(f"e13.{_nm}.peak_eps", eps.max())
+    put(f"e13.{_nm}.peak_lam", lam[int(np.argmax(eps))])
+    e375 = float(interpolate.interp1d(lam, eps)(LAMBDA_REQ))
+    put(f"e13.{_nm}.eps_375", e375)
+    # required loading in g cm^-3, then kg per litre (numerically the same number)
+    load = A_REQ_DECADIC / e375
+    put(f"e13.{_nm}.loading_kg_per_L", load)
+    put(f"e13.{_nm}.pct_of_droplet", 100.0 * load / RHO_SOLUTION)
+    # the most favourable case: at the mineral's own peak
+    put(f"e13.{_nm}.loading_at_peak", A_REQ_DECADIC / eps.max())
+    put(f"e13.{_nm}.pct_at_peak", 100.0 * (A_REQ_DECADIC / eps.max()) / RHO_SOLUTION)
+    # if Jiang's optical depth were napierian rather than decadic
+    put(f"e13.{_nm}.loading_napierian", load * np.log(10.0))
+
+# Method calibration: reproducing the paper's own ferric chloride figure. They quote
+# 1 absorbance unit per g/L, so the requirement implies 1.278 kg/L against their 1.3.
+put("e13.fecl3.eps_per_gpl", 1.0)
+put("e13.fecl3.loading_kg_per_L", A_REQ_DECADIC / (1.0 / 0.001))
+put("e13.fecl3.published_loading", 1.3)
 
 REG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registry.json")
 json.dump(REG, open(REG_PATH, "w"), indent=1)

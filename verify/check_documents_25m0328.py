@@ -21,7 +21,12 @@ def match(v,s):
         aw=abs(w)
         e=math.floor(math.log10(aw))
         ulp=10**(e-s+1)
-        if abs(av-aw) <= 0.5*ulp*1.001: out.append(k)
+        # Never demand better agreement than double precision can express. A 16
+        # digit literal implies a tolerance below one double ulp, and the literal
+        # itself is reconstructed as mantissa*10**exp, which rounds. Floor the
+        # tolerance at a few ulps of the value being compared.
+        tol=max(0.5*ulp*1.001, 4*math.ulp(aw))
+        if abs(av-aw) <= tol: out.append(k)
     return out
 
 # The exponent may or may not be braced: both \times10^5 and \times10^{-5} occur

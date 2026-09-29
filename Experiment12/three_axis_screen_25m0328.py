@@ -42,6 +42,18 @@ sections vary by under 15 per cent across the whole window, which is grey
 extinction. Including them would return the result that Venus has optically
 thick clouds, which is not a finding about a near-ultraviolet absorber.
 
+OBSERVATIONAL STANDING OF THE SURVIVING CANDIDATES. A species can pass all three
+axes here and still be ruled out by measurement, so the screen's output is a
+shortlist and not a result. NO2 is the case that needs stating explicitly,
+because its screen position overstates its standing. Mahieux et al. (2024,
+Icarus 409, 115862) place an upper limit on Venus NO2, but that limit is derived
+at the terminator from solar occultation. NO2 photolyses rapidly in daylight, so
+the dayside abundance in the cloud tops, which is the quantity this screen needs,
+is lower than the terminator limit rather than bounded by it. The screen
+therefore credits NO2 with a column that daytime photochemistry does not permit,
+and no conclusion about NO2 should be drawn from its ranking here without a
+dayside constraint.
+
 Run from the repository root:
     python Experiment12/three_axis_screen_25m0328.py
 """
