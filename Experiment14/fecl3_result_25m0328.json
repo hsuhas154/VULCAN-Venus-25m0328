@@ -1,0 +1,51 @@
+{
+ "aqueous_loading_kg_per_L": 1.278,
+ "lambda_nm": 375.0,
+ "per_curve": {
+  "ClA": {
+   "eps_mass": 25191.805521485396,
+   "eps_molar": 4086.211622807017,
+   "hcl_M": 12.2,
+   "loading_kg_per_L": 0.05073078223432731,
+   "pct_of_droplet": 2.8183767907959614
+  },
+  "ClB": {
+   "eps_mass": 18720.84162373827,
+   "eps_molar": 3036.5953947368425,
+   "hcl_M": 8.96,
+   "loading_kg_per_L": 0.06826616162274882,
+   "pct_of_droplet": 3.7925645345971564
+  },
+  "ClC": {
+   "eps_mass": 14562.626248860544,
+   "eps_molar": 2362.1162280701756,
+   "hcl_M": 6.09,
+   "loading_kg_per_L": 0.08775889583103166,
+   "pct_of_droplet": 4.875494212835092
+  },
+  "ClD": {
+   "eps_mass": 9534.912068709664,
+   "eps_molar": 1546.6008771929824,
+   "hcl_M": 4.15,
+   "loading_kg_per_L": 0.13403374785111663,
+   "pct_of_droplet": 7.446319325062034
+  },
+  "ClE": {
+   "eps_mass": 4164.130332736727,
+   "eps_molar": 675.438596491228,
+   "hcl_M": 1.54,
+   "loading_kg_per_L": 0.30690682036363637,
+   "pct_of_droplet": 17.05037890909091
+  }
+ },
+ "range_kg_per_L": [
+  0.05073078223432731,
+  0.30690682036363637
+ ],
+ "range_pct_droplet": [
+  2.8183767907959614,
+  17.05037890909091
+ ],
+ "requirement_cm1": 1278.0,
+ "rho_solution": 1.8
+}
