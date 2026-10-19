@@ -1,0 +1,47 @@
+{
+ "figure": "F14_E11_published-cross-sections_ch6_report",
+ "values": [
+  {
+   "source": "registry",
+   "key": "iso.SSCl2.val_pct",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "0.114"
+  },
+  {
+   "source": "registry",
+   "key": "iso.SSCl2.val_nm",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "0.156"
+  },
+  {
+   "source": "registry",
+   "key": "iso.ClSSCl.val_pct",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "0.079"
+  },
+  {
+   "source": "registry",
+   "key": "iso.ClSSCl.val_nm",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "0.331"
+  }
+ ],
+ "literals": [
+  {
+   "text": "observed band\n320 to 400 nm",
+   "reason": "the observed absorption band"
+  }
+ ],
+ "texts": [
+  "observed band\n320 to 400 nm",
+  "SSCl$_{2}$: peak within 0.114 per cent and 0.156 nm\nof the published figure",
+  "ClSSCl: peak within 0.079 per cent and 0.331 nm\nof the published figure",
+  "Wavelength, nm",
+  "Cross section, cm$^{2}$ per molecule (log scale)",
+  "The isomer spectra as used, checked against the published figure"
+ ]
+}

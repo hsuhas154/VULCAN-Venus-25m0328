@@ -1,0 +1,135 @@
+{
+ "figure": "F19_P2_transport-timescales_ch9_s19",
+ "values": [
+  {
+   "source": "registry",
+   "key": "p2.kzz.raised.z_lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "47"
+  },
+  {
+   "source": "registry",
+   "key": "p2.kzz.raised.z_hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "53"
+  },
+  {
+   "source": "registry",
+   "key": "p2.raised.Bkzz.t_days",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "118"
+  },
+  {
+   "source": "registry",
+   "key": "p2.raised.BDkzz.t_minutes",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "17"
+  },
+  {
+   "source": "registry",
+   "key": "p2.gap.Bkzz.t_days",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "552"
+  },
+  {
+   "source": "registry",
+   "key": "p2.band.Bkzz.t_days",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "874"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "zonal_circuit_period_days_limaye",
+    "value",
+    0
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "4"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "zonal_circuit_period_days_limaye",
+    "value",
+    1
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "6"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "solar_day_days",
+    "value"
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "117"
+  },
+  {
+   "source": "derived",
+   "op": "a/b",
+   "key": [
+    "p2.gap.Bkzz.t_days",
+    "lit:zonal_circuit_period_days_limaye:1"
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "92"
+  },
+  {
+   "source": "derived",
+   "op": "a/b",
+   "key": [
+    "p2.gap.Bkzz.t_days",
+    "lit:zonal_circuit_period_days_limaye:0"
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "138"
+  },
+  {
+   "source": "derived",
+   "op": "a/b",
+   "key": [
+    "p2.gap.Bkzz.t_days",
+    "lit:solar_day_days"
+   ],
+   "fmt": ".1f",
+   "scale": 1.0,
+   "text": "4.7"
+  }
+ ],
+ "literals": [
+  {
+   "text": "55 to 69 km",
+   "reason": "the layer between the raised levels and the band"
+  }
+ ],
+ "texts": [
+  "118 days",
+  "17 minutes",
+  "552 days",
+  "874 days",
+  "4 to 6 days",
+  "117 days",
+  "vertical mixing across 47 to 53 km,\nwith the profile Phase 1 used",
+  "the same layer, with the\nraised (alternative) profile",
+  "vertical mixing across the\n55 to 69 km gap, either profile",
+  "vertical mixing across the\nresponse band, either profile",
+  "one trip round the planet\nin the cloud layer",
+  "one Venus solar day",
+  "Time, Earth days (log scale)",
+  "Air goes round Venus far faster than it rises",
+  "While mixing carries a parcel across the gap, the winds take it round the planet\n92 to 138 times, through 4.7 Venus solar days"
+ ]
+}

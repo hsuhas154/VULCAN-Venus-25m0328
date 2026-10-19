@@ -1327,6 +1327,84 @@ else:
     print(f"NOTE: {_E14} not found, so Experiment 14 is absent from the registry.")
     print("      Run: python Experiment14/fecl3_venus_absorbance_25m0328.py")
 
+# ---------------------------------------------------------------------------
+# Experiment 12 gates, for the funnel figure (F3).
+#
+# The screen reports three axes per species but no pass mark, so the funnel
+# needs one, stated here once. Each mark is set by the empirical absorber, the
+# one profile and spectrum known to reproduce the observed Venus albedo: a
+# candidate passes a test if it does at least as well as that absorber, and the
+# absorber itself passes all three.
+#   abundance  enough column above 69 km to supply the absorber's optical depth
+#              at 360 nm: a shortfall at 360 nm of at most 1 (the absorber's own
+#              value is 1 by construction). No absorption at 360 nm fails.
+#   placement  at least the absorber's own share of its column above 58 km lying
+#              in the 69 to 93 km band, computed exactly as the screen computes
+#              frac_in_band_pct (layer centres, column above Z_BASE_KM = 58).
+#   spectrum   more of its 300 to 698 nm absorption inside 320 to 400 nm than
+#              outside (the absorber: share320400.emp), and a correlation with
+#              the absorber's spectrum above 0.5, the conventional mark of a
+#              strong correlation (the absorber: 1).
+# 360 nm is the same wavelength F15 uses, so the two figures agree.
+# ---------------------------------------------------------------------------
+_zm = np.asarray(A1["atm"]["zmco"]) / 1e5
+_pe = np.loadtxt("atm/mode1+2.txt", skiprows=1)
+_ne = interpolate.interp1d(_pe[:, 0], _pe[:, 1], kind="slinear",
+                           bounds_error=False, fill_value=0.0)(_zm)
+_m58, _mb = _zm >= 58.0, (_zm >= 69.0) & (_zm <= 93.0)
+put("e12.gate.emp_inband_pct", 100.0 * float(np.sum(_ne[_mb] * dzcm[_mb]) / np.sum(_ne[_m58] * dzcm[_m58])))
+GATE_SHORT_MAX, GATE_SHARE_MIN, GATE_CORR_MIN = 1.0, 50.0, 0.5
+GATE_INBAND_MIN = REG["e12.gate.emp_inband_pct"]
+put("e12.gate.short_max", GATE_SHORT_MAX); put("e12.gate.inband_min_pct", GATE_INBAND_MIN)
+put("e12.gate.share_min_pct", GATE_SHARE_MIN); put("e12.gate.corr_min", GATE_CORR_MIN)
+_sp = sorted({k.split(".")[1] for k in REG if k.startswith("e12.") and k.endswith(".centroid")})
+_ga = {s for s in _sp if REG.get(f"e12.{s}.short.360", np.inf) <= GATE_SHORT_MAX}
+_gp = {s for s in _sp if REG[f"e12.{s}.frac_in_band_pct"] >= GATE_INBAND_MIN}
+_gs = {s for s in _sp if REG[f"e12.{s}.share_320_400_pct"] > GATE_SHARE_MIN
+       and REG[f"e12.{s}.corr"] > GATE_CORR_MIN}
+assert REG["share320400.emp"] > GATE_SHARE_MIN, "the empirical absorber must pass its own spectrum test"
+put("e12.gate.n_in", len(_sp))
+put("e12.gate.n_abundance", len(_ga)); put("e12.gate.n_placement", len(_gp))
+put("e12.gate.n_spectrum", len(_gs)); put("e12.gate.n_place_and_spec", len(_gp & _gs))
+put("e12.gate.n_all", len(_ga & _gp & _gs))
+
+# ---------------------------------------------------------------------------
+# Phase 2: the two eddy diffusion profiles and the diffusion crossing times
+# (handoff Section 14.1 and 14.4, figures F18 and F19).
+#
+# atm/atm_Venus_Bkzz.txt is the profile every Phase 1 run used. atm/atm_Venus_B+Dkzz.txt
+# is identical except at four levels, where Dai et al. (2023) raised it. Both files
+# are on the model's own pressure grid, so each row sits at the layer centre zmco.
+# On that grid the four raised levels are the layer centres 47, 49, 51 and 53 km
+# (the handoff calls this 48 to 54 km).
+#
+# Crossing time over a layer of thickness L is L^2 / K, with K the geometric mean
+# of Kzz over the layer centres inside it. The windows below reproduce the handoff
+# table exactly: the raised levels with L = 6 km; the gap with centres 55 to 67 km
+# and L = 14 km (55 to 69 km); the band with centres 69 to 91 km and L = 24 km.
+# ---------------------------------------------------------------------------
+_KB = np.loadtxt(os.path.join("atm", "atm_Venus_Bkzz.txt"), skiprows=2)[:, 2]
+_KD = np.loadtxt(os.path.join("atm", "atm_Venus_B+Dkzz.txt"), skiprows=2)[:, 2]
+_diff = np.nonzero(_KB != _KD)[0]
+put("p2.kzz.n_levels_differ", len(_diff))
+put("p2.kzz.raised.z_lo", z[_diff].min()); put("p2.kzz.raised.z_hi", z[_diff].max())
+_r = _KD[_diff] / _KB[_diff]
+put("p2.kzz.raised.ratio_min", _r.min()); put("p2.kzz.raised.ratio_max", _r.max())
+for _i, _j in enumerate(_diff):
+    put(f"p2.kzz.raised.{_i}.z", z[_j])
+    put(f"p2.kzz.raised.{_i}.Bkzz", _KB[_j]); put(f"p2.kzz.raised.{_i}.BDkzz", _KD[_j])
+put("p2.kzz.Bkzz.min", _KB.min()); put("p2.kzz.Bkzz.max", _KB.max())
+for _nm, _lo, _hi, _L in (("raised", 47.0, 53.0, 6.0), ("gap", 55.0, 67.0, 14.0),
+                          ("band", 69.0, 91.0, 24.0)):
+    _m = (z >= _lo - 1e-6) & (z <= _hi + 1e-6)
+    put(f"p2.window.{_nm}.L_km", _L)
+    for _tag, _K in (("Bkzz", _KB), ("BDkzz", _KD)):
+        _g = float(np.exp(np.mean(np.log(_K[_m]))))
+        _t = (_L * 1e5) ** 2 / _g
+        put(f"p2.{_nm}.{_tag}.kzz_gmean", _g)
+        put(f"p2.{_nm}.{_tag}.t_days", _t / 86400.0)
+        put(f"p2.{_nm}.{_tag}.t_minutes", _t / 60.0)
+
 REG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registry.json")
 json.dump(REG, open(REG_PATH, "w"), indent=1)
 print(f"registry written to {REG_PATH}")

@@ -1,0 +1,63 @@
+{
+ "figure": "F20_P2_altitude-map_ch9_s19",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "93"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "deep_convective_layer_km",
+    "value",
+    0
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "50"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "deep_convective_layer_km",
+    "value",
+    1
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "60"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "cloud_top_convective_layer_km",
+    "value"
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "70"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "response band 69 to 93 km:\nwhere the absorber acts",
+  "clouds",
+  "deep convective layer, 50 to 60 km,\nthicker at night",
+  "cloud-top convective layer, about 70 km,\nnear noon under the Sun",
+  "gravity waves, trapped between\nthe two convective layers",
+  "slow\nupward\nmixing",
+  "surface",
+  "Altitude, km",
+  "Phase 2: the convective layer at the cloud top sits in the band"
+ ]
+}

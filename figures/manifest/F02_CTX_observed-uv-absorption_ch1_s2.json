@@ -1,0 +1,29 @@
+{
+ "figure": "F02_CTX_observed-uv-absorption_ch1_s2",
+ "values": [],
+ "literals": [
+  {
+   "text": "320 and 400 nm",
+   "reason": "the observed band"
+  },
+  {
+   "text": "P\u00e9rez-Hoyos et al. (2018), Figure 8",
+   "reason": "citation"
+  },
+  {
+   "text": "320 to 400 nm",
+   "reason": "the observed band"
+  }
+ ],
+ "texts": [
+  "unknown\nabsorber",
+  "Venus reflects well\nin visible light",
+  "no data\nin this\nspectrum",
+  "Reflectivity, I/F",
+  "Venus is dark between 320 and 400 nm, where sulfur dioxide absorbs only weakly",
+  "sulfur dioxide",
+  "Wavelength, nm",
+  "Sulfur dioxide\ncross section, cm$^{2}$\n(log scale)",
+  "Observed: MESSENGER spectrum, digitised from P\u00e9rez-Hoyos et al. (2018), Figure 8.  Grey band: 320 to 400 nm."
+ ]
+}

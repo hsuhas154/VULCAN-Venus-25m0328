@@ -1,0 +1,70 @@
+{
+ "figure": "F10_E07_placement-first-order_ch5_s11",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "93"
+  },
+  {
+   "source": "registry",
+   "key": "e7.7a.centroid_shift",
+   "fmt": "+.4f",
+   "scale": 1.0,
+   "text": "+17.8439"
+  },
+  {
+   "source": "registry",
+   "key": "e7.7b.centroid_shift",
+   "fmt": "+.4f",
+   "scale": 1.0,
+   "text": "-18.0000"
+  },
+  {
+   "source": "registry",
+   "key": "e7a.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "2.2498"
+  },
+  {
+   "source": "registry",
+   "key": "e7b.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.3067"
+  },
+  {
+   "source": "registry",
+   "key": "e7.ratio_7A_over_7B",
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "7.34"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "response band 69 to 93 km",
+  "nominal",
+  "moved up +17.8439 km",
+  "moved down -18.0000 km",
+  "Absorber number density, per cm$^{3}$",
+  "Altitude, km",
+  "Same column, same spectrum, moved",
+  "2.2498\nper cent",
+  "0.3067\nper cent",
+  "ratio 7.34",
+  "Change in the radiation field,\nper cent of the nominal field",
+  "Effect on the radiation field",
+  "Where the absorber sits matters more than anything else tested"
+ ]
+}

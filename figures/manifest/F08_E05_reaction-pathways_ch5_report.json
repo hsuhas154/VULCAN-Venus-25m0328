@@ -1,0 +1,72 @@
+{
+ "figure": "F08_E05_reaction-pathways_ch5_report",
+ "values": [],
+ "literals": [
+  {
+   "text": "R593",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R589",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R585",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R187",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R663",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R451",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R563",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R551",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R781",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R545",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R587",
+   "reason": "reaction number in the VULCAN network"
+  },
+  {
+   "text": "R553",
+   "reason": "reaction number in the VULCAN network"
+  }
+ ],
+ "texts": [
+  "COS + SO$_{3}$ + SO$_{3}$ gives SO$_{2}$ + SO$_{2}$ + SO$_{2}$ + CO",
+  "SO$_{2}$ (liquid) + H$_{2}$SO$_{4}$ gives SO$_{2}$ + H$_{2}$SO$_{4}$",
+  "SO$_{2}$ + H$_{2}$SO$_{4}$ (liquid) gives SO$_{2}$ (liquid) + H$_{2}$SO$_{4}$ (liquid)",
+  "HO$_{2}$ + SO gives SO$_{2}$ + OH",
+  "O + SO + M gives SO$_{2}$ + M",
+  "S + SO$_{2}$ gives SO + SO",
+  "SO + SO gives SO$_{2}$ + S",
+  "SO + NO$_{2}$ gives SO$_{2}$ + NO",
+  "SO$_{2}$ gives SO + O",
+  "SO + CO$_{2}$ gives SO$_{2}$ + CO",
+  "SO$_{2}$ (liquid) + H$_{2}$SO$_{4}$ (liquid) gives SO$_{2}$ + H$_{2}$SO$_{4}$ (liquid)",
+  "SO + O$_{2}$ gives SO$_{2}$ + O",
+  "Largest change in the reaction's contribution to the SO$_{2}$ tendency,\nmolecules per cm$^{3}$ per second (log scale; d(J y) for photolysis)",
+  "Reactions whose contribution to SO$_{2}$ changes most when the absorber is on",
+  "chemical reaction",
+  "photolysis"
+ ]
+}

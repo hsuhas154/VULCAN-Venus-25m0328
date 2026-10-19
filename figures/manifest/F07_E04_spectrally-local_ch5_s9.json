@@ -1,0 +1,100 @@
+{
+ "figure": "F07_E04_spectrally-local_ch5_s9",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e4b.B1.support_lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "302"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B1.support_hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "318"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B2.support_lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "320"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B2.support_hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "338"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B3.support_lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "340"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B3.support_hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "358"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B4.support_lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "360"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B4.support_hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "378"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B5.support_lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "380"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B5.support_hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "418"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B6.support_lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "420"
+  },
+  {
+   "source": "registry",
+   "key": "e4b.B6.support_hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "698"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "302 to 318 nm",
+  "Each run changes the radiation field only where its absorber absorbs\n(blue: change in actinic flux, scaled to its peak; grey: the band given to the absorber)",
+  "320 to 338 nm",
+  "340 to 358 nm",
+  "360 to 378 nm",
+  "380 to 418 nm",
+  "420 to 698 nm",
+  "Wavelength, nm"
+ ]
+}

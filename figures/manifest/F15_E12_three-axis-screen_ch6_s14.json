@@ -1,0 +1,60 @@
+{
+ "figure": "F15_E12_three-axis-screen_ch6_s14",
+ "values": [
+  {
+   "source": "Experiment12/screen_results_25m0328.json",
+   "key": [
+    "rank_nm"
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "360"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "a carrier\nwould be here",
+  "Cl$_{2}$",
+  "ClS$_{2}$",
+  "HNO$_{2}$",
+  "NO$_{2}$",
+  "O$_{3}$",
+  "S$_{2}$O$_{2}$",
+  "S$_{3}$",
+  "SO$_{2}$",
+  "no absorption at this wavelength, so not placed: ClCO$_{3}$, ClO, H$_{2}$O$_{2}$, H$_{2}$SO$_{4}$, HNO$_{3}$, NO$_{3}$, S$_{2}$, S$_{2}$O, S$_{4}$, SO$_{2}$Cl$_{2}$, SO$_{3}$",
+  "Column shortfall at 360 nm, times too little (log scale)",
+  "Share of the column in the response band, per cent",
+  "No candidate passes all three tests",
+  "Spectral match with the empirical absorber (correlation)",
+  "smallest\nshortfall",
+  "NO$_{2}$",
+  "SO$_{2}$",
+  "S$_{3}$",
+  "S$_{2}$O$_{2}$",
+  "HNO$_{2}$",
+  "O$_{3}$",
+  "Cl$_{2}$",
+  "ClS$_{2}$",
+  "most column\nin the band",
+  "NO$_{3}$",
+  "NO$_{2}$",
+  "ClCO$_{3}$",
+  "SO$_{3}$",
+  "ClO",
+  "S$_{2}$",
+  "HOCl",
+  "S$_{2}$O$_{2}$",
+  "best spectral\nmatch",
+  "Cl$_{2}$",
+  "S$_{2}$O$_{2}$",
+  "SCl$_{2}$",
+  "HOCl",
+  "HNO$_{2}$",
+  "S$_{2}$Cl$_{2}$",
+  "H$_{2}$O$_{2}$",
+  "NO$_{2}$",
+  "Each test picks a different winner: the rankings disagree.",
+  "Best eight on each test, best first"
+ ]
+}

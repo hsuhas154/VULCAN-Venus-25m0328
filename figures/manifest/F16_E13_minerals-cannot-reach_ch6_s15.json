@@ -1,0 +1,68 @@
+{
+ "figure": "F16_E13_minerals-cannot-reach_ch6_s15",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e13.rhomboclase.loading_kg_per_L",
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "3.02"
+  },
+  {
+   "source": "registry",
+   "key": "e13.rhomboclase.loading_napierian",
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "6.96"
+  },
+  {
+   "source": "registry",
+   "key": "e13.acid_ferric_sulfate.loading_kg_per_L",
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "4.36"
+  },
+  {
+   "source": "registry",
+   "key": "e13.acid_ferric_sulfate.loading_napierian",
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "10.04"
+  },
+  {
+   "source": "registry",
+   "key": "e13.rho_solution",
+   "fmt": ".1f",
+   "scale": 1.0,
+   "text": "1.8"
+  },
+  {
+   "source": "registry",
+   "key": "e13.fecl3.loading_kg_per_L",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "1.278"
+  },
+  {
+   "source": "registry",
+   "key": "e13.fecl3.published_loading",
+   "fmt": ".1f",
+   "scale": 1.0,
+   "text": "1.3"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "3.02 kg per litre",
+  "6.96 kg per litre if read as napierian",
+  "rhomboclase",
+  "4.36 kg per litre",
+  "10.04 kg per litre if read as napierian",
+  "acid ferric sulfate",
+  "the whole droplet weighs 1.8 kg per litre",
+  "ferric chloride, aqueous: 1.278 against the published 1.3 kg per litre",
+  "method\ncalibration",
+  "Mineral needed per litre of droplet, kg",
+  "Both minerals would have to outweigh the droplet that carries them"
+ ]
+}

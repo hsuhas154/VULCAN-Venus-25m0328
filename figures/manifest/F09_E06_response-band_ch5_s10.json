@@ -1,0 +1,73 @@
+{
+ "figure": "F09_E06_response-band_ch5_s10",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "93"
+  },
+  {
+   "source": "registry",
+   "key": "e6.A1.q75",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "87"
+  },
+  {
+   "source": "registry",
+   "key": "e6.A1.meanz",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "82.044"
+  },
+  {
+   "source": "registry",
+   "key": "e6.A1.q25",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "77"
+  },
+  {
+   "source": "registry",
+   "key": "e6.A1.q50",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "81"
+  },
+  {
+   "source": "registry",
+   "key": "e6.B5.meanz",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "81.989"
+  },
+  {
+   "source": "registry",
+   "key": "e6.B6.meanz",
+   "fmt": ".3f",
+   "scale": 1.0,
+   "text": "82.100"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "response band 69 to 93 km",
+  "upper quartile 87 km",
+  "centre 82.044 km",
+  "lower quartile 77 km",
+  "median 81 km",
+  "wide grey: absorber restricted to one wavelength band at a time;\ncentre stays between 81.989 and 82.100 km",
+  "Share of the radiation response at each level, per cent",
+  "Altitude, km",
+  "The absorber acts in one altitude band"
+ ]
+}

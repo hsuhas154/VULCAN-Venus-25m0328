@@ -1,0 +1,231 @@
+{
+ "_about": "Literature values printed on figures F1, F18, F19 and F20. Every entry was read in the cited paper; quote and page are given so it can be checked. Figure scripts read these through style.jval; nothing is typed into a script.",
+ "surface_temperature_K": {
+  "value": 750,
+  "unit": "K",
+  "citation": "L. Dai, D. V. Titov, W. D. Shao, X. Zhang, J. Cui and S. Fan, \"Venus cloud research: progress and perspectives\", arXiv:2506.06164, 2025",
+  "pdf_page": 3,
+  "journal_page": "3",
+  "quote": "Venus has a thick atmosphere with a surface pressure of up to 92 bar and a surface temperature of ≈750 K (Seiff et al. 1985).",
+  "note": "Preferred (review). Conflict: Dai et al. 2024 (pdf p2, A55 page 1) cites the same Seiff et al. 1985 as 'reaches 700 K'. Bierson and Zhang 2020 give 400-700 K for the lower atmosphere (not a surface value)."
+ },
+ "cloud_deck_km": {
+  "value": [
+   47,
+   70
+  ],
+  "unit": "km",
+  "citation": "L. Dai, D. V. Titov, W. D. Shao, X. Zhang, J. Cui and S. Fan, \"Venus cloud research: progress and perspectives\", arXiv:2506.06164, 2025",
+  "pdf_page": 4,
+  "journal_page": "4",
+  "quote": "The dense clouds on Venus are located in the altitude range of 47 to about 70 km with a thickness of over 20 km (Knollenberg and Hunten 1980; Titov et al. 2018).",
+  "note": "Preferred for cloud base (47 km) and top (~70 km)."
+ },
+ "lower_cloud_km": {
+  "value": [
+   48,
+   50
+  ],
+  "unit": "km",
+  "citation": "L. Dai, D. V. Titov, W. D. Shao, X. Zhang, J. Cui and S. Fan, \"Venus cloud research: progress and perspectives\", arXiv:2506.06164, 2025",
+  "pdf_page": 8,
+  "journal_page": "8",
+  "quote": "the cloud deck could be divided into three layers: lower clouds (about 48 to 50 km), middle clouds (about 50 to 56 km), and upper clouds (about 56 to 70 km).",
+  "note": "Conflict: Limaye et al. 2018 give the lower cloud as 47.5-50.5 km (pdf p1, p6). Dai et al. 2023 (pdf p5) notes a Kzz enhancement at 46.5-49.5 km 'corresponding to the altitudes of the lower clouds'."
+ },
+ "middle_cloud_km": {
+  "value": [
+   50,
+   56
+  ],
+  "unit": "km",
+  "citation": "L. Dai, D. V. Titov, W. D. Shao, X. Zhang, J. Cui and S. Fan, \"Venus cloud research: progress and perspectives\", arXiv:2506.06164, 2025",
+  "pdf_page": 8,
+  "journal_page": "8",
+  "quote": "lower clouds (about 48 to 50 km), middle clouds (about 50 to 56 km), and upper clouds (about 56 to 70 km).",
+  "note": "Dai et al. 2023 (pdf p5) instead says ~54 km 'typically represents the upper boundary of the middle clouds'."
+ },
+ "upper_cloud_km": {
+  "value": [
+   56,
+   70
+  ],
+  "unit": "km",
+  "citation": "L. Dai, D. V. Titov, W. D. Shao, X. Zhang, J. Cui and S. Fan, \"Venus cloud research: progress and perspectives\", arXiv:2506.06164, 2025",
+  "pdf_page": 8,
+  "journal_page": "8",
+  "quote": "middle clouds (about 50 to 56 km), and upper clouds (about 56 to 70 km).",
+  "note": "Review p5 also says the upper cloud layer is '>=57 km' in the UV-absorber context."
+ },
+ "cloud_top_range_km": {
+  "value": [
+   65,
+   72
+  ],
+  "unit": "km",
+  "citation": "L. Dai, D. V. Titov, W. D. Shao, X. Zhang, J. Cui and S. Fan, \"Venus cloud research: progress and perspectives\", arXiv:2506.06164, 2025",
+  "pdf_page": 8,
+  "journal_page": "8",
+  "quote": "The cloud top is defined as the height at which the optical depth equals to 1. According to observations at various wavelengths and locations, the cloud top height ranges from 65 to 72 km",
+  "note": ""
+ },
+ "kzz_dai2023_peak": {
+  "value": 500000000.0,
+  "unit": "cm2 s-1",
+  "citation": "L. Dai et al., \"Determination of the eddy diffusion in the Venusian clouds\", Astronomy and Astrophysics, vol. 679, A155, 2023, doi 10.1051/0004-6361/202347714",
+  "pdf_page": 5,
+  "journal_page": "A155, page 5 of 10",
+  "quote": "the cloud Kzz has a peak of 5 × 108 cm2 s-1 near 48 km. Between 50 and 54 km, it remains nearly constant at 2.5 × 108 cm2 s-1",
+  "note": "Global mean, VeRa H2SO4 vapour. Peak at ~48 km (not a constant over 46.5-55 km). Abstract (p1): 'global mean Kzz reaches 5 × 108 cm2 s-1 in the lower clouds'. Superscripts are flattened in the PDF text layer (e.g. '108' means 10^8); en dashes and minus signs from the PDF are written here as plain hyphens."
+ },
+ "kzz_dai2023_plateau_50_54km": {
+  "value": 250000000.0,
+  "unit": "cm2 s-1",
+  "citation": "L. Dai et al., \"Determination of the eddy diffusion in the Venusian clouds\", Astronomy and Astrophysics, vol. 679, A155, 2023, doi 10.1051/0004-6361/202347714",
+  "pdf_page": 5,
+  "journal_page": "A155, page 5 of 10",
+  "quote": "Between 50 and 54 km, it remains nearly constant at 2.5 × 108 cm2 s-1 before exhibiting a rapid decrease as the altitude increases above 54 km.",
+  "note": "Superscripts are flattened in the PDF text layer (e.g. '108' means 10^8); en dashes and minus signs from the PDF are written here as plain hyphens."
+ },
+ "kzz_decreases_above_54km": {
+  "value": 54,
+  "unit": "km",
+  "citation": "L. Dai et al., \"Determination of the eddy diffusion in the Venusian clouds\", Astronomy and Astrophysics, vol. 679, A155, 2023, doi 10.1051/0004-6361/202347714",
+  "pdf_page": 1,
+  "journal_page": "A155, page 1 of 10",
+  "quote": "the global mean Kzz reaches 5 × 108 cm2 s-1 in the lower clouds, which is an order of magnitude larger than several observation-based estimations and model results. It rapidly decreases as the altitude increases above 54 km.",
+  "note": "Abstract. Also pdf p5: 'The Kzz quickly decreases above 54 km, being consistent with the observed increase in the static stability reported by Akatsuki'. Superscripts are flattened in the PDF text layer (e.g. '108' means 10^8); en dashes and minus signs from the PDF are written here as plain hyphens."
+ },
+ "kzz_lef22_heat_based": {
+  "value": [
+   10000000.0,
+   1000000000.0
+  ],
+  "unit": "cm2 s-1",
+  "citation": "M. Lefevre, E. Marcq and F. Lefevre, \"The impact of turbulent vertical mixing in the Venus clouds on chemical tracers\", Icarus, vol. 386, 115148, 2022",
+  "pdf_page": 7,
+  "journal_page": "7",
+  "quote": "gives a value between 103 and 104 m2 s-1 for the Equator in the deep cloud convective region and around 104 m2 s-1 for the cloud-top convective layer, and between 104 and 105 m2 s-1 for high latitudes.",
+  "note": "Heat (potential temperature) based. Cloud-top convective layer ~1e4 m2 s-1 = 1e8 cm2 s-1; Equator deep 1e7-1e8; high latitudes 1e8-1e9 cm2 s-1. Tracer-based cloud-top value at noon is also 'up to 104 m2 s-1' (pdf p5). Superscripts are flattened in the PDF text layer (e.g. '108' means 10^8); en dashes and minus signs from the PDF are written here as plain hyphens."
+ },
+ "kzz_lef24_48_55km": {
+  "value": [
+   1000000.0,
+   100000000.0
+  ],
+  "unit": "cm2 s-1",
+  "citation": "M. Lefevre et al., \"Impact of the turbulent vertical mixing on chemical and cloud species in the Venus cloud layer\", Geophysical Research Letters, vol. 51, e2024GL108771, 2024, doi 10.1029/2024GL108771",
+  "pdf_page": 1,
+  "journal_page": "1 of 11",
+  "quote": "Vertical eddy diffusion due to resolved convection motions was estimated, ranging from 102 to 104 m2/s for the 48-55 km convective layer, several orders of magnitude above the typically used value.",
+  "note": "1e2-1e4 m2/s = 1e6-1e8 cm2 s-1. Confirms 48-55 km. Species-dependent Kzef ~1e3 m2 s-1 SO2, 1e2 H2O (pdf p4). Cloud-top layer: from 1 m2 s-1 at 65 km to ~1e4 m2 s-1 at 72 km (pdf p5). Superscripts are flattened in the PDF text layer (e.g. '108' means 10^8); en dashes and minus signs from the PDF are written here as plain hyphens."
+ },
+ "kzz_bierson2020_cloud": {
+  "value": 1000.0,
+  "unit": "cm2 s-1",
+  "citation": "C. J. Bierson and X. Zhang, \"Chemical cycling in the Venusian atmosphere: a full photochemical model from the surface to 110 km\", JGR Planets, 2020",
+  "pdf_page": 7,
+  "journal_page": "7 of 17",
+  "quote": "Cloudkzz is based on the suggestion from Marcq et al. (2017) that SO2 transport is inhibited by a stable cloud layer. This profile has a value of 103 cm2 s-1 between 45 and 65 km (shown in Figure 3).",
+  "note": "Sensitivity case 'Cloudkzz', not their nominal profile. Also defined on pdf p5. Their nominal (Dai 2024 p4) grows from 1.7e4 at surface to 5.3e4 cm2 s-1 at 80 km. Superscripts are flattened in the PDF text layer (e.g. '108' means 10^8); en dashes and minus signs from the PDF are written here as plain hyphens."
+ },
+ "kzz_bierson2020_cloud_km": {
+  "value": [
+   45,
+   65
+  ],
+  "unit": "km",
+  "citation": "C. J. Bierson and X. Zhang, \"Chemical cycling in the Venusian atmosphere: a full photochemical model from the surface to 110 km\", JGR Planets, 2020",
+  "pdf_page": 5,
+  "journal_page": "5 of 17",
+  "quote": "This profile tests a stable cloud region by using our nominal kzz profile modified to a value of 103 cm2 s-1 between 45 and 65 km.",
+  "note": "Superscripts are flattened in the PDF text layer (e.g. '108' means 10^8); en dashes and minus signs from the PDF are written here as plain hyphens."
+ },
+ "zonal_circuit_period_days_limaye": {
+  "value": [
+   4,
+   6
+  ],
+  "unit": "days",
+  "citation": "S. S. Limaye et al., \"Venus' spectral signatures and the potential for life in the clouds\", Astrobiology, vol. 18, no. 9, 2018, doi 10.1089/ast.2017.1783",
+  "pdf_page": 9,
+  "journal_page": "1189",
+  "quote": "While the cloud layer of Venus has zonal flows, which circle the planet in 4-6 days in the cloud layer (~50-65 km)",
+  "note": ""
+ },
+ "cloud_top_zonal_wind_ms": {
+  "value": 100,
+  "unit": "m s-1",
+  "citation": "J.-L. Bertaux et al., \"Influence of Venus topography on the zonal wind and UV albedo at cloud top level\", JGR Planets, vol. 121, pp. 1087 to 1101, 2016",
+  "pdf_page": 1,
+  "journal_page": "1087",
+  "quote": "with a period of ~ 4 days [Boyer and Camichel, 1961], corresponding to a westward zonal wind of ~ 100 m/s.",
+  "note": "VMC low-latitude (5-25 S) winds 80-120 m/s (pdf p2); longitude-mean 100.9 vs 83.4 m/s (pdf p3)."
+ },
+ "solar_day_days": {
+  "value": 117,
+  "unit": "Earth days",
+  "citation": "J.-L. Bertaux et al., \"Influence of Venus topography on the zonal wind and UV albedo at cloud top level\", JGR Planets, vol. 121, pp. 1087 to 1101, 2016",
+  "pdf_page": 13,
+  "journal_page": "1099",
+  "quote": "Length of solar day (mountain facing the sun) 24 h 117 days",
+  "note": "Bertaux et al. 2016, Table A1."
+ },
+ "sidereal_rotation_days": {
+  "value": 243,
+  "unit": "Earth days",
+  "citation": "J.-L. Bertaux et al., \"Influence of Venus topography on the zonal wind and UV albedo at cloud top level\", JGR Planets, vol. 121, pp. 1087 to 1101, 2016",
+  "pdf_page": 13,
+  "journal_page": "1099",
+  "quote": "Length of sidereal day (mountain facing a star) 23 h 56 min 243 days",
+  "note": "Table A1 row. pdf p1 (1087) gives 243.02 days: 'rotating in a retrograde direction but at a much slower rate (period 243.02 days or 1.81 m/s)'."
+ },
+ "deep_convective_layer_km": {
+  "value": [
+   50,
+   60
+  ],
+  "unit": "km",
+  "citation": "M. Lefevre, E. Marcq and F. Lefevre, \"The impact of turbulent vertical mixing in the Venus clouds on chemical tracers\", Icarus, vol. 386, 115148, 2022",
+  "pdf_page": 1,
+  "journal_page": null,
+  "quote": "Venus' clouds host a convective layer between roughly 50 and 60 km that mixes heat, momentum, and chemical species.",
+  "note": "Abstract (Icarus article page 1, number not printed). Model: 47-56 km at the Equator, 46.5-57 km at 75 deg (pdf p3). Lefevre 2024: 48-55 km in model; 50-55 km from radio occultation (pdf p1)."
+ },
+ "cloud_top_convective_layer_km": {
+  "value": 70,
+  "unit": "km",
+  "citation": "M. Lefevre, E. Marcq and F. Lefevre, \"The impact of turbulent vertical mixing in the Venus clouds on chemical tracers\", Icarus, vol. 386, 115148, 2022",
+  "pdf_page": 1,
+  "journal_page": null,
+  "quote": "the Venus Monitoring Camera (VMC) observed the cellular features at the top of the cloud, about 70 km of altitude, at the subsolar point suggesting convective activity",
+  "note": "Model range 66-74 km at the Equator (pdf p3); Lefevre 2024: 'visible at the Equator at noon (Figure 1-B), with a strong vertical mixing between 67 and 75 km' (pdf p3). Lefevre 2022 p3: 'At night, there is no cloud-top convective layer'."
+ },
+ "deep_convective_layer_thicker_at_night": {
+  "value": null,
+  "unit": null,
+  "citation": "M. Lefevre, E. Marcq and F. Lefevre, \"The impact of turbulent vertical mixing in the Venus clouds on chemical tracers\", Icarus, vol. 386, 115148, 2022",
+  "pdf_page": 1,
+  "journal_page": null,
+  "quote": "The radio occultation experiment in the Akatsuki spacecraft measured variability of the convection depth with local time (Imamura et al., 2017), this layer being thicker a night.",
+  "note": "'a night' is verbatim (typo for 'at night'). Also pdf p7: 'the deep convective layer is deeper at night (Imamura et al., 2017; Lefevre et al., 2018). Therefore, the mixing would be stronger.' Lefevre 2024 PLS: 'thicker layer at high latitude and at night'."
+ },
+ "convective_timescale_50km_s": {
+  "value": 17000,
+  "unit": "s",
+  "citation": "M. Lefevre, E. Marcq and F. Lefevre, \"The impact of turbulent vertical mixing in the Venus clouds on chemical tracers\", Icarus, vol. 386, 115148, 2022",
+  "pdf_page": 3,
+  "journal_page": "3",
+  "quote": "At the Equator, tau_dyn is equal to about 17000 s at 50 km and equal 6000 s at 70 km. At high latitude tau_dyn is equal to 8000 s at 50 km.",
+  "note": "Lefevre et al. 2022. 'tau_dyn' replaces the Greek symbol in the PDF. Defined as H/sigma_w. Lefevre 2024 (pdf p3) restates '1.7 · 104 s'. Abstract gives 'convective timescale, around 4 h'."
+ },
+ "convective_timescale_70km_s": {
+  "value": 6000,
+  "unit": "s",
+  "citation": "M. Lefevre, E. Marcq and F. Lefevre, \"The impact of turbulent vertical mixing in the Venus clouds on chemical tracers\", Icarus, vol. 386, 115148, 2022",
+  "pdf_page": 3,
+  "journal_page": "3",
+  "quote": "At the Equator, tau_dyn is equal to about 17000 s at 50 km and equal 6000 s at 70 km.",
+  "note": "Equator, cloud-top convective layer. Also pdf p4: 'the 6000 s dynamical timescale'."
+ }
+}

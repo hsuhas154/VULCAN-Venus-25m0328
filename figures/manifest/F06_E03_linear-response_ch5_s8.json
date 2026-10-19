@@ -1,0 +1,35 @@
+{
+ "figure": "F06_E03_linear-response_ch5_s8",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e3.lin.tau.inband.median",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "1.0000"
+  },
+  {
+   "source": "registry",
+   "key": "e3.lin.aflux.inband.median",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "1.0021"
+  }
+ ],
+ "literals": [
+  {
+   "text": "each point: median over the 300 to 698 nm range",
+   "reason": "the absorber's wavelength range, a definition"
+  }
+ ],
+ "texts": [
+  "exactly proportional",
+  "each point: median over the 300 to 698 nm range\nhalf amount against half the nominal effect:\noptical depth 1.0000,  actinic flux 1.0021",
+  "Absorber amount, multiple of the nominal",
+  "Response, multiple of the nominal response",
+  "Twice the absorber, twice the effect",
+  "optical depth",
+  "actinic flux",
+  "at twice the amount, magnified"
+ ]
+}

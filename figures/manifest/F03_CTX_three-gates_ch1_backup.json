@@ -1,0 +1,106 @@
+{
+ "figure": "F03_CTX_three-gates_ch1_backup",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e12.gate.inband_min_pct",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "12"
+  },
+  {
+   "source": "registry",
+   "key": "e12.gate.share_min_pct",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "50"
+  },
+  {
+   "source": "registry",
+   "key": "e12.gate.corr_min",
+   "fmt": ".1f",
+   "scale": 1.0,
+   "text": "0.5"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e12.gate.n_in",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "23"
+  },
+  {
+   "source": "registry",
+   "key": "e12.gate.n_placement",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "16"
+  },
+  {
+   "source": "registry",
+   "key": "e12.gate.n_place_and_spec",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "2"
+  },
+  {
+   "source": "registry",
+   "key": "e12.gate.n_all",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "0"
+  },
+  {
+   "source": "registry",
+   "key": "e12.S2O2.short.360",
+   "fmt": "sci1",
+   "scale": 1.0,
+   "text": "$2.5\\times10^{5}$"
+  },
+  {
+   "source": "registry",
+   "key": "e12.HOCl.short.360",
+   "fmt": "sci1",
+   "scale": 1.0,
+   "text": "$1.0\\times10^{7}$"
+  }
+ ],
+ "literals": [
+  {
+   "text": "58 km",
+   "reason": "lower edge of the Experiment 12 screen"
+  },
+  {
+   "text": "320 to 400 nm",
+   "reason": "the observed band"
+  },
+  {
+   "text": "360 nm",
+   "reason": "the test wavelength, as F15"
+  }
+ ],
+ "texts": [
+  "23",
+  "species screened",
+  "16",
+  "right altitude",
+  "at least 12 per cent of the\ncolumn above 58 km inside\nthe response band",
+  "2",
+  "and right spectrum",
+  "more than 50 per cent\nof the absorption in\n320 to 400 nm, correlation\nabove 0.5",
+  "0",
+  "and enough material",
+  "column above 69 km\nsupplies the required\noptical depth at 360 nm",
+  "S$_{2}$O$_{2}$ (OSSO) and HOCl",
+  "short by factors of\n$2.5\\times10^{5}$ and $1.0\\times10^{7}$",
+  "No species passes all three tests",
+  "Every pass mark is one the known absorber, which reproduces the observed brightness of Venus, itself meets."
+ ]
+}

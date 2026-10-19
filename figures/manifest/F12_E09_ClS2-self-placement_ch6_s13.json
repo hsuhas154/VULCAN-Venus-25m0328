@@ -1,0 +1,91 @@
+{
+ "figure": "F12_E09_ClS2-self-placement_ch6_s13",
+ "values": [
+  {
+   "source": "registry",
+   "key": "pnom.centroid",
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "63.42"
+  },
+  {
+   "source": "registry",
+   "key": "spec_emp.tau69",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "8.1928"
+  },
+  {
+   "source": "registry",
+   "key": "pnom.inband",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "9.1940"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "93"
+  },
+  {
+   "source": "registry",
+   "key": "p9.centroid",
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "13.66"
+  },
+  {
+   "source": "registry",
+   "key": "spec_9.tau69",
+   "fmt": "sci4",
+   "scale": 1.0,
+   "text": "$4.0153\\times10^{-8}$"
+  },
+  {
+   "source": "registry",
+   "key": "p9.inband",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.0000"
+  },
+  {
+   "source": "registry",
+   "key": "tau.reduction",
+   "fmt": "sci1",
+   "scale": 1.0,
+   "text": "$2.0\\times10^{8}$"
+  }
+ ],
+ "literals": [
+  {
+   "text": "optical depth above 69 km: ",
+   "reason": "lower edge of the response band, a definition"
+  },
+  {
+   "text": "optical depth above 69 km: ",
+   "reason": "lower edge of the response band, a definition"
+  }
+ ],
+ "texts": [
+  "centroid 63.42 km",
+  "optical depth above 69 km: 8.1928\nshare of profile in the band: 9.1940 per cent",
+  "Number density, particles per cm$^{3}$",
+  "Altitude, km",
+  "Empirical profile, as prescribed in the model",
+  "response band 69 to 93 km",
+  "centroid 13.66 km",
+  "optical depth above 69 km: $4.0153\\times10^{-8}$\nshare of profile in the band: 0.0000 per cent",
+  "Number density, particles per cm$^{3}$",
+  "ClS$_{2}$ placed by the model's own chemistry",
+  "Same molecule, same spectrum: placed by its own chemistry, it falls out of the response band\n(optical depth above the band falls by a factor of $2.0\\times10^{8}$)"
+ ]
+}

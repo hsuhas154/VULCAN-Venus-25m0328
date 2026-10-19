@@ -1,0 +1,35 @@
+{
+ "figure": "F05_E01-02_absorber-effect_ch5_s7",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "93"
+  }
+ ],
+ "literals": [
+  {
+   "text": "350 nm",
+   "reason": "chosen display wavelength"
+  }
+ ],
+ "texts": [
+  "response band 69 to 93 km",
+  "Extra optical depth from the top when the\nabsorber is on, at 350 nm",
+  "Altitude, km",
+  "The absorber blocks light high up",
+  "response band",
+  "Wavelength, nm",
+  "Where the radiation field changes",
+  "Change in actinic flux, scaled to its largest value"
+ ]
+}

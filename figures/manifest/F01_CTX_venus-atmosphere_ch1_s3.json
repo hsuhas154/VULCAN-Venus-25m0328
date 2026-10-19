@@ -1,0 +1,137 @@
+{
+ "figure": "F01_CTX_venus-atmosphere_ch1_s3",
+ "values": [
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "lower_cloud_km",
+    "value",
+    0
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "48"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "lower_cloud_km",
+    "value",
+    1
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "50"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "middle_cloud_km",
+    "value",
+    0
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "50"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "middle_cloud_km",
+    "value",
+    1
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "56"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "upper_cloud_km",
+    "value",
+    0
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "56"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "upper_cloud_km",
+    "value",
+    1
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "70"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "cloud_top_range_km",
+    "value",
+    0
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "65"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "cloud_top_range_km",
+    "value",
+    1
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "72"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "93"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "surface_temperature_K",
+    "value"
+   ],
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "750"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "lower cloud, 48 to 50 km",
+  "middle cloud, 50 to 56 km",
+  "upper cloud, 56 to 70 km",
+  "cloud top, 65 to 72 km",
+  "the absorber must be here:\nresponse band 69 to 93 km",
+  "surface, about 750 K",
+  "ClS$_{2}$",
+  "HNO$_{2}$",
+  "Cl$_{2}$",
+  "S$_{3}$",
+  "NO$_{2}$",
+  "SO$_{3}$",
+  "O$_{3}$",
+  "S$_{2}$O$_{2}$",
+  "where screened species\nactually sit in the model\n(column centre)",
+  "Altitude, km",
+  "Venus's atmosphere, and where the absorber has to be"
+ ]
+}

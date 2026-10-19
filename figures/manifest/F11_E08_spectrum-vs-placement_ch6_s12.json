@@ -1,0 +1,74 @@
+{
+ "figure": "F11_E08_spectrum-vs-placement_ch6_s12",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e8a.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.4342"
+  },
+  {
+   "source": "registry",
+   "key": "e8b.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.1084"
+  },
+  {
+   "source": "registry",
+   "key": "e8c.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.5369"
+  },
+  {
+   "source": "derived",
+   "op": "max/min",
+   "key": [
+    "e8a.L2pct",
+    "e8b.L2pct",
+    "e8c.L2pct"
+   ],
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "4.95"
+  },
+  {
+   "source": "derived",
+   "op": "a/b",
+   "key": [
+    "e7a.L2pct",
+    "e7b.L2pct"
+   ],
+   "fmt": ".2f",
+   "scale": 1.0,
+   "text": "7.34"
+  }
+ ],
+ "literals": [
+  {
+   "text": "observed band, 320 to 400 nm",
+   "reason": "the observed absorption band, a definition"
+  }
+ ],
+ "texts": [
+  "Wavelength, nm",
+  "Absorption efficiency, as used by the model",
+  "Candidate spectra",
+  "observed band, 320 to 400 nm",
+  "empirical",
+  "ClS$_{2}$",
+  "OSSO (S$_{2}$O$_{2}$)",
+  "S$_{3}$",
+  "0.4342",
+  "0.1084",
+  "0.5369",
+  "Change in the radiation field,\nper cent of the nominal field",
+  "Same placement, three spectra",
+  "7.34",
+  "4.95",
+  "Largest over smallest effect",
+  "Placement wins"
+ ]
+}

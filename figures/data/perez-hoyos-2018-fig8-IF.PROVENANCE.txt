@@ -1,0 +1,30 @@
+Source
+  S. Perez-Hoyos et al., "Venus upper clouds and the UV absorber from MESSENGER/MASCS
+  observations", Journal of Geophysical Research: Planets, vol. 123, pp. 145 to 162, 2018,
+  doi 10.1002/2017JE005406. Figure 8, middle panel (journal page 153): reflectivity I/F
+  of MASCS spectrum 151 against wavelength. The caption says the error ranges of the
+  data are drawn in grey and the best fit model in black.
+
+What was digitised
+  The figure is a single embedded greyscale raster in the published PDF (827 x 1373
+  pixels, 300 ppi). It was extracted with pdfimages, without resampling.
+  Axis calibration, from the tick marks of the middle panel (pixel column or row, value):
+x: lambda_um = 0.00169184*col + 0.099619, ticks [(np.float64(177.5), np.float64(0.4)), (np.float64(295.5), np.float64(0.6)), (np.float64(414.5), np.float64(0.8)), (np.float64(532.0), np.float64(1.0)), (np.float64(650.5), np.float64(1.2)), (np.float64(768.5), np.float64(1.4))]
+y: IF = -0.00110878*row + 1.347630, ticks [(np.float64(674.5), np.float64(0.6)), (np.float64(764.5), np.float64(0.5)), (np.float64(854.5), np.float64(0.4)), (np.float64(944.5), np.float64(0.3)), (np.float64(1125.5), np.float64(0.1))]
+  Each pixel column between 309 and 700 nm was read top to bottom. Every pixel darker
+  than 215 of 255 (grey data or black fit) counts as drawn. Columns that hold an axis
+  tick mark were skipped, and so were the left-edge tick rows.
+    IF_low   value at the lowest drawn pixel in the column
+    IF_high  value at the highest drawn pixel in the column
+    IF_mid   value at the median drawn pixel in the column
+  IF_low to IF_high is therefore the drawn envelope of the observation including its
+  plotted error range; it is not a new uncertainty estimate.
+
+Limits
+  One pixel is about 1.7 nm in wavelength and 0.0011 in I/F. The panel begins near
+  305 nm, so nothing below that wavelength can come from this source. This is one
+  spectrum at one geometry, not a disc average.
+
+The data behind the published figures were posted by the authors at a web address
+given in the paper; that host no longer resolves (checked 19 October 2026), so the
+figure itself is the only source available.

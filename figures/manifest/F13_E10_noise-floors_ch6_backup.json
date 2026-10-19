@@ -1,0 +1,74 @@
+{
+ "figure": "F13_E10_noise-floors_ch6_backup",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e7a.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "2.2498"
+  },
+  {
+   "source": "registry",
+   "key": "e8c.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.5369"
+  },
+  {
+   "source": "registry",
+   "key": "e8a.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.4342"
+  },
+  {
+   "source": "registry",
+   "key": "e9.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.3245"
+  },
+  {
+   "source": "registry",
+   "key": "e7b.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.3067"
+  },
+  {
+   "source": "registry",
+   "key": "e8b.L2pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.1084"
+  },
+  {
+   "source": "registry",
+   "key": "e10.fielddiff_pct",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "0.0017"
+  },
+  {
+   "source": "registry",
+   "key": "res.e10.SO.inband",
+   "fmt": ".4f",
+   "scale": 1.0,
+   "text": "2.5278"
+  }
+ ],
+ "literals": [],
+ "texts": [
+  "Exp 7, moved up: 2.2498 per cent",
+  "Exp 8, S$_{3}$ spectrum: 0.5369 per cent",
+  "Exp 8, ClS$_{2}$ spectrum: 0.4342 per cent",
+  "Exp 9, ClS$_{2}$ placed by chemistry: 0.3245 per cent",
+  "Exp 7, moved down: 0.3067 per cent",
+  "Exp 8, OSSO spectrum: 0.1084 per cent",
+  "radiation floor\n0.0017 per cent",
+  "chemistry floor, 2.5278 per cent:\nabundance changes smaller than this are not resolved",
+  "Size of the change, per cent (log scale)",
+  "Every radiative result is far above the radiation floor"
+ ]
+}

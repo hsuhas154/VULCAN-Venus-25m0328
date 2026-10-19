@@ -1,0 +1,70 @@
+{
+ "figure": "F18_P2_two-mixing-profiles_ch9_report",
+ "values": [
+  {
+   "source": "registry",
+   "key": "e6.interval.90.lo",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "69"
+  },
+  {
+   "source": "registry",
+   "key": "e6.interval.90.hi",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "93"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "kzz_lef24_48_55km",
+    "value",
+    0
+   ],
+   "fmt": "sci0",
+   "scale": 1.0,
+   "text": "$1\\times10^{6}$"
+  },
+  {
+   "source": "figures/literature_values.json",
+   "key": [
+    "kzz_lef24_48_55km",
+    "value",
+    1
+   ],
+   "fmt": "sci0",
+   "scale": 1.0,
+   "text": "$1\\times10^{8}$"
+  },
+  {
+   "source": "registry",
+   "key": "p2.kzz.raised.ratio_min",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "8716"
+  },
+  {
+   "source": "registry",
+   "key": "p2.kzz.raised.ratio_max",
+   "fmt": ".0f",
+   "scale": 1.0,
+   "text": "14011"
+  }
+ ],
+ "literals": [
+  {
+   "text": "Lef\u00e8vre et al. (2024)",
+   "reason": "citation year"
+  }
+ ],
+ "texts": [
+  "response band 69 to 93 km",
+  "convective cloud layer, Lef\u00e8vre et al. (2024):\n$1\\times10^{6}$ to $1\\times10^{8}$",
+  "used in every Phase 1 run\n(Bierson and Zhang profile)",
+  "alternative file:\nraised at four levels,\nby 8716 to 14011 times",
+  "Eddy diffusion coefficient, cm$^{2}$ per second (log scale)",
+  "Altitude, km",
+  "The mixing used in Phase 1 is far below what is measured"
+ ]
+}
