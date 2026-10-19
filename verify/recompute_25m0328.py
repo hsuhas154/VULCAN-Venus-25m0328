@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute every quantity quoted in Experiments 1 through 13 from committed outputs.
+"""Recompute every quantity quoted in Experiments 1 through 14 from committed outputs.
 Emits a registry (JSON) plus a readable table. Read-only: no VULCAN rerun.
 
 TWO PHOTOLYSIS CONVENTIONS, WHICH MUST NEVER BE MIXED
@@ -1275,6 +1275,57 @@ if os.path.exists(_E12):
 else:
     print(f"NOTE: {_E12} not found, so Experiment 12 is absent from the registry.")
     print("      Run: python Experiment12/three_axis_screen_25m0328.py")
+
+# ---------------------------------------------------------------------------
+# The 200 to 220 nm false lead (pre-experiment audit, checkpoint of 21 September).
+#
+# The audit compared the preserved reference state with a fresh baseline and found
+# one localised disagreement in optical depth: interface 28, near 201.6 nm. It was
+# traced to SO2, not to any absorber. The two saved optical depths and their
+# difference are quoted in the synthesis reports, so they are registered here from
+# the same two committed files the audit read.
+# ---------------------------------------------------------------------------
+_REF = L("Nominal_Bkzz_SO2-25m0328-reference.vul")
+_BAS = L("Nominal_Bkzz_SO2-25m0328-baseline.vul")
+_FL_I = 28
+_FL_J = int(np.argmin(np.abs(bins - 201.6)))
+put("falselead.interface", _FL_I)
+put("falselead.lambda_nm", bins[_FL_J])
+put("falselead.tau_reference", np.asarray(_REF["variable"]["tau"])[_FL_I, _FL_J])
+put("falselead.tau_baseline", np.asarray(_BAS["variable"]["tau"])[_FL_I, _FL_J])
+put("falselead.tau_diff", REG["falselead.tau_reference"] - REG["falselead.tau_baseline"])
+
+# ---------------------------------------------------------------------------
+# Experiment 14: ferric chloride against the bulk-absorbance requirement, using
+# the absorbance measured in concentrated sulfuric acid (Egan et al. 2025).
+#
+# As with Experiment 12, the arithmetic is not reimplemented here. The experiment
+# script writes Experiment14/fecl3_result_25m0328.json and this block folds that
+# file into the registry, so the two cannot drift apart.
+#
+# If the JSON is absent, run:
+#     python Experiment14/fecl3_venus_absorbance_25m0328.py
+# ---------------------------------------------------------------------------
+_E14 = os.path.join("Experiment14", "fecl3_result_25m0328.json")
+if os.path.exists(_E14):
+    with open(_E14) as _fh:
+        _fe = json.load(_fh)
+    for _k in ("requirement_cm1", "lambda_nm", "rho_solution", "aqueous_loading_kg_per_L",
+               "aqueous_eps_mass", "aqueous_pct_of_droplet", "ratio_lo", "ratio_hi",
+               "egan2026_fit_mid_wt_pct", "factor_to_fit_before", "factor_to_fit_after"):
+        if _fe.get(_k) is not None:
+            put(f"e14.{_k}", _fe[_k])
+    for _i, _nm in enumerate(("lo", "hi")):
+        put(f"e14.loading_kg_per_L.{_nm}", _fe["range_kg_per_L"][_i])
+        put(f"e14.pct_of_droplet.{_nm}", _fe["range_pct_droplet"][_i])
+    for _c, _d in _fe.get("per_curve", {}).items():
+        for _f in ("hcl_M", "eps_molar", "eps_mass", "ratio_to_aqueous",
+                   "loading_kg_per_L", "pct_of_droplet"):
+            if _d.get(_f) is not None:
+                put(f"e14.{_c}.{_f}", _d[_f])
+else:
+    print(f"NOTE: {_E14} not found, so Experiment 14 is absent from the registry.")
+    print("      Run: python Experiment14/fecl3_venus_absorbance_25m0328.py")
 
 REG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registry.json")
 json.dump(REG, open(REG_PATH, "w"), indent=1)

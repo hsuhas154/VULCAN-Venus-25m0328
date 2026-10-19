@@ -41,7 +41,14 @@ def scan(path):
     s=re.sub(r'(?m)^%.*','',open(path).read())
     # LaTeX lengths and font sizes are typography, not data
     s=re.sub(r'\{[\d.]+\\(?:text|line|column|page)width\}', ' ', s)
-    s=re.sub(r'\\(?:setlength|hspace|vspace|tabcolsep|emergencystretch)[^\n]*', ' ', s); out=[]
+    s=re.sub(r'\\(?:setlength|hspace|vspace|tabcolsep|emergencystretch)[^\n]*', ' ', s)
+    # Bibliographic identifiers are labels, not data: a DOI such as 10.1029/... or an
+    # arXiv number such as 1607.00409 looks like a decimal to the patterns below.
+    # Only the identifier itself is blanked; volumes, pages and every other number
+    # in a reference entry are still checked.
+    s=re.sub(r'(?i)\bdoi:?\s*10\.\d{4,9}/\S+', ' ', s)
+    s=re.sub(r'\b10\.\d{4,9}/\S+', ' ', s)
+    s=re.sub(r'(?i)\barXiv:?\s*\d{4}\.\d{4,5}(?:v\d+)?', ' ', s); out=[]
     def eat(rx,conv,pct=False):
         nonlocal s
         for m in list(rx.finditer(s)):

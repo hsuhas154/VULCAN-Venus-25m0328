@@ -46,6 +46,7 @@ RHO_SOLUTION = 1.8         # g cm-3, droplet solution density (Spacek et al.)
 M_FECL3 = 162.204          # g mol-1
 SPACEK_AQUEOUS_A_PER_GPL = 1.0     # their stated a(375) for 1 g/L aqueous
 SPACEK_LOADING_KGPL = 1.3          # the figure they print and reject
+EGAN2026_FIT_WT_PCT = (1.0, 1.2)   # FeCl3 in mode 1 droplets, Egan et al. (2026)
 
 here = os.path.dirname(os.path.abspath(__file__))
 files = sorted(glob.glob(os.path.join(here, "data", "fecl3_Cl*_eps.dat")))
@@ -90,6 +91,7 @@ for f in files:
               else "plausible minor component")
     rows.append((k, hcl, eps, eps_mass, need, pct))
     out[f"Cl{k}"] = dict(hcl_M=hcl, eps_molar=eps, eps_mass=eps_mass,
+                         ratio_to_aqueous=eps_mass / eps_mass_aqueous,
                          loading_kg_per_L=need, pct_of_droplet=pct)
     print(f"Cl {k:5s}{hcl:9.2f}{eps:10.0f}{eps_mass:11.0f}{eps_mass/eps_mass_aqueous:11.1f}x"
           f"{need:11.3f}{pct:10.1f}%  {verdict}")
@@ -116,10 +118,14 @@ print()
 print("  The rejection does not survive the change of solvent. It was an artefact")
 print("  of extrapolating an aqueous absorbance to a sulfuric acid droplet.")
 print()
-print("  For comparison, Egan et al. (2026) independently fit 1.0 to 1.2 wt% FeCl3")
+fit_mid = sum(EGAN2026_FIT_WT_PCT) / 2.0
+factor_after = plo / fit_mid
+factor_before = 100 * loading_aqueous / RHO_SOLUTION / fit_mid
+print(f"  For comparison, Egan et al. (2026) independently fit {EGAN2026_FIT_WT_PCT[0]:.1f} to "
+      f"{EGAN2026_FIT_WT_PCT[1]:.1f} wt% FeCl3")
 print(f"  in mode 1 droplets to MESSENGER reflectance. The most chloride-rich curve")
-print(f"  here needs {plo:.1f} per cent, within a factor of {plo/1.1:.1f} of that fit,")
-print("  against a factor of about 60 before the correction. The residue is the")
+print(f"  here needs {plo:.1f} per cent, within a factor of {factor_after:.1f} of that fit,")
+print(f"  against a factor of {factor_before:.0f} before the correction. The residue is the")
 print("  difference between a bulk-average model and a multiple-scattering")
 print("  calculation with the absorber confined to mode 1, which is precisely the")
 print("  assumption Spacek et al. flag as needing further study.")
@@ -127,6 +133,11 @@ print("  assumption Spacek et al. flag as needing further study.")
 with open(os.path.join(here, "fecl3_result_25m0328.json"), "w") as fh:
     json.dump(dict(requirement_cm1=A_REQUIRED, lambda_nm=LAMBDA_NM,
                    rho_solution=RHO_SOLUTION, aqueous_loading_kg_per_L=loading_aqueous,
+                   aqueous_eps_mass=eps_mass_aqueous,
+                   aqueous_pct_of_droplet=100 * loading_aqueous / RHO_SOLUTION,
                    range_kg_per_L=[lo, hi], range_pct_droplet=[plo, phi],
+                   ratio_lo=flo, ratio_hi=fhi,
+                   egan2026_fit_mid_wt_pct=fit_mid,
+                   factor_to_fit_before=factor_before, factor_to_fit_after=factor_after,
                    per_curve=out), fh, indent=1, sort_keys=True)
 print(f"\nresult written to fecl3_result_25m0328.json")
