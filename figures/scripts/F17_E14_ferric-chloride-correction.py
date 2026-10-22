@@ -1,6 +1,6 @@
 """F17. Experiment 14: the ferric chloride correction.
 
-Left: the five measured ferric chloride curves in concentrated sulfuric acid,
+Left: the five measured ferric chloride curves in hydrochloric acid,
 as mass absorption coefficients, against the single aqueous value the published
 rejection used. Right: the droplet mass fraction each would need.
 
@@ -48,7 +48,7 @@ a1.set_yscale("log")
 a1.set_xlim(200, 540)
 a1.set_xlabel("Wavelength, nm")
 a1.set_ylabel("Mass absorption coefficient,\ncm$^{2}$ g$^{-1}$ (log scale)")
-a1.set_title("Measured in concentrated sulfuric acid", loc="left", fontsize=15)
+a1.set_title("Measured in hydrochloric acid", loc="left", fontsize=15)
 
 # ---- right: required share of the droplet
 labels = ["aqueous"] + ["HCl " + S.val(f"e14.{c}.hcl_M", ".3g") + " M" for c in CURVES]
@@ -74,7 +74,7 @@ a2.set_ylim(-0.7, len(vals) - 0.1)
 a2.set_xlabel("Ferric chloride needed, per cent of droplet mass")
 a2.set_title("Loading needed to meet the requirement", loc="left", fontsize=15)
 
-fig.suptitle("The published rejection used an absorbance measured in the wrong solvent",
+fig.suptitle("The published rejection used an absorbance measured in water",
              fontsize=16, y=1.01)
 fig.text(0.5, -0.03, "Most chloride-rich curve: a factor of "
          + S.val("e14.factor_to_fit_after", ".1f")

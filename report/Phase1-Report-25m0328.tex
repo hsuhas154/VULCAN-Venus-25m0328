@@ -1,0 +1,101 @@
+% Phase 1 report, M.Tech. Project, Suhas H, roll number 25M0328, CSRE, IIT Bombay.
+% Main file. Each chapter lives in its own file and is pulled in with \include.
+% Compile from the report/ folder of the repository, so that ../figures/ resolves.
+
+\documentclass[12pt,a4paper]{report}
+
+% ===========================================================================
+% Page and type
+% ===========================================================================
+\usepackage[a4paper,left=1.25in,right=1in,top=1in,bottom=1in,headheight=15pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{palatino}            % URW Palladio for text, Computer Modern for maths
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.25}
+\usepackage{parskip}             % blank line between paragraphs, no indent
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\graphicspath{{../figures/}}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\setlist{itemsep=2pt,topsep=4pt}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{float}
+
+% Chapter heading in two lines, left aligned: "Chapter 1", then the title
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{\Large\chaptertitlename\ \thechapter}{18pt}{\huge}
+\titlespacing*{\chapter}{0pt}{0pt}{28pt}
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+% Running header: "CHAPTER N. TITLE" on the left, page number on the right
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\leftmark}
+\fancyhead[R]{\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\chaptername\ \thechapter.\ #1}}{}}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,
+            citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\setlength{\emergencystretch}{3em}
+% Long file names in the file map may break after an underscore or a hyphen
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\_\do\-}
+\renewcommand{\bibname}{References}
+
+% Subscripts in chemical formulae, in the text typeface: SO\sub{2}
+\newcommand{\sub}[1]{\textsubscript{#1}}
+
+\begin{document}
+
+\input{titlepage}
+
+% Front matter, numbered in roman numerals
+\pagestyle{plain}
+\pagenumbering{roman}
+\input{acknowledgment}
+\input{abstract}
+{\setstretch{1.1}
+\tableofcontents
+\cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+\cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+}
+\input{terms}
+
+% Main text, numbered from 1
+\cleardoublepage
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\include{ch1-introduction}
+
+\include{ch2-literature}
+\include{ch3-model-groundwork}
+\include{ch4-method-conventions}
+\include{ch5-experiments-1-7}
+
+% Chapters 6 to 10.
+\include{ch6-experiments-8-14}
+\include{ch7-establishes}
+\include{ch8-verification-errors}
+\include{ch9-phase2}
+\include{ch10-conclusion}
+
+\input{references}
+
+% Appendices
+\appendix
+\include{appendix-filemap}
+
+\end{document}

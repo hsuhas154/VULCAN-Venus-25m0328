@@ -4,9 +4,9 @@
   {
    "source": "registry",
    "key": "e12.gate.inband_min_pct",
-   "fmt": ".0f",
+   "fmt": ".2f",
    "scale": 1.0,
-   "text": "12"
+   "text": "11.92"
   },
   {
    "source": "registry",
@@ -91,7 +91,7 @@
   "species screened",
   "16",
   "right altitude",
-  "at least 12 per cent of the\ncolumn above 58 km inside\nthe response band",
+  "at least 11.92 per cent of the\ncolumn above 58 km inside\nthe response band",
   "2",
   "and right spectrum",
   "more than 50 per cent\nof the absorption in\n320 to 400 nm, correlation\nabove 0.5",
@@ -101,6 +101,6 @@
   "S$_{2}$O$_{2}$ (OSSO) and HOCl",
   "short by factors of\n$2.5\\times10^{5}$ and $1.0\\times10^{7}$",
   "No species passes all three tests",
-  "Every pass mark is one the known absorber, which reproduces the observed brightness of Venus, itself meets."
+  "Every pass mark is one the empirical absorber, which reproduces the observed brightness of Venus, itself meets."
  ]
 }

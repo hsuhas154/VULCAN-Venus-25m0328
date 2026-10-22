@@ -1,0 +1,93 @@
+% List of terms. Each entry restates the definition given in the chapter named.
+\chapter*{List of Terms}
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Terms}
+
+{\setstretch{1.1}
+\begin{description}[leftmargin=0pt, itemsep=3pt]
+  \item[Absorber grid.] 300 to 698~nm, the wavelengths over which the absorber term acts
+    (Chapter~4).
+  \item[Absorption efficiency, $Q_{\mathrm{abs}}$.] The fraction of the light falling on a
+    particle's cross-sectional area that the particle absorbs; the absorber's spectrum is a
+    table of it (Chapter~3).
+  \item[Actinic flux.] The number of photons per square centimetre per second per
+    nanometre reaching a point from all directions; it sets every photolysis rate
+    (Chapter~3).
+  \item[Amplitude, $A_{\mathrm{UUV}}$.] The single number that scales the absorber term:
+    0 for the control, 1 for the supplied absorber, and 0.5 and 2 in Experiment~3
+    (Chapters~3 and~5).
+  \item[Baseline and reference.] The reference is the output supplied with the model,
+    kept untouched; the baseline is the same model run afresh on the project computer
+    (Chapter~3).
+  \item[Bounded mean.] A mean over a field that leaves out the elements where both values
+    are zero (Chapter~4).
+  \item[Cloud top.] The height at which the cloud's optical depth, counted downward from
+    space, reaches one (Chapter~1).
+  \item[Column and column centre.] A quantity per cubic centimetre added over altitude
+    with each layer thickness in centimetres, giving a quantity per square centimetre; the
+    column centre, or centroid, is the mean altitude weighted by that quantity (Chapters~3
+    and~4).
+  \item[Control and treatment.] Two runs that differ only in the absorber: switched off
+    in the control, switched on in the treatment (Chapter~3).
+  \item[Cross section.] The effective area one molecule presents to light, in square
+    centimetres (Chapter~3).
+  \item[Decadic and Napierian.] Absorbance measured with base-10 and with natural
+    logarithms; the two differ by a factor of $\ln 10$ (Chapters~2 and~6).
+  \item[Eddy diffusion coefficient, $K_{zz}$.] The strength of vertical mixing in the
+    model (Chapters~2 and~3).
+  \item[Empirical absorber.] The absorber supplied with the model, a spectrum and a
+    height profile fitted to the observed brightness of Venus (Chapters~1 and~3).
+  \item[Enhancement band.] 320 to 400~nm, the near-ultraviolet feature the absorber has
+    to supply (Chapter~4).
+  \item[Field change, $\Delta F$.] The size of the change in the whole actinic flux
+    field, as a percentage of the size of the reference field (Chapter~4).
+  \item[Isomers.] Molecules made of the same atoms arranged differently, such as ClSSCl
+    and SSCl\sub{2} (Chapters~2 and~6).
+  \item[Loading.] The mass of a candidate needed per litre of droplet to meet the
+    absorption requirement (Chapter~6).
+  \item[Mass absorption coefficient, $\varepsilon$.] How strongly a material absorbs per
+    gram, in square centimetres per gram; dividing the required absorption by it gives
+    the loading (Chapter~6).
+  \item[Mixing ratio.] The number density of a species divided by that of the air,
+    quoted in parts per million (ppmv) or per billion (ppb) (Chapters~2 and~3).
+  \item[Mode~1 droplets.] Cloud droplets smaller than one micrometre across, in which the
+    absorber is thought to sit (Chapter~1).
+  \item[Optical depth.] A measure of how much light a layer removes; light crossing an
+    optical depth of one keeps a fraction $e^{-1}$ of its intensity (Chapters~1 and~3).
+  \item[Photolysis.] The breaking of a molecule by a photon. Its rate coefficient $J$ is
+    the probability per second that one molecule is broken; the rate $J n$ also depends
+    on how much of the molecule is present (Chapters~3 and~4).
+  \item[Radiation floor.] 0.0017\%: how far the radiation fields of two runs that should
+    agree differ, as a share of the change Experiment~9 makes, not of the whole field
+    (Chapters~4 and~6).
+  \item[Reflectivity, $I/F$.] The observed radiance divided by $\pi F_\odot$, where
+    $F_\odot$ is the solar flux arriving at Venus (Chapter~1).
+  \item[Registry and key.] The file \texttt{verify/registry.json} that holds every
+    number in this report, and the dotted name of each value in it (Chapter~8).
+  \item[Relative change.] A difference divided by the larger of the two values, not by
+    the control (Convention~1, Chapter~4).
+  \item[Reproducibility floor, or chemistry floor.] 2.5278\%: in-band changes in abundance
+    smaller than this are numerical, not physical, and are reported only as upper bounds
+    (Chapter~4).
+  \item[Requirement constant, $\tau_{\mathrm{req}}$.] The empirical absorber's optical
+    depth through the whole atmosphere at 320~nm, the amount of absorption any candidate
+    must supply (Chapter~3).
+  \item[Response band and centroid.] The narrowest range of altitude, 69 to 93~km, that
+    holds at least 90 per cent of the radiative response, and the weighted mean
+    altitude of that response (Chapter~4).
+  \item[Screening window.] 300 to 620~nm, the range searched for each candidate's
+    strongest absorption (Chapter~4).
+  \item[Shortfall factor.] How many times too little of a species the model holds to
+    supply the required optical depth (Chapter~6).
+  \item[Single scattering albedo.] The fraction of light meeting a particle that is
+    scattered rather than absorbed (Chapter~2).
+  \item[Spectral correlation.] How closely a candidate's spectrum follows the empirical
+    absorber's, as a correlation coefficient between $-1$ and 1 (Chapter~6).
+  \item[Steady state.] The state in which production, destruction and transport of every
+    species balance, tested by \texttt{longdy} and \texttt{longdydt} (Chapters~1 and~3).
+  \item[Super-rotation.] The flow of the atmosphere at the cloud top round the planet far
+    faster than the planet itself turns (Chapter~1).
+  \item[Weight per cent, wt\%.] The share of a mixture's mass that one component makes
+    up (Chapter~2).
+\end{description}
+\par}

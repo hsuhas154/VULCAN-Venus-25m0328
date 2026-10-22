@@ -19,7 +19,7 @@ from matplotlib.patches import Polygon
 
 STAGES = [("e12.gate.n_in", "species screened", ""),
           ("e12.gate.n_placement", "right altitude",
-           "at least " + S.val("e12.gate.inband_min_pct", ".0f")
+           "at least " + S.val("e12.gate.inband_min_pct", ".2f")
            + " per cent of the\ncolumn above " + S.lit("58 km", "lower edge of the Experiment 12 screen")
            + " inside\nthe response band"),
           ("e12.gate.n_place_and_spec", "and right spectrum",
@@ -60,7 +60,7 @@ ax.text(x + w / 2, 0.36, S.chem("S2O2") + " (OSSO) and HOCl", ha="center",
 x = x0 + 3 * (w + gap)
 ax.text(x + w / 2, 0.36, "short by factors of\n" + S.sci("e12.S2O2.short.360", 1)
         + " and " + S.sci("e12.HOCl.short.360", 1), ha="center", va="bottom", fontsize=12)
-fig.text(0.02, 0.015, "Every pass mark is one the known absorber, which reproduces the observed "
+fig.text(0.02, 0.015, "Every pass mark is one the empirical absorber, which reproduces the observed "
          "brightness of Venus, itself meets.", fontsize=11, color="#444444")
 ax.set_xlim(-0.2, x0 + 4 * w + 3 * gap + 0.2)
 ax.set_ylim(-1.05, 0.75)

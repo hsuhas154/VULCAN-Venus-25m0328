@@ -1,0 +1,392 @@
+% Chapter 4. Method and Conventions.
+% Every number in this chapter comes from verify/registry.json (keys named in the
+% text), from verify/recompute_25m0328.py, or from the committed model output.
+
+\chapter{Method and Conventions}
+\label{ch:conv}
+
+Every experiment in Chapters~5 and~6 compares two converged model states and reports
+how they differ. A difference can be measured in more than one way, and two honest
+calculations from the same output can give different numbers if they make different
+choices. This chapter states every choice that was made, so that a reader who repeats
+a calculation gets the number printed here: how numbers are written
+(Section~\ref{sec:conv-numbers}), the six conventions with a worked example each
+(Section~\ref{sec:conv-six}), the fixed ranges used throughout
+(Section~\ref{sec:conv-windows}), how the size of a change in the whole radiation field
+is measured (Section~\ref{sec:conv-field}), the response band
+(Section~\ref{sec:conv-band}) and the reproducibility floor
+(Section~\ref{sec:conv-floor}).
+
+The same six conventions are also written out in the code that computes every number,
+\texttt{verify/recompute\_25m0328.py}: the first five at the top of the file, and the
+sixth as the value of the key \texttt{res.e10.SO.inband}. Where a recomputation disagrees with a number in
+this report, the first thing to check is whether it follows these conventions.
+
+% ===========================================================================
+\section{How numbers are written in this report}
+\label{sec:conv-numbers}
+
+The registry, the file \texttt{verify/registry.json}, holds every quantity computed from
+the model, each under its own name, called a \emph{registry key}; an example is
+\texttt{e6.A1.meanz}. Chapter~8 explains how to read these names. Where this report prints such a number, the key is
+named next to it or at the start of the paragraph.
+
+A printed number carries only as many digits as the text needs. It is correct when the
+registry value, rounded to the same number of significant digits, gives the printed
+number. For example, \texttt{e6.A1.meanz} holds the response centroid to sixteen digits,
+and the text prints it as 82.044~km. The project's checker,
+\texttt{verify/check\_documents\_25m0328.py}, applies this rule against the whole
+registry to every number written with three or more decimal places, in scientific
+notation, or as a percentage with two or more decimal places.
+Percentages may be stored either as percentages or as fractions; 1.4484\% and a stored
+0.014484 are the same number.
+
+The checker can show that a printed number exists in the registry. It cannot show that it
+was taken from the right key. That second check is done by hand, by recomputing the
+sentence from the key it names, and Chapter~8 gives an example where it mattered.
+
+% ===========================================================================
+\section{The six conventions}
+\label{sec:conv-six}
+
+Table~\ref{tab:conventions} lists the six conventions. Each is explained below with a
+worked example.
+
+\begin{table}[htbp]
+  \centering
+  \caption[The six conventions used for every number in this report]{The six conventions used for every number in this report.}
+  \label{tab:conventions}
+  \footnotesize
+  \setstretch{1.0}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.7cm}
+                                >{\raggedright\arraybackslash}p{4.2cm}
+                                >{\raggedright\arraybackslash}X}
+    \toprule
+    No. & Convention & What it means \\
+    \midrule
+    1 & Relative change & The difference is divided by the larger of the two values,
+      not by the control. \\
+    2 & Means over a field & Every element counts equally. A \emph{bounded} mean
+      leaves out the elements where both values are zero. \\
+    3 & Integrals over wavelength & VULCAN's own rule: two bin widths, and half weight
+      at the two ends of every range. \\
+    4 & Integrals over altitude & Layer thickness in centimetres, never kilometres. \\
+    5 & Two photolysis measures & $\Delta J$ (the rate coefficient) and $\Delta(J n)$
+      (the rate) are different quantities and are never mixed. \\
+    6 & Reproducibility floor & In-band changes in abundance smaller than 2.5278\% are
+      not resolved. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% ===========================================================================
+\subsection{Relative change divides by the larger value}
+\label{sec:conv-rel}
+
+When a quantity $X$ has the value $X_{\mathrm{r}}$ in the reference run and
+$X_{\mathrm{c}}$ in the case being tested, its relative change is
+\begin{equation}
+  R_X = \frac{|X_{\mathrm{c}} - X_{\mathrm{r}}|}
+             {\max\big(|X_{\mathrm{r}}|,\,|X_{\mathrm{c}}|\big)} .
+  \label{eq:rel}
+\end{equation}
+The denominator is the larger of the two magnitudes. This keeps $R_X$ between 0 and 1,
+or between 0 and 100 per cent, whatever the two values are, and it is defined even when
+the reference value is zero. For a small change the larger value and the reference
+value are almost equal, and the two possible definitions agree. They differ only when
+the change is large, which is exactly where a percentage needs care.
+
+\textbf{Worked example.} In Experiment~2 the mixing ratio of OSSO (S\sub{2}O\sub{2}) at
+33~km rises from $4.012\times10^{-42}$ with the absorber off to $3.0845\times10^{-41}$
+with it on (registry keys \texttt{e2.S2O2.ref\_at\_level} and
+\texttt{e2.S2O2.case\_at\_level}). The change, $2.683\times10^{-41}$, divided by the
+larger value gives $R = 0.8699$ (\texttt{e2.S2O2.maxrel}). Divided by the control
+instead it would give about 669 per cent, a number that says more about how tiny the
+control value is than about the change. A second case shows why the rule is needed at
+all: ClS\sub{2} at 97~km is exactly zero with the absorber off and
+$6.9437\times10^{-27}$ with it on (\texttt{e2.ClS2.case\_at\_level}). A change relative
+to the control is then undefined, while Equation~\eqref{eq:rel} gives exactly 1.
+
+Both values in this example are far below anything that could be observed. That is why
+Chapters~5 and~6 always give an absolute value next to a relative change for trace
+species.
+
+% ===========================================================================
+\subsection{Means over a field}
+\label{sec:conv-mean}
+
+The model saves its fields as arrays: the actinic flux, for example, has one value for
+each of 57 layers and 1670 wavelength bins, 95190 values in all. Where a mean is
+reported over such an array, every element counts equally; no element is weighted by
+layer thickness or bin width. The one exception is the \emph{bounded} mean of
+Equation~\eqref{eq:rel}, which is taken only over elements where the denominator is not
+zero:
+\begin{equation}
+  \overline{R} = \frac{1}{M} \sum_{\text{elements with } \max(|X_{\mathrm{r}}|,|X_{\mathrm{c}}|) > 0} R_X ,
+  \label{eq:boundedmean}
+\end{equation}
+where $M$ is the number of those elements. An element where both runs give exactly zero
+has no change to report, and counting it as a zero would dilute the mean by an amount
+that depends only on how much of the grid is dark.
+
+\textbf{Worked example.} Between the runs with the absorber off and on (Experiments~1
+and~2), the actinic flux is non-zero in only 37185 of its 95190 elements; the rest are
+short wavelengths that are absorbed completely before they reach that layer, and the
+lower the layer, the more of the spectrum is dark (\texttt{e3fp.bnd.A1.aflux.n}). The bounded mean relative change over the 37185 lit
+elements is 3.7078\% (\texttt{e3fp.bnd.A1.aflux.mean\_pct}). The mean over all 95190
+elements, with each dark element counted as zero, is 1.4484\%
+(\texttt{e2.aflux.meanrel}). The two differ by exactly the share of lit elements, and
+both are correct for what they say. This report states which one it uses.
+
+% ===========================================================================
+\subsection{Integrals over wavelength}
+\label{sec:conv-quad}
+
+The photolysis rate coefficient of Equation~\eqref{eq:J} is an integral over
+wavelength, which the model evaluates as a sum over its bins. The bins are 0.1~nm wide
+from 96 to just below 240~nm (the first 1440 bins) and 2~nm wide from 240 to 698~nm
+(\texttt{nom.base.v.dbin1} and \texttt{.dbin2}). VULCAN adds up each of the two parts
+with the trapezoidal rule, which gives the two end bins of each part half weight. For a
+range of bins from $a$ to $b$ with width $\Delta\lambda$,
+\begin{equation}
+  \int_{a}^{b} f(\lambda)\,\mathrm{d}\lambda \approx
+  \sum_{i=a}^{b} f_i\,\Delta\lambda \;-\; \tfrac{1}{2}\big(f_a + f_b\big)\,\Delta\lambda ,
+  \label{eq:quad}
+\end{equation}
+where $f_i$ is the integrand in bin~$i$. Every band integral in this report, for
+example the share of a response that falls between 320 and 340~nm, uses the same rule
+at its own two edges.
+
+\textbf{Worked example.} A band from 320 to 340~nm holds 11 bins of 2~nm, centred at
+320, 322, and so on up to 340~nm. For an integrand equal to 1 the true integral is 20~nm.
+A plain sum of the 11 bins gives 22~nm, a tenth too much; Equation~\eqref{eq:quad}
+removes half a bin at each end and gives 20~nm. With this rule, recomputing the stored
+photolysis rate coefficients from the stored actinic flux and cross sections gives back
+the model's own values: the difference is exactly zero in 102 of the 110 checks made
+(55 photolysis branches in two runs), and very small in the rest (registry keys ending
+\texttt{recon\_maxerr}).
+
+% ===========================================================================
+\subsection{Integrals over altitude}
+\label{sec:conv-col}
+
+Many model quantities are per cubic centimetre: number densities, and reaction rates in
+molecules per cubic centimetre per second. Integrating such a quantity over altitude
+gives a column, per square centimetre, only if each layer thickness is in centimetres:
+\begin{equation}
+  C = \sum_{j} r_j\,\Delta z_j , \qquad \Delta z_j \text{ in cm} .
+  \label{eq:col}
+\end{equation}
+A thickness of 2~km is $2\times10^{5}$~cm, so taking it in kilometres makes the result
+exactly $10^{5}$ times too small and leaves its unit meaningless.
+
+\textbf{Worked example.} In Experiment~7, moving the absorber upward changes the contribution
+that the photolysis of SO\sub{2} (reaction 781 of the network) makes to the SO\sub{2}
+budget. Integrated over the response band with the thickness in centimetres, the change
+is $+8.2352\times10^{8}$ molecules per square centimetre per second
+(\texttt{e7.7a.SO2.R781.col}). Taking the thickness in kilometres instead gives
+8235.1671, the same digits $10^{5}$ times smaller (\texttt{e7.7a.SO2.R781.col\_km}).
+The registry keeps both so that the size of the error can be seen; only the first is
+used in this report.
+
+% ===========================================================================
+\subsection{Two photolysis measures that must not be mixed}
+\label{sec:conv-J}
+
+A change in photolysis can be reported in two ways. The change in the rate
+coefficient, $\Delta J$, is the change in the probability per second that one molecule is
+broken up. It depends only on the sunlight reaching that height, so it is a purely
+radiative measure. The change in the rate, $\Delta(J n)$, where $n$ is the number
+density of the molecule, is the change in how many molecules are broken up per cubic
+centimetre per second. It also depends on how much of the molecule is present. Because
+most molecules become more abundant lower down while sunlight becomes weaker, the
+second measure usually peaks lower in the atmosphere than the first.
+
+Experiment~6 reports $\Delta(J n)$. Experiments~7 to~10 report $\Delta J$ when they
+describe photolysis; the change in a reaction's contribution to a budget, as in
+Experiments~5 and~7, is a rate and so of the $\Delta(J n)$ kind.
+
+\textbf{Worked example.} For the photolysis of SO\sub{3} in Experiment~9 (Chapter~6),
+the largest change of the rate coefficient inside the response band is 0.05898\%, at
+81~km (\texttt{dJ.e9.SO3} and \texttt{dJz.e9.SO3}). The largest change of the rate is
+0.4603\%, at 73~km (\texttt{dJy.e9.SO3} and \texttt{dJyz.e9.SO3}). The two measures
+describe the same run and differ in size by a factor of about eight and in height by
+8~km. A number taken from one and placed in a sentence about the other would look like
+a disagreement in altitude where there is none.
+
+% ===========================================================================
+\section{Fixed ranges used throughout}
+\label{sec:conv-windows}
+
+Four ranges are used again and again, and each has the same limits everywhere in
+\texttt{verify/recompute\_25m0328.py}, so that no analysis picks its own. The
+\emph{absorber grid}, 300 to 698~nm, is where the absorber term acts: the absorber table
+starts at 300~nm and the model grid ends at 698~nm. The \emph{enhancement band}, 320 to
+400~nm, is the near-ultraviolet feature the absorber has to supply
+(Chapter~\ref{ch:intro}). The \emph{screening window}, 300 to 620~nm, is the range
+searched for each candidate's strongest absorption in the screens of Experiments~8
+and~12. The \emph{response band}, 69 to 93~km, is where the model's radiation responds to
+the absorber (Section~\ref{sec:conv-band}). Experiment~4 also uses narrower analysis
+windows, among them 420 to 620~nm; these are deliberate divisions of the spectrum for
+that experiment, not errors in the ranges above.
+
+% ===========================================================================
+\section{The size of a change in the radiation field}
+\label{sec:conv-field}
+
+Most radiative results in Chapters~5 and~6 compare a whole actinic flux field, 57 layers
+by 1670 wavelength bins, with a reference field, and report the comparison as one
+number: the size of the change as a percentage of the size of the reference field,
+\begin{equation}
+  \Delta F = 100\,
+  \frac{\Big[\sum_{j}\sum_{i} w_i\,\big(F_{\mathrm{c}}(j,\lambda_i)
+        - F_{\mathrm{r}}(j,\lambda_i)\big)^{2}\Big]^{1/2}}
+       {\Big[\sum_{j}\sum_{i} w_i\,F_{\mathrm{r}}(j,\lambda_i)^{2}\Big]^{1/2}}
+  \ \text{per cent},
+  \label{eq:field}
+\end{equation}
+where $F_{\mathrm{c}}$ and $F_{\mathrm{r}}$ are the actinic flux in the case and in the
+reference, $j$ runs over every layer, $i$ over every wavelength bin, and $w_i$ is the
+width of bin~$i$: 0.1~nm below 240~nm and 2~nm above (the array \texttt{quad} in
+\texttt{verify/recompute\_25m0328.py}). Each layer counts once, whatever its thickness.
+Squaring the differences lets the largest changes dominate, and dividing by the size of
+the reference field turns the result into a share of the light that is there. The
+function \texttt{radiative()} in the same file computes it, and the registry holds it
+under keys ending in \texttt{L2pct}.
+
+\textbf{Worked example.} Moving the absorber 18~km upward (Experiment~7A), with the
+absorber in its usual place as the reference, gives $\Delta F = 2.2498\%$
+(\texttt{e7a.L2pct}); moving it 18~km down gives 0.3067\% (\texttt{e7b.L2pct}). The
+spectral substitutions of Experiments~8 and~11 use the same formula with the baseline of
+Experiment~8 as the reference.
+
+One quantity uses the same sums with a different denominator. The radiation floor of
+Section~\ref{sec:conv-floor} divides the difference between two runs by the change that
+one of them makes, not by the reference field, so it is a share of a change, not a share
+of the light. This is stated wherever it is used.
+
+% ===========================================================================
+\section{The response band}
+\label{sec:conv-band}
+
+The response band answers one question: at what altitudes does the model's radiation
+actually respond to the absorber? Experiment~6 answered it by comparing the runs with
+the absorber on and off. At each layer $j$ it adds up the change in actinic flux over
+all wavelengths, weighting each bin by its width:
+\begin{equation}
+  w_j = \sum_{i} \big|F_{1}(j,\lambda_i) - F_{0}(j,\lambda_i)\big|\,\Delta\lambda_i ,
+  \label{eq:weight}
+\end{equation}
+where $F_1$ and $F_0$ are the actinic flux with the absorber on and off. The quantity
+$w_j$ is the size of the radiative response at layer $j$, and its distribution over
+altitude shows where the response lives. It is purely radiative, so the convention of
+Section~\ref{sec:conv-J} does not arise here.
+
+The weighted mean altitude of this distribution, the response centroid, is 82.044~km
+(\texttt{e6.A1.meanz}). A quarter of the response lies below 77~km, half below 81~km and
+three quarters below 87~km (\texttt{e6.A1.q25}, \texttt{.q50} and \texttt{.q75}). The
+\emph{response band} is the narrowest continuous range of altitudes that holds at least
+90 per cent of the response. It runs from 69 to 93~km and holds 91.370\% of it
+(\texttt{e6.interval.90.lo}, \texttt{.hi} and \texttt{.contained}). Table~\ref{tab:band}
+shows how the range would change if a different share were chosen. The lower edge stays
+at 69 or 71~km for every share from 68 to 95 per cent, so the band does not depend
+sensitively on the choice of 90.
+
+\begin{table}[htbp]
+  \centering
+  \caption[The narrowest altitude range that holds a given share of the radiative response (Experiment~6)]{The narrowest altitude range that holds a given share of the radiative
+    response (Experiment~6). Registry keys \texttt{e6.interval.<share>.lo}, \texttt{.hi}
+    and \texttt{.contained}.}
+  \label{tab:band}
+  \footnotesize
+  \setstretch{1.0}
+  \begin{tabular}{cccc}
+    \toprule
+    Share asked for & Range (km) & Width (km) & Share actually held \\
+    \midrule
+    50\,per cent & 73 to 83 & 10 & 54.567\% \\
+    68\,per cent & 71 to 85 & 14 & 68.163\% \\
+    80\,per cent & 71 to 89 & 18 & 81.479\% \\
+    90\,per cent & 69 to 93 & 24 & 91.370\% \\
+    95\,per cent & 69 to 97 & 28 & 95.240\% \\
+    99\,per cent & 65 to 103 & 38 & 99.138\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The band is a property of the atmosphere, not of the absorber's spectrum. Experiment~4
+repeated the run six times with the absorber confined to six different wavelength
+ranges. The response centroid of those six runs lies between 81.989 and 82.100~km
+(\texttt{e6.B5.meanz} and \texttt{e6.B6.meanz}), within a fraction of one model layer of
+the full run.
+
+The band lies above most of the absorber's own particles: 90.194\% of the mode~1
+profile is between 58 and 69~km (\texttt{pnom.cloud}). The response to the absorber is
+therefore felt mainly higher up than the absorber sits. Chapter~5 shows the altitude
+profile of the response in full (Experiment~6). Every candidate test from Experiment~7
+onward asks how much of a candidate's effect falls inside this band.
+
+% ===========================================================================
+\section{The reproducibility floor}
+\label{sec:conv-floor}
+
+A model run stops when the steady-state tests of Section~\ref{sec:how} pass, and those
+tests allow mixing ratios to keep drifting slightly. Two runs that ought to give the same
+answer can therefore end a little apart. The size of that disagreement sets the
+smallest change in abundance that can be called a result.
+
+Experiments~9 and~10 measured it, although they were not designed to. The two runs put
+two different absorber spectra on the same low vertical profile, and Chapter~6 shows why
+that made them radiatively identical: the difference between their actinic flux fields
+is only 0.0017\% of the change that Experiment~9 makes (\texttt{e10.fielddiff\_pct}),
+and that change is itself only 0.3245\% of the field (\texttt{e9.L2pct},
+Equation~\eqref{eq:field}). Any difference between their chemistry must then be
+numerical, not physical. Yet, measured against the same baseline, the largest change in
+the SO mixing ratio inside the response band is 0.7384\% in one run and 2.5278\% in the
+other (\texttt{res.e9.SO.inband} and \texttt{res.e10.SO.inband}). For SO\sub{3} the two
+are 0.3488\% and 1.4288\% (\texttt{res.e9.SO3.inband} and \texttt{res.e10.SO3.inband}).
+
+\textbf{The rule.} A change in the abundance of a species inside the response band that
+is smaller than 2.5278\% is not a measurement. It can be reported only as an upper bound:
+the true change is no larger than this, and may be zero. The convergence tolerance of
+0.01 in \texttt{vulcan\_cfg.py} might suggest a floor of about 1 per cent; the measured floor is two and a half times larger. It comes from a single pair of runs, so
+it is the smallest value the floor can have, not a full description of the scatter.
+
+\textbf{What it bounds, and what it does not.} The floor applies to abundances, and so
+also to any quantity that contains an abundance, such as the photolysis rate
+$\Delta(J n)$. It does not apply to purely radiative quantities such as the actinic flux
+or $\Delta J$: the same pair of runs agrees on those to 0.0017\% of the change itself,
+so a radiative difference well below one per cent is still resolved. Of the 45 in-band changes in
+the sulfur reservoirs held for Experiments~7 to~11 (keys beginning \texttt{res.}, which
+divide by the reference run rather than as in Convention~1), only three reach the floor:
+SO and SO\sub{3} in Experiment~7A, 8.404\% and 4.718\%, and the SO value that defines
+the floor itself. The rest are upper bounds.
+
+\textbf{Every run converged.} The floor is measured between converged runs, so it
+matters that every run met the steady-state tests of Section~\ref{sec:how}.
+Table~\ref{tab:conv} gives the two tested quantities for the main runs of Chapters~5
+and~6; all pass, as do the control and the runs of Experiments~3 and~4B.
+
+\begin{table}[htbp]
+  \centering
+  \caption[The steady-state tests at the end of each main run]{The steady-state tests at the end of each main run, with limits 0.01 and
+    $10^{-5}$~s$^{-1}$. Keys \texttt{conv.<run>.longdy} and \texttt{conv.<run>.longdydt}.}
+  \label{tab:conv}
+  \scriptsize
+  \setstretch{1.0}
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{lccc@{\hspace{1.2em}}lccc}
+    \toprule
+    Run & Key & \texttt{longdy} & \texttt{longdydt} & Run & Key & \texttt{longdy} & \texttt{longdydt} \\
+    \midrule
+    Exp.~2, on & \texttt{a1} & 0.0099963 & $6.991\times10^{-11}$ & Exp.~8C, S\sub{3} & \texttt{e8c} & 0.0099686 & $7.006\times10^{-11}$ \\
+    Exp.~7A, up & \texttt{e7a} & 0.0098794 & $6.949\times10^{-11}$ & Exp.~9 & \texttt{e9} & 0.0098368 & $6.916\times10^{-11}$ \\
+    Exp.~7B, down & \texttt{e7b} & 0.0099450 & $6.992\times10^{-11}$ & Exp.~10 & \texttt{e10} & 0.0097778 & $6.841\times10^{-11}$ \\
+    Baseline, 8 to 11 & \texttt{b8} & 0.0099437 & $6.993\times10^{-11}$ & Exp.~11A, SSCl\sub{2} & \texttt{e11a} & 0.0099988 & $7.029\times10^{-11}$ \\
+    Exp.~8A, ClS\sub{2} & \texttt{e8a} & 0.0099390 & $6.987\times10^{-11}$ & Exp.~11B, ClSSCl & \texttt{e11b} & 0.0099701 & $7.012\times10^{-11}$ \\
+    Exp.~8B, OSSO & \texttt{e8b} & 0.0098173 & $6.901\times10^{-11}$ & & & & \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+

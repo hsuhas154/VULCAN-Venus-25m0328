@@ -2,7 +2,7 @@
 
 Three candidate spectra (ClS2, OSSO, S3) put in place of the empirical one, at
 the nominal placement and column. The spread between best and worst is smaller
-than the effect of moving the absorber (F10).
+than the effect of moving the absorber (Experiment 7).
 
 Sources: atm/UV_absorber.txt, atm/UV_absorber_Experiment8A_ClS2_25m0328.txt,
 atm/UV_absorber_Experiment8B_OSSO_S2O2_25m0328.txt,
@@ -61,7 +61,7 @@ a3.bar([0, 1], [r_num, s_num], color=["#444444", "#AAAAAA"], width=0.6)
 a3.text(0, r_num * 1.02, ratio, ha="center", va="bottom", fontsize=16, fontweight="bold")
 a3.text(1, s_num * 1.02, spread, ha="center", va="bottom", fontsize=16, fontweight="bold")
 a3.set_xticks([0, 1])
-a3.set_xticklabels(["moving it\n(F10)", "changing\nspectrum"])
+a3.set_xticklabels(["moving it\n(Exp 7)", "changing\nspectrum"])
 a3.set_ylim(0, r_num * 1.25)
 a3.set_ylabel("Largest over smallest effect")
 a3.set_title("Placement wins", loc="left")

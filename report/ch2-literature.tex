@@ -1,0 +1,359 @@
+% Chapter 2. Literature Review.
+% Every statement about a paper was read from the paper itself. Where a number
+% is quoted, the paper is cited next to it. Critique paragraphs are marked as
+% this project's own reading.
+
+\chapter{Literature Review}
+\label{ch:lit}
+
+This chapter reviews the twelve papers on which Phase~1 rests: the model used
+(Section~\ref{sec:lit-dai}); the absorber's observed spectrum and height and the mixing
+in the clouds, which decide whether a candidate can sit where the absorber is
+(Sections~\ref{sec:lit-ph} to~\ref{sec:lit-lef}); and the candidates, with the one paper
+that states how strongly the droplets must absorb (Sections~\ref{sec:lit-jiang}
+to~\ref{sec:lit-egan}). Section~\ref{sec:lit-gap} draws the threads together. For each
+paper, the first part says what the authors did and how, and the second what they found,
+followed by a paragraph marked as this project's own reading of what remains unsettled.
+
+Two terms recur. A \emph{mixing ratio} is the fraction of the molecules in a volume of
+air that belong to one species, in parts per million (ppmv) or per billion (ppb). The
+\emph{eddy diffusion coefficient} $K_{zz}$ is the single number per height with which a
+one-dimensional model represents all the vertical stirring it cannot resolve: the larger
+$K_{zz}$, the faster a species is mixed up and down. It is quoted in cm$^{2}$\,s$^{-1}$
+or m$^{2}$\,s$^{-1}$; one m$^{2}$\,s$^{-1}$ is $10^{4}$~cm$^{2}$\,s$^{-1}$.
+
+% ===========================================================================
+\section{Dai et al.\ (2024): the model this project uses}
+\label{sec:lit-dai}
+
+\subsection{Objective and Methodology}
+
+Dai, Shao and Sheng built VULCAN-Venus, an open-access one-dimensional photochemistry and
+transport model, to study how the chemistry depends on mixing in the clouds and on the
+loss of SO\sub{2} into the droplets~\cite{dai2024}. It spans the surface to 112~km in
+2~km layers, with 362 neutral and 45 photolysis reactions among 59 species, mainly from
+Mills (1998) and Krasnopolsky (2007) (as cited in~\cite{dai2024}). Sunlight is followed
+from 100 to 700~nm, and the droplets scatter it in two size modes. The absorber is not a
+chemical species: its absorption between 320 and 560~nm is attached to the mode~1
+droplets~\cite{dai2024}. The nominal $K_{zz}$, from Bierson and Zhang
+(Section~\ref{sec:lit-bz}), rises from about 17\,000~cm$^{2}$\,s$^{-1}$ at the surface to
+about 53\,000 at 80~km and steeply above; a case called Model~A replaces it between 46.5
+and 55~km with a stronger profile from Venus Express data. Three reactions taken from
+Rimmer et al.\ (Section~\ref{sec:lit-rimmer}) move SO\sub{2} into and out of the droplets
+as liquid SO\sub{2}, with rates from Henry's law rather than measurement~\cite{dai2024}.
+
+\subsection{Results and Critique}
+
+The model reproduces the observed fall of SO\sub{2} through the clouds: SO\sub{2}
+dissolves between 58 and 70~km and is released between 40 and 58~km, where the droplets
+evaporate~\cite{dai2024}. Model~A changes the chemistry only slightly. OSSO reaches only
+about $10^{-8}$~ppmv at 70~km, which the authors judge insufficient for the absorber; its
+photolysis is omitted for lack of laboratory data~\cite{dai2024}.
+
+\emph{This project's reading.} The absorber's amount, height and spectrum are inputs, so
+the published model cannot test whether a candidate supplies them; making the absorber
+switchable was the first task of this project (Chapter~3). The authors call the liquid
+SO\sub{2} a ``substitute medium'' tuned to the observations~\cite{dai2024}, so SO\sub{2}
+above the clouds is fitted, not predicted. The mixing test stops at 55~km, below the
+cloud top where the absorber acts. And although the abstract speaks of mixing retrieved
+from Venus Express, the nominal run uses the Bierson and Zhang profile.
+
+% ===========================================================================
+\section{P\'erez-Hoyos et al.\ (2018): the absorber's spectrum and height}
+\label{sec:lit-ph}
+
+\subsection{Objective and Methodology}
+
+P\'erez-Hoyos and co-workers analysed 318 spectra from the MASCS spectrometer on
+MESSENGER, taken on 5 June 2007 along the equator from near noon to the evening
+terminator~\cite{perezhoyos2018}. A radiative transfer retrieval gave the height and
+amount of four modes of cloud particles and the absorber's spectral shape. The absorber
+was assumed well mixed with mode~1, and only the imaginary part of the mode~1 refractive
+index, the part that measures absorption, was retrieved, with SO\sub{2} fixed at
+500~ppb. Candidates were then ranked by how closely their spectra follow the result.
+
+\subsection{Results and Critique}
+
+The cloud top, where the optical depth at 0.63~\textmu m reaches one, is at $75 \pm 2$~km;
+mode~1 starts at $65 \pm 2$~km with a scale height of about 4~km. The absorption is
+centred at $0.34 \pm 0.03$~\textmu m with a full width at half maximum of
+$0.14 \pm 0.01$~\textmu m, if Gaussian, and the data are most sensitive to it at
+$75 \pm 7$~km~\cite{perezhoyos2018}. In the ranking, S\sub{2}O fits best and OSSO next,
+whose shape the authors find closer; FeCl\sub{3}, SCl\sub{2} and Cl\sub{2} absorb over too
+narrow a band~\cite{perezhoyos2018}. These values are the observed targets used in this
+report (Figure~\ref{fig:F2}).
+
+\emph{This project's reading.} The authors ask a candidate for the right spectrum, a
+number density consistent with photochemical models, and a lifetime consistent with the
+motion of the ultraviolet markings, but test only the spectrum, as they
+state~\cite{perezhoyos2018}. The absorber's height is tied to mode~1 by assumption and
+cannot be retrieved separately. The paper also calls the band shifted to longer
+wavelengths than an earlier estimate in its results but to shorter ones in its
+conclusions; this report uses only the centre and width.
+
+% ===========================================================================
+\section{Bierson and Zhang (2020): mixing and the \texorpdfstring{SO\sub{2}}{SO2} problem}
+\label{sec:lit-bz}
+
+\subsection{Objective and Methodology}
+
+Bierson and Zhang built the first one-dimensional model to join the lower and middle
+atmosphere in one domain, from the surface to 112~km, as a tool for studying how species
+and regions interact rather than a tuned fit~\cite{bierson2020}. The absorber is an
+imposed opacity, and water and sulfuric acid vapour are fixed because no clouds form.
+They compared four $K_{zz}$ profiles: the nominal one, extended downward from an earlier
+middle-atmosphere model; one from Krasnopolsky; the nominal divided by ten (Lowkzz); and
+the nominal lowered to 1000~cm$^{2}$\,s$^{-1}$ between 45 and 65~km (Cloud
+kzz)~\cite{bierson2020}. VULCAN-Venus adopts the nominal profile, as does every Phase~1
+run (file \texttt{atm/atm\_Venus\_Bkzz.txt}).
+
+\subsection{Results and Critique}
+
+With the nominal profile SO\sub{2} stays almost uniformly mixed and does not fall above
+the clouds~\cite{bierson2020}. Lowkzz and Cloud kzz come close, but the authors call
+Lowkzz instructive for understanding the model's sensitivity rather than plausible, and
+note that measured and estimated mixing in the clouds
+is at least three times stronger than either. They conclude that ``some as of yet unknown
+chemical sink in the cloud region or interactions with the cloud droplets'' is
+needed~\cite{bierson2020}. OSSO, written (SO)\sub{2}, is below $10^{-25}$ at 58~km, never
+exceeds 1~ppb, and peaks near 90~km, far above the cloud top. About 40 per cent of the
+rate coefficients have no laboratory value~\cite{bierson2020}.
+
+\emph{This project's reading.} Phase~1 uses a profile whose authors show it cannot
+reproduce SO\sub{2} without an extra sink in the clouds, which Dai et al.\ supply. The
+profile is published only as a figure, so its values come from the model's input file.
+The verdict on OSSO rests on abundance and height, not spectrum.
+
+% ===========================================================================
+\section{Rimmer et al.\ (2021): chemistry inside the droplets}
+\label{sec:lit-rimmer}
+
+\subsection{Objective and Methodology}
+
+Rimmer and co-workers tested three explanations for the loss of SO\sub{2} and water in
+and above the clouds: more water below the clouds, less SO\sub{2} below them, and
+chemistry inside the droplets enabled by dissolved hydroxide salts, with sodium hydroxide
+as a stand-in~\cite{rimmer2021}. In their 480 species model, gas dissolves into the
+droplets by Henry's law and the salts neutralise part of the acid so that more SO\sub{2}
+is held. The absorber is a fixed optical depth between 58 and 67~km, fading above.
+
+\subsection{Results and Critique}
+
+Without extra hydrogen, the water available removes only about 20 per cent of the
+SO\sub{2}~\cite{rimmer2021}. More water fails, raising the cloud top 20~km too high and
+the oxygen far too much. Less SO\sub{2} below the clouds works at 15 to 20~ppm (the paper
+gives both), against about 150~ppm observed. Salts reproduce SO\sub{2} with a droplet pH
+of about 1 at 50~km, but need a continuous supply of about
+$10^{-13}$~mol\,cm$^{-2}$\,s$^{-1}$, some four orders of magnitude more than delivery
+from space~\cite{rimmer2021}. No gas in their models explains the absorber above 200~nm,
+and the particles' own absorption was not considered.
+
+\emph{This project's reading.} The salt profile is prescribed at each height to fit
+SO\sub{2}, its source lies outside the mass balance, and the authors call the solution not
+unique~\cite{rimmer2021}. The paper shows that buffered droplets \emph{could} hold the
+missing SO\sub{2}, not that a real salt reaches them. Dai et al.\ adopted its droplet
+reaction rates.
+
+% ===========================================================================
+\section{Lef\`evre et al.\ (2022, 2024): resolved convection in the clouds}
+\label{sec:lit-lef}
+
+\subsection{Objective and Methodology}
+
+Lef\`evre and co-workers measured $K_{zz}$ instead of assuming it, with a large-eddy
+simulation: a three-dimensional model fine enough to resolve single rising plumes, with a
+400~m grid over a box 64~km wide, from the surface to 90~km~\cite{lefevre2022}. The 2022
+study followed idealised tracers for SO\sub{2} and water at the equator and at 75 degrees
+latitude at noon, and derived $K_{zz}$ from their simulated vertical fluxes. The 2024
+study added full photochemistry, equilibrium clouds and midnight, and derived an
+effective $K_{zz}$ for each species~\cite{lefevre2024}. The solar heating corresponds to
+a fixed, average amount of absorber~\cite{lefevre2022}.
+
+\subsection{Results and Critique}
+
+A deep convective layer sits at about 47 to 56~km at the equator. There, at noon, a cloud-top
+convective layer appears at about 66 to 74~km, driven by the absorber's own solar
+heating; it is absent at night and at high latitude, and the authors call it still
+speculative~\cite{lefevre2022}. The effective $K_{zz}$ in the deep layer is about
+$10^{3}$~m$^{2}$\,s$^{-1}$ for SO\sub{2} and $10^{2}$ for water; in the cloud-top layer it
+rises from about 1~m$^{2}$\,s$^{-1}$ at 65~km to $10^{4}$ at 72~km, raising SO\sub{2} at
+72~km from 0.17 to 0.7~ppm~\cite{lefevre2024}. These values are orders of magnitude above
+those in one-dimensional chemistry models~\cite{lefevre2024}, none of which yet includes
+the cloud-top convection~\cite{lefevre2022}.
+
+\emph{This project's reading.} Neither paper moves or changes the absorber, though the
+2022 paper says its uncertain abundance ``could have a strong effect'' on the cloud-top
+convection~\cite{lefevre2022}. Absorber and mixing are coupled: the heating drives mixing
+that redistributes the absorber. Neither paper reports mixing above about 75~km, leaving
+most of this project's 69 to 93~km response band (Chapter~5) unconstrained, and the
+species-dependent $K_{zz}$ shows that VULCAN-Venus's single $K_{zz}$ is a simplification.
+These points motivate Phase~2 (Chapter~9).
+
+% ===========================================================================
+\section{Jiang et al.\ (2024): iron sulfate minerals}
+\label{sec:lit-jiang}
+
+\subsection{Objective and Methodology}
+
+Jiang and co-workers tested in the laboratory which iron sulfate minerals survive in
+sulfuric acid of droplet strength, and whether their absorption matches the
+absorber~\cite{jiang2024}. Minerals were kept in 50 to 98 weight per cent acid for up to
+30 days at room temperature and 1~bar and followed by Raman spectroscopy. The absorbance
+of the surviving minerals and of dissolved iron, normalised to a maximum of one between
+200 and 500~nm, was fitted to the observed spectrum.
+
+\subsection{Results and Critique}
+
+Rhomboclase is stable up to 74.2~wt\% acid and becomes acid ferric sulfate in stronger
+acid: within 14 days at 79.1~wt\%, two hours at 83.5~wt\% and five minutes at
+97.4~wt\%~\cite{jiang2024}. The best fit mixes 1~wt\% rhomboclase in 74.2~wt\% acid with
+1.25~wt\% acid ferric sulfate in 83.5~wt\% acid; dissolved iron matches 200 to 300~nm.
+The authors estimate that about 1 to 2~wt\% of absorber is needed, against at most
+$10^{-3}$~wt\% iron from
+generous estimates of delivery from space, and that rhomboclase forms only where the
+droplets are out of equilibrium or in balance with about 100~ppm or more of water vapour,
+above the 30~ppm observed below the clouds~\cite{jiang2024}.
+
+\emph{This project's reading.} Normalised spectra test shape, not strength; the absolute
+coefficients are in the supplementary material, which Experiment~13 uses (Chapter~6).
+Nothing is modelled about transport, settling or chemistry, so whether the minerals stay
+at the cloud top, and how the iron arrives, is untested. Dai et al.\ note that the
+minerals formed under a particular laboratory setting, not a Venus-like
+one~\cite{dai2024}.
+
+% ===========================================================================
+\section{Trabelsi and Francisco (2026): chlorine and sulfur molecules}
+\label{sec:lit-trabelsi}
+
+\subsection{Objective and Methodology}
+
+Trabelsi and Francisco calculated from first principles the structure, vibrations,
+excited states and cross sections from 200 to 600~nm of three forms of
+S\sub{2}Cl\sub{2} (ClSSCl, SSCl\sub{2} and a ring form), as isolated gas molecules at
+absolute zero~\cite{trabelsi2026}.
+
+\subsection{Results and Critique}
+
+ClSSCl absorbs strongly near 240~nm, against a measured band near 256 to 260~nm.
+SSCl\sub{2} absorbs from about 410~nm, with maxima near 348 and 262~nm, and since this
+overlaps the absorber's range the authors conclude it ``could
+contribute''~\cite{trabelsi2026}. They offer the results as better inputs for
+photochemical models.
+
+\emph{This project's reading.} The paper gives spectra, not amounts: no abundance,
+production, lifetime or altitude. A molecule that absorbs in the near ultraviolet is also
+broken up by it, so it would need a continuous source. The authors supplied their cross
+sections, which Experiment~11 runs in the model (Chapter~6).
+
+% ===========================================================================
+\section{Egan et al.\ (2025): OSSO tested end to end}
+\label{sec:lit-osso}
+
+\subsection{Objective and Methodology}
+
+Egan and co-workers asked whether OSSO can be abundant enough~\cite{egan2025osso}. They
+computed new rate coefficients for its formation from two SO molecules and for its loss,
+placed them in a three-dimensional model of the whole atmosphere with a sulfur source from
+meteors, ran it for nine Venus days to a steady state, and compared the resulting
+reflectance, from a radiative transfer model, with the MESSENGER spectrum.
+
+\subsection{Results and Critique}
+
+OSSO forms a thin layer near 70~km, about three orders of magnitude short of the observed
+absorption, still two orders short with its loss to oxygen and chlorine atoms switched
+off, and with too narrow a band~\cite{egan2025osso}. SO\sub{2} above the clouds was kept
+deliberately too high, which favours OSSO, and the authors conclude that OSSO does not
+contribute significantly.
+
+\emph{This project's reading.} This is the only peer-reviewed paper reviewed here in which
+the chemistry sets a candidate's amount and the reflectance follows from it, and so the
+only independent check on this
+project's screen, which reaches the same verdict against a different yardstick
+(Experiment~12, Chapter~6). Its radiative step uses one column at the equator near
+midday, and its loss rates are calculated, not measured.
+
+% ===========================================================================
+\section{Spacek et al.\ (2026): how strongly the droplets must absorb}
+\label{sec:lit-spacek}
+
+\subsection{Objective and Methodology}
+
+Spacek, Rimmer, Petkowski and Lee asked how strongly the droplet liquid must absorb, in
+units a laboratory measures~\cite{spacek2026}. They fitted a multiple scattering model to
+dayside reflectance between 365 and 455~nm from a 2020 campaign, with the absorber spread
+evenly through mode~1 and mode~2 droplets between 59 and 65~km and represented by a
+lowered \emph{single scattering albedo}, the fraction of light meeting a particle that
+is scattered rather than absorbed. The absorption per unit droplet volume gives the
+\emph{decadic absorption coefficient} $a$ of the liquid: the absorbance of a 1~cm path
+in a laboratory cell.
+
+\subsection{Results and Critique}
+
+The single scattering albedo must be 0.89 at 365~nm, and $a$ peaks at 1278~cm$^{-1}$ at
+375~nm, falling below 54~cm$^{-1}$ at 455~nm~\cite{spacek2026}. An efficient organic
+absorber would have to make up about 0.5 to 7 per cent of the droplet liquid, nearly four
+orders of magnitude above the authors' estimate of the organic carbon available; weaker
+inorganic absorbers would have to be a major part of the droplets. Ferric chloride is
+rejected because 1~g per litre of \emph{water} gives about 1~cm$^{-1}$ at 375~nm, so a
+straight-line extrapolation needs about 1.3~kg per litre~\cite{spacek2026}.
+
+\emph{This project's reading.} The requirement holds only for the assumed layer, mixing
+and droplet sizes, as the authors acknowledge. The ferric chloride figure rests on a
+measurement in water, though the same paper warns that aqueous spectra have limited value
+unless Venus conditions are reproduced~\cite{spacek2026}, and it cites the sulfuric acid
+measurements of Egan et al.\ only for spectral shape. Experiment~14, done after Phase~1
+closed, repeats the calculation with the same group's measurements of ferric chloride in
+hydrochloric acid (Section~\ref{sec:lit-egan} and Chapter~6).
+
+% ===========================================================================
+\section{Egan et al.\ (2025, 2026): ferric chloride in sulfuric acid}
+\label{sec:lit-egan}
+
+\subsection{Objective and Methodology}
+
+The ferric chloride spectrum used in recent comparisons had been measured in an organic
+solvent with which it can react~\cite{egan2025lab}. Egan, James and Plane measured it
+from 200 to 600~nm in about 77 and 78~wt\% sulfuric acid with added hydrochloric acid, at
+room temperature, and followed its slow conversion to ferric sulfate for about a hundred
+days~\cite{egan2025lab}. To fit these mixtures they also derived its molar absorptivity
+in hydrochloric acid of several strengths (their Figure~5a), the curves Experiment~14
+uses~\cite{egan2025lab}. A preprint by the same group, posted on 14 January 2026 and
+marked as not peer reviewed~\cite{egan2026}, added 57 iron reactions to a
+three-dimensional model of Venus, with iron from meteors and chlorine from atmospheric
+hydrogen chloride, and used the laboratory spectra in a radiative transfer model compared
+with the MESSENGER spectrum.
+
+\subsection{Results and Critique}
+
+Ferric chloride had not been measured in concentrated sulfuric acid before, the solvent
+has a significant effect on its spectrum, and hydrochloric acid slows its conversion to
+sulfate~\cite{egan2025lab}. Its normalised shape agrees well with the absorber, but the
+authors add that altitude, formation, lifetime and transport ``must all be considered
+through extensive atmospheric modeling'' first. The preprint finds that 1.0 to 1.2~wt\%
+ferric chloride in mode~1 droplets reproduces the absorption between 300 and 600~nm (1.2
+to 1.5~wt\% if part turns to sulfate), and that a purely meteoric source needs the iron to
+stay in the clouds for about 3000 years~\cite{egan2026}.
+
+\emph{This project's reading.} The laboratory spectra were taken several hundred to about
+a thousand times more dilute than the fitted loadings, so using them at those loadings
+assumes that absorbance grows in proportion to the amount. In the
+preprint the amount comes from the radiative fit, not the chemistry, whose run had not
+reached a steady state, and the residence time is 2800 and 3400 years in the discussion
+but 1800 to 3000 in the conclusions~\cite{egan2026}. Most important here, Spacek et al.\
+and the preprint reach opposite conclusions on ferric chloride and neither cites the
+other. Experiment~14 (Chapter~6) traces the disagreement to the solvent of the input
+measurement; it does not identify the absorber.
+
+% ===========================================================================
+\section{What the literature leaves open}
+\label{sec:lit-gap}
+
+Against the three tests of Section~\ref{sec:question}, the coverage is uneven.
+\textbf{The spectrum} is tested most often, almost always as a normalised shape.
+\textbf{The amount} has been tested for a few candidates, one at a time, and only Spacek
+et al.\ state the absolute strength the droplets need. \textbf{The altitude} is assumed:
+tied to mode~1, set as a fixed layer, or prescribed. No paper reviewed lets a chemistry
+model place a candidate by itself and then measures how the radiation responds to where
+it sits, while the mixing that would carry a candidate there is uncertain by orders of
+magnitude and may be driven, at the cloud top, by the absorber itself. This is the gap of
+Section~\ref{sec:objective}, and the following chapters describe how Phase~1 addressed it.

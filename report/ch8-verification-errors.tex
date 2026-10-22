@@ -1,0 +1,145 @@
+% ===========================================================================
+% Chapter 8: Verification
+% ===========================================================================
+\chapter{Verification}
+\label{ch:verify}
+
+No number in this report was typed in by hand. This chapter shows how numbers are
+produced and checked, how to read a registry key, and what the checks catch.
+
+% ===========================================================================
+\section{The registry and its keys}
+\label{sec:keys}
+
+The script \texttt{verify/recompute\_25m0328.py} reads the model output committed to the
+repository, recomputes every quantity the project uses, and writes them to
+\texttt{verify/registry.json}: 10830 named values in 71 groups. Anyone can rebuild it
+from the committed output by running the script, which also states the conventions of
+Chapter~\ref{ch:conv}.
+
+Each value has a \emph{key}: parts separated by full stops, read from left to right,
+from the general to the particular,
+\emph{group}\,.\,\emph{case or species}\,.\,\emph{quantity}\,.\,\emph{qualifier}. The
+group names the source, usually an experiment; the middle parts narrow it to one run,
+species, reaction or window; the last part names the quantity and, where needed, a
+wavelength or a unit. Not every key has all four parts. Table~\ref{tab:keygroups} lists
+the groups quoted in this report, and Appendix~\ref{app:filemap} lists, for each
+experiment, its run files, scripts and registry groups.
+
+\begin{table}[htbp]
+  \centering
+  \caption[Registry groups quoted in this report]{Registry groups quoted in this report.}
+  \label{tab:keygroups}
+  \footnotesize
+  \setstretch{1.0}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.3cm}
+                                >{\raggedright\arraybackslash}X}
+    \toprule
+    Group & What it holds \\
+    \midrule
+    \texttt{e1} to \texttt{e14} & One experiment each; letters mark a case or sub-study
+      (\texttt{e7a} is Experiment~7A, \texttt{e3fp} the whole-field test of Experiment~3 at all four amplitudes) \\
+    \texttt{res} & Largest change in a sulfur reservoir species, per case \\
+    \texttt{dJ}, \texttt{dJy}; \texttt{dJz}, \texttt{dJyz} & Photolysis change as
+      $\Delta J$ and as $\Delta(Jn)$; the heights where each peaks \\
+    \texttt{nom}, \texttt{conv} & Reference and baseline runs; steady-state tests \\
+    \texttt{pnom}, \texttt{p9}, \texttt{spec\_*}, \texttt{tau} & Absorber profiles,
+      spectra, and optical depths built from them \\
+    \texttt{scr}, \texttt{iso}, \texttt{corr} & Experiment~8 screen, Experiment~11
+      isomers, spectral correlations \\
+    \texttt{five}, \texttt{share320400} & Comparison of the five spectra; share of
+      absorption between 320 and 400~nm \\
+    \texttt{falselead} & The optical depths of the false lead (Chapter~3) \\
+    \texttt{id}, \texttt{chr}, \texttt{chr8}, \texttt{twoby2}; \texttt{const},
+      \texttt{p2} & Tests of
+      Experiments~9 and~10; fixed constants; Phase~2 mixing times \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\textbf{Example 1.} \texttt{e12.S2O2.short.360}: Experiment~12; species S\sub{2}O\sub{2}
+(OSSO); shortfall factor; at 360~nm. Its value, $2.4563\times10^{5}$: the model holds that many
+times too little OSSO above 69~km.
+
+\textbf{Example 2.} \texttt{res.e7a.SO.inband}: reservoir responses; case 7A, the absorber
+moved up; species SO; largest relative change inside the response band. Its value,
+8.404\%, is one of the two abundance changes above the chemistry floor.
+
+\textbf{Example 3.} \texttt{e7.7a.SO2.R781.col} and its twin ending \texttt{col\_km}:
+Experiment~7; case 7A; species SO\sub{2}; reaction R781; the column-integrated change in
+its rate, with thickness in centimetres, $8.2352\times10^{8}$, and in the old, wrong,
+kilometre form, 8235.1671, kept to show the error (Section~\ref{sec:conv-col}).
+
+\textbf{Example 4.} \texttt{e1.aflux.meanrel}: Experiment~1; actinic flux; mean relative
+change. It is stored as the fraction $1.3553\times10^{-4}$ and printed as 0.013553\%. Keys
+ending in \texttt{pct} hold percentages; keys ending in \texttt{rel} hold fractions.
+
+% ===========================================================================
+\section{The checker, and what it cannot catch}
+\label{sec:checker}
+
+The script \texttt{verify/check\_documents\_25m0328.py} finds every number in a document
+written with three or more decimals, in scientific notation, or as a percentage with two
+or more decimals, and accepts it only if a registry value, rounded to the number's own
+significant digits, gives it (Section~\ref{sec:conv-numbers}). Three faults in the
+checker (unbraced exponents, too tight a tolerance, DOIs read as numbers) were found
+because it rejected correct numbers, and fixed. Chapters~1 to~10 of this report print
+407 checked numbers and the twenty figures print 129 (checked by
+\texttt{figures/check\_figures.py}); none is unmatched.
+
+The checker proves that a number is in the registry, not that it came from the right
+key. For example, \texttt{pnom.col\_dzw} holds $4.0775\times10^{8}$ per square
+centimetre, which the checker would accept as the absorber column; but only
+\texttt{pnom.column}, $4.0776\times10^{8}$, summed on the grid the absorber term uses,
+reproduces $\tau_{\mathrm{req}}$. Every number in this report was therefore also
+checked by hand against the key named beside it.
+
+\textbf{Reproduction.} The eleven runs in the \texttt{conv} group, from the nominal run of
+Experiment~2 to Experiment~11, all ended with \texttt{longdy} between 0.0097778 and
+0.0099988, below the limit of 0.01. The registry can be rebuilt by anyone from the
+committed output with \texttt{verify/recompute\_25m0328.py}.
+
+% ===========================================================================
+\section{One number, traced from end to end}
+\label{sec:trace}
+
+Take the 7.34 of Experiment~7, the number this report quotes most often, and follow it
+from the model to the page.
+
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+  \item \textbf{The model output.} Three runs saved in the repository's \texttt{output}
+    folder: the upward move, \texttt{Experiment7A\_UUV-upward18-25m0328.vul}; the
+    downward move, \texttt{Experiment7B\_UUV-downward18-25m0328.vul}; and the reference,
+    \texttt{Experiment2\_A1\_UUV-nominal-25m0328.vul}, with the absorber in its usual
+    place. Each file holds the actinic flux field of its run.
+  \item \textbf{The calculation.} \texttt{verify/recompute\_25m0328.py} loads the three
+    files and calls its function \texttt{radiative()} twice, once for each move against
+    the reference. The function subtracts the two fields and evaluates
+    Equation~\eqref{eq:field}.
+  \item \textbf{The registry.} The results are stored as \texttt{e7a.L2pct} and
+    \texttt{e7b.L2pct}, and their ratio, 7.3367, as \texttt{e7.ratio\_7A\_over\_7B}.
+  \item \textbf{The sentence.} Section~\ref{sec:e7} prints 2.2498\% and 0.3067\% with
+    those keys, and the ratio as 7.34.
+  \item \textbf{The checker.} It finds 2.2498\% and 0.3067\% in the chapter and accepts
+    each, because the registry value rounded to the same digits gives it. The ratio,
+    printed with two decimals, falls outside the checker's rule, so it was checked by
+    hand: 2.2498 divided by 0.30665 is 7.3367, which rounds to 7.34.
+\end{enumerate}
+
+Any number in this report can be followed the same way, backwards from the key printed
+beside it.
+
+% ===========================================================================
+\section{What the checks catch}
+\label{sec:errors}
+
+Recomputing every number and checking every printed value guards against three kinds of
+error, and each can be seen in the registry or the code. \textbf{Units}: an integral over
+altitude taken with the thickness in kilometres is $10^{5}$ times too small; the registry
+keeps both forms of one such integral, \texttt{e7.7a.SO2.R781.col} and
+\texttt{e7.7a.SO2.R781.col\_km}, so the size of the error can be seen
+(Section~\ref{sec:conv-col}). \textbf{The wrong key}: a number can be in the registry
+and still answer a different question, which is why every sentence is also checked
+against the key it names (Section~\ref{sec:checker}). \textbf{Reading below the floor}:
+a change in abundance smaller than 2.5278\% is not a measurement, so it is reported only
+as an upper bound (Section~\ref{sec:conv-floor}).

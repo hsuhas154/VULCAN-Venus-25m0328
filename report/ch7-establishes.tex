@@ -1,0 +1,76 @@
+% ===========================================================================
+% Chapter 7: What Phase 1 establishes, and its limits
+% ===========================================================================
+\chapter{What Phase 1 Establishes}
+\label{ch:establish}
+
+This chapter states what the fourteen experiments establish and within which limits.
+\emph{Measured} marks a claim resting on radiative comparisons, reproducible to 0.0017\%
+of the change itself;
+\emph{bounded} marks one resting on abundances, reproducible only to 2.5278\%
+(Experiment~10).
+
+\section{Established results}
+\label{sec:est-results}
+
+\textbf{The absorber term works, and its effect is located (measured).} The model's
+absorber changes the radiation field in proportion to its amount, locally in wavelength,
+and within one band of altitude, 69 to 93~km (Chapter~\ref{ch:exp17}).
+
+\textbf{Placement is a first-order control (measured).} The same absorber has 7.34 times
+more effect moved up than moved down, while changing its spectrum at a fixed placement is
+worth a factor of 4.95, and spectral shape stops mattering once the absorber leaves the
+responding layer (Experiments~7, 8 and~10).
+
+\textbf{The chemistry, not the modeller, decides placement, and the closest gas-phase
+candidate fails on it (measured).} At the profile its own chemistry gives it, ClS\sub{2}
+leaves the response band and the radiation field becomes that of no absorber, to
+0.001487\% (\texttt{id.l2\_ratio\_pct}; Experiment~9).
+
+\textbf{No species the model can represent passes all three tests (calculated from
+saved model output).} The
+screen uses only saved model output and stored cross sections (Experiment~12).
+
+\textbf{Two published candidates are reassessed (calculated from published data).} The
+proposed iron and sulfur minerals cannot absorb enough at 375~nm even as pure solids,
+and the published rejection of ferric chloride does not survive if ferric chloride absorbs
+in the droplets as it does in hydrochloric acid (Experiments~13 and~14). Neither result uses the model, and neither identifies the
+absorber.
+
+\textbf{The chemical responses are small and mostly unresolved (bounded).} Apart from SO
+and SO\sub{3} when the absorber is moved up, by 8.404\% and 4.718\% (keys
+\texttt{res.e7a.SO.inband} and \texttt{res.e7a.SO3.inband}), the changes in the sulfur
+reservoirs inside the band are at or below the chemistry floor, or above it by too little
+to settle anything (SO in Experiments~3 and~4B), and are reported only as upper bounds.
+
+\section{Limits}
+\label{sec:limits}
+
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+  \item \textbf{One column, one sun angle.} The model is a single global average at a
+    zenith angle of 58 degrees, with every photolysis rate halved for day and night
+    (Table~\ref{tab:setup}). Latitude and local time are not represented, and every run
+    is a steady state.
+  \item \textbf{Low vertical mixing.} Every run uses the Bierson and Zhang mixing
+    profile~\cite{bierson2020}, orders of magnitude below what has since been derived
+    for the clouds from observations and models~\cite{dai2023kzz, lefevre2024}. The vertical wind is switched off. The
+    placement verdict of Experiment~9 has therefore been tested at one mixing strength
+    only; Chapter~\ref{ch:phase2} proposes to test it at others.
+  \item \textbf{Simplified cloud droplets.} The cloud droplets enter the radiation only
+    through fixed, fitted cross sections for two droplet modes; the full droplet
+    calculation in the code stays switched off in every run
+    (Section~\ref{sec:discovery}).
+  \item \textbf{An empirical reference.} The empirical absorber's spectrum and profile
+    were fitted to the observed brightness of Venus. Spectral rankings measure resemblance
+    to that fit, not correctness (Experiments~8 and~11).
+  \item \textbf{Only what the network contains.} The screen can judge only species the
+    model tracks and holds cross sections for: 23 of 62. Ferric chloride and the iron
+    minerals have no chemistry in the model and could not be placed by it.
+  \item \textbf{A floor from one pair.} The chemistry floor comes from a single pair of
+    replicate runs and is a lower bound on the true numerical scatter
+    (Section~\ref{sec:conv-floor}).
+\end{enumerate}
+
+None of these limits weakens a comparison between two runs, which share them; they
+limit how far the verdicts carry to the real atmosphere, and the first two are the
+subject of Phase~2.

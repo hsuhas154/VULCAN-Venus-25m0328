@@ -1,0 +1,71 @@
+% Appendix A. File map: built from the repository and the registry only.
+\chapter{File Map}
+\label{app:filemap}
+
+This appendix lists, for each experiment, the files in the repository that hold its
+runs and inputs, and the registry groups that hold its numbers. Every run file is in
+\texttt{output/}, and the full settings of each run are recorded beside it in
+\texttt{output/cfg\_<run>.txt}. Every number is recomputed from these files by
+\texttt{verify/recompute\_25m0328.py} into \texttt{verify/registry.json} (Chapter~8).
+Run names below omit the common ending \texttt{-25m0328.vul}.
+
+\begin{table}[htbp]
+  \centering
+  \caption[Where each experiment lives in the repository]{Where each experiment lives in the repository.}
+  \label{tab:filemap}
+  \scriptsize
+  \setstretch{1.0}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{1.45cm}
+                                >{\raggedright\arraybackslash}p{4.35cm}
+                                >{\raggedright\arraybackslash}X
+                                >{\raggedright\arraybackslash}p{2.4cm}}
+    \toprule
+    Experiment & Runs (in \path{output/}) & Other inputs and scripts & Registry groups \\
+    \midrule
+    Baseline & \path{Nominal_Bkzz_SO2-25m0328-reference}, \path{-baseline},
+      \path{-laptop-baseline} & \path{atm/UV_absorber.txt},
+      \path{atm/mode1+2.txt} & \path{nom}, \path{pnom}, \path{falselead} \\
+    1 & \path{Experiment1_A0_UUV-control} & & \path{e1} \\
+    2 & \path{Experiment2_A1_UUV-nominal} & & \path{e2} \\
+    3 & \path{Experiment3_A0p5_UUV-half}, \path{Experiment3_A2_UUV-double} &
+      \path{analyze_Experiment3_sensitivity_final_25m0328.py} &
+      \path{e3}, \path{e3a}, \path{e3b}, \path{e3fp} \\
+    4A & runs of Experiments~1 and~2 &
+      \path{Experiment4A_exact_spectral_attribution_final_25m0328.txt} &
+      \path{e4a} \\
+    4B & \path{Experiment4B_B1_300-320} to \path{Experiment4B_B6_420-698} &
+      \path{atm/UV_absorber_Experiment4B_B<n>_25m0328.txt};
+      \path{output/Experiment4B_consolidated_analysis_25m0328.txt} &
+      \path{e4b} \\
+    5 & runs of Experiments~1 and~2 & & \path{e5} \\
+    6 & runs of Experiments~1, 2 and~4B & & \path{e6}, \path{e6ctl} \\
+    7 & \path{Experiment7A_UUV-upward18}, \path{Experiment7B_UUV-downward18} &
+      \path{atm/mode1+2_Experiment7A_shift18_25m0328.txt},
+      \path{atm/mode1+2_Experiment7B_shiftDown18_25m0328.txt} &
+      \path{e7}, \path{e7a}, \path{e7b}, \path{p7a}, \path{p7b},
+      \path{specband} \\
+    8 & \path{Experiment8_baseline_A1}, \path{Experiment8A_ClS2},
+      \path{Experiment8B_OSSO_S2O2}, \path{Experiment8C_S3} &
+      \path{atm/UV_absorber_Experiment8<A,B,C>_*.txt}; folder
+      \path{Experiment8-9/} & \path{e8}, \path{e8a} to \path{e8c}, \path{scr},
+      \path{corr}, \path{spec_8*} \\
+    9 & \path{Experiment9_ClS2-selfconsistent} &
+      \path{atm/mode1+2_Experiment9_ClS2profile_25m0328.txt}; folder
+      \path{Experiment8-9/} & \path{e9}, \path{p9}, \path{id}, \path{dJ},
+      \path{dJy}, \path{res} \\
+    10 & \path{Experiment10_S3-on-ClS2profile} & folder \path{Experiment10/} &
+      \path{e10}, \path{chr}, \path{chr8}, \path{twoby2} \\
+    11 & \path{Experiment11A_SSCl2}, \path{Experiment11B_ClSSCl} &
+      \path{atm/UV_absorber_Experiment11<A,B>_*.txt}; folder
+      \path{Experiment11/} with its \path{data/} & \path{e11a}, \path{e11b},
+      \path{iso}, \path{five}, \path{share320400} \\
+    12 & none; reads the saved baseline & folder \path{Experiment12/} & \path{e12} \\
+    13 & none; published data & folder \path{Experiment13/} with its \path{data/} &
+      \path{e13} \\
+    14 & none; published data & folder \path{Experiment14/} with its \path{data/} &
+      \path{e14} \\
+    Phase~2 & none & \path{atm/atm_Venus_Bkzz.txt},
+      \path{atm/atm_Venus_B+Dkzz.txt} & \path{p2} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
