@@ -24,7 +24,10 @@ with open(os.path.join(S.ROOT, "Experiment12", "screen_results_25m0328.json")) a
     SC = json.load(fh)
 NM = str(int(SC["rank_nm"]))
 SP = sorted(SC["species"])
-LABEL = {"NO2", "HNO2", "Cl2", "O3", "S2O2", "ClS2", "SO3", "S3", "SO2"}
+
+def name(sp):
+    # the report names S2O2 as OSSO in prose and in Table 6.2, so the figure does too
+    return "OSSO" if sp == "S2O2" else S.chem(sp)
 
 def r(sp, f):
     k = f"e12.{sp}.{f}"
@@ -39,13 +42,18 @@ ax = fig.add_subplot(gs[:, 0])
 x = np.array([r(s, f"short.{NM}") for s in placed])
 y = np.array([r(s, "frac_in_band_pct") for s in placed])
 c = np.array([r(s, "corr") for s in placed])
-ax.axvspan(1e-1, 1, ymin=0.5, ymax=1, color="#E8F4E8", lw=0, zorder=0)
+# the carrier corner: no shortfall, and at least the empirical absorber's own share in the band
+gate = S.REG["e12.gate.emp_inband_pct"]
+ax.fill_between([1e-1, 1], gate, 108, color="#E8F4E8", lw=0, zorder=0)
 ax.text(0.15, 97, "a carrier\nwould be here", va="top", fontsize=12.5, color="#2E6B2E")
 sc = ax.scatter(x, y, c=c, cmap="cividis", vmin=-1, vmax=1, s=140, edgecolor="black", zorder=3)
 for s, xx, yy in zip(placed, x, y):
-    if s in LABEL:
-        off = {"O3": (8, -16), "S3": (8, -14), "ClS2": (8, 8)}.get(s, (8, 6))
-        ax.annotate(S.chem(s), (xx, yy), xytext=off, textcoords="offset points", fontsize=13)
+    off = {"S2O2": (-12, -46), "O3": (16, 22), "S3": (8, -14), "ClS2": (8, 8), "HOCl": (6, 8),
+           "SCl2": (6, 8), "S2Cl2": (-14, 10)}.get(s, (8, 6))
+    # the S2O2 and O3 points nearly touch, so their labels get leader lines
+    lead = dict(arrowstyle="-", lw=0.8, color="#444444") if s in ("S2O2", "O3") else None
+    ax.annotate(name(s), (xx, yy), xytext=off, textcoords="offset points", fontsize=13,
+                arrowprops=lead)
 ax.set_xscale("log")
 ax.set_xlim(1e-1, 1e15)
 ax.set_ylim(-5, 108)
@@ -71,7 +79,7 @@ for ci, (key, reverse, head) in enumerate(cols):
                   key=lambda t: t[1], reverse=reverse)[:8]
     axr.text(ci + 0.05, 9.4, head, va="top", fontsize=13, fontweight="bold")
     for k, (s_, _) in enumerate(vals):
-        axr.text(ci + 0.05, 7.4 - k, S.chem(s_), va="center", fontsize=13)
+        axr.text(ci + 0.05, 7.4 - k, name(s_), va="center", fontsize=13)
 axr.text(0.05, -0.4, "Each test picks a different winner: the rankings disagree.",
          fontsize=12.5, style="italic")
 S.save(fig, "F15_E12_three-axis-screen_ch6_s14")

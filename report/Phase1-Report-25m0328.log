@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.4.4)  22 OCT 2026 13:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.4.4)  24 OCT 2026 14:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -845,7 +845,7 @@ File: ../figures/F16_E13_minerals-cannot-reach_ch6_s15.pdf Graphic file (type p
 df)
 <use ../figures/F16_E13_minerals-cannot-reach_ch6_s15.pdf>
 Package pdftex.def Info: ../figures/F16_E13_minerals-cannot-reach_ch6_s15.pdf  
-used on input line 382.
+used on input line 383.
 (pdftex.def)             Requested size: 391.40768pt x 167.23079pt.
  [52 <../figures/F16_E13_minerals-cannot-reach_ch6_s15.pdf>]
 <../figures/F17_E14_ferric-chloride-correction_ch6_s16.pdf, id=1441, 938.9071pt
@@ -854,7 +854,7 @@ File: ../figures/F17_E14_ferric-chloride-correction_ch6_s16.pdf Graphic file (t
 ype pdf)
 <use ../figures/F17_E14_ferric-chloride-correction_ch6_s16.pdf>
 Package pdftex.def Info: ../figures/F17_E14_ferric-chloride-correction_ch6_s16.
-pdf  used on input line 431.
+pdf  used on input line 432.
 (pdftex.def)             Requested size: 434.90039pt x 224.0017pt.
  [53] [54 <../figures/F17_E14_ferric-chloride-correction_ch6_s16.pdf>]) [55]
 \openout2 = `ch7-establishes.aux'.
@@ -949,11 +949,11 @@ Package rerunfilecheck Info: File `Phase1-Report-25m0328.out' has not changed.
 (rerunfilecheck)             Checksum: 4B546A575B00A351C5570950FCC8E856;21207.
  ) 
 Here is how much of TeX's memory you used:
- 16866 strings out of 476182
- 273118 string characters out of 5795596
+ 16857 strings out of 476182
+ 273046 string characters out of 5795596
  1950975 words of memory out of 5000000
  37741 multiletter control sequences out of 15000+600000
- 619035 words of font info for 462 fonts, out of 8000000 for 9000
+ 618632 words of font info for 456 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  69i,14n,79p,1210b,649s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
@@ -972,7 +972,7 @@ re/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /palatino/uplri8a.pfb>
-Output written on Phase1-Report-25m0328.pdf (81 pages, 1263198 bytes).
+Output written on Phase1-Report-25m0328.pdf (81 pages, 1263550 bytes).
 PDF statistics:
  1797 PDF objects out of 2073 (max. 8388607)
  1458 compressed objects within 15 object streams

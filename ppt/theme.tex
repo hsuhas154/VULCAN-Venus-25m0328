@@ -1,0 +1,182 @@
+% Slide theme for the Phase 1 presentation, Suhas H, roll number 25M0328, CSRE, IIT Bombay.
+% Replicates the layout of beamer-theme-standard.pdf: white frames, bold blue frame
+% titles at the left, the section name at the top, small square bullets; Palatino.
+% Three levels, each in its own style: the header (section name, small grey, above a
+% hairline), the heading (frame title, large bold blue), the content (black text).
+% The footer carries the project title at the left and the two logos at the right.
+% Compile from the ppt/ folder of the repository, so that ../figures/ resolves.
+
+% ---------------------------------------------------------------------------
+% Type: Palatino, as in the report
+% ---------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage{palatino}
+\usefonttheme{serif}
+\usefonttheme{professionalfonts}
+\usepackage{microtype}
+
+\usepackage{graphicx}
+\graphicspath{{../figures/}{../report/}{./}}
+\usepackage{booktabs}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+
+% Subscripts in chemical formulae, in the text typeface: SO\sub{2}
+\newcommand{\sub}[1]{\textsubscript{#1}}
+
+% ---------------------------------------------------------------------------
+% Colours: one blue, the blue of the institute logo, and the theme's orange
+% for the rare emphasised word
+% ---------------------------------------------------------------------------
+\definecolor{iitblue}{HTML}{014EA0}
+\definecolor{navy}{HTML}{1A2744}
+\definecolor{emph}{HTML}{E08A00}
+\definecolor{textcol}{HTML}{111111}
+\definecolor{softgrey}{HTML}{6B6B6B}
+
+\setbeamercolor{normal text}{fg=textcol,bg=white}
+\setbeamercolor{structure}{fg=iitblue}
+\setbeamercolor{frametitle}{fg=iitblue}
+\setbeamercolor{title}{fg=iitblue}
+\setbeamercolor{item}{fg=iitblue}
+\setbeamercolor{alerted text}{fg=emph}
+\setbeamercolor{caption name}{fg=iitblue}
+\setbeamercolor{block title}{fg=white,bg=iitblue}
+\setbeamercolor{block body}{fg=textcol,bg=iitblue!6}
+
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamerfont{title}{size=\huge,series=\bfseries}
+\setbeamerfont{alerted text}{series=\bfseries}
+\setbeamerfont{caption}{size=\small}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\small\raise0.25ex\hbox{\vrule width0.55em height0.55em}}
+\setbeamertemplate{itemize subitem}{\scriptsize\raise0.3ex\hbox{\vrule width0.5em height0.5em}}
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamertemplate{blocks}[default]
+\setbeamertemplate{caption}[numbered]
+\setbeamersize{text margin left=7mm, text margin right=7mm}
+
+% ---------------------------------------------------------------------------
+% Header: the current section name, small and grey, at the left above a hairline
+% that runs the full text width. It names where the talk is, not the slide.
+% ---------------------------------------------------------------------------
+\definecolor{hairline}{HTML}{C9CDD4}
+\setbeamertemplate{headline}{%
+  \vskip2mm
+  \hbox to \paperwidth{\hskip7mm
+    {\scriptsize\color{softgrey}\insertsectionhead}\hfill}%
+  \vskip1.2mm
+  \hbox to \paperwidth{\hskip7mm{\color{hairline}\rule{\dimexpr\paperwidth-14mm\relax}{0.4pt}}\hfill}%
+}
+
+% ---------------------------------------------------------------------------
+% Heading: the frame title, large, bold and blue, at the left. There is no
+% subtitle: what the slide shows is said in the content, in black.
+% ---------------------------------------------------------------------------
+\setbeamertemplate{frametitle}{%
+  \vskip3.5mm
+  {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\raggedright
+   \insertframetitle\par}%
+  \vskip1mm
+}
+
+% The one sentence that says what a figure shows: content, so black and upright
+\newcommand{\finding}[1]{{\raggedright #1\par}\vskip2mm}
+
+% Literature behind a slide, small and grey at the foot of the content
+\newcommand{\refline}[1]{\par\vfill{\raggedright\scriptsize\color{softgrey}#1\par}\vskip0.5mm}
+
+% A small bold blue label that opens a column or a group of points
+
+% Harvey ball: 0 empty, 1 quarter, 2 half, 3 three quarters, 4 full
+\newcommand{\hb}[1]{\tikz[baseline=-0.7ex]{%
+  \ifcase#1\relax
+  \or\fill[iitblue] (0,0) -- (0,1.15mm) arc[start angle=90,end angle=0,radius=1.15mm] -- cycle;%
+  \or\fill[iitblue] (0,0) -- (0,1.15mm) arc[start angle=90,end angle=-90,radius=1.15mm] -- cycle;%
+  \or\fill[iitblue] (0,0) -- (0,1.15mm) arc[start angle=90,end angle=-180,radius=1.15mm] -- cycle;%
+  \or\fill[iitblue] (0,0) circle (1.15mm);%
+  \fi
+  \draw[iitblue,line width=0.5pt] (0,0) circle (1.15mm);}}
+\newcommand{\colhead}[1]{{\bfseries\color{iitblue}#1\par}\vskip1mm}
+
+% Drawn diagrams: flat boxes with a thin blue border, plain arrows
+\tikzset{
+  box/.style={draw=iitblue,line width=0.6pt,fill=iitblue!5,align=center,
+              inner sep=1.8mm,font=\small,text width=#1,minimum height=11mm},
+  box/.default={24mm},
+  keybox/.style={box=#1,fill=iitblue,text=white,font=\small\bfseries},
+  keybox/.default={24mm},
+  greybox/.style={box=#1,draw=softgrey,fill=black!4,text=softgrey},
+  greybox/.default={24mm},
+  flow/.style={-{Stealth[length=2.2mm]},line width=0.7pt,color=iitblue},
+  note/.style={font=\scriptsize,text=softgrey,align=center}}
+
+% Outline: numbered sections in blue
+\setbeamertemplate{section in toc}{%
+  {\color{iitblue}\bfseries\inserttocsectionnumber.}\hskip2mm\inserttocsection\par}
+\setbeamerfont{section in toc}{size=\large}
+
+% ---------------------------------------------------------------------------
+% Foot: the project title at the left, the two logos small at the right
+% ---------------------------------------------------------------------------
+\newcommand{\footlogoheight}{4.8mm}
+\setbeamertemplate{footline}{%
+  \hbox to \paperwidth{%
+    \hskip7mm
+    \raisebox{1.1mm}{\tiny\bfseries\color{iitblue}\insertshorttitle}%
+    \hfill
+    \includegraphics[height=\footlogoheight]{iitb-logo}%
+    \hskip2.5mm
+    \includegraphics[height=\footlogoheight]{csre-logo}%
+    \hskip7mm}%
+  \vskip2.5mm
+}
+
+% ---------------------------------------------------------------------------
+% Title page: the two logos at the same height, mirrored about the centre line
+% of the page and level with the title; below, the lines of the report's title
+% page, one under the other, centred
+% ---------------------------------------------------------------------------
+% The CSRE mark is about twice as wide as the IIT Bombay seal, so at equal height it
+% looks heavier; it is set a little smaller. Each logo is placed from the edge of
+% the title itself, at the same gap, so the title sits exactly between them; the
+% logos and the title block share one vertical centre.
+\newcommand{\titlelogoheight}{13mm}
+\newcommand{\csrelogoheight}{10.5mm}
+\newcommand{\logogap}{12.8mm}
+\newcommand{\talksubtitle}{}
+\newcommand{\talkdetails}{}
+\newcommand{\maketitleframe}{%
+  \begin{frame}[plain,noframenumbering]
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[anchor=center,align=center,inner sep=0pt] (titleblock)
+        at ([yshift=-15mm]current page.north)
+        {{\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\\[1mm]
+         {\small\talksubtitle}};
+      \node[anchor=east,inner sep=0pt]
+        at ([xshift=-\logogap]titleblock.west)
+        {\includegraphics[height=\titlelogoheight]{iitb-logo}};
+      \node[anchor=west,inner sep=0pt]
+        at ([xshift=\logogap]titleblock.east)
+        {\includegraphics[height=\csrelogoheight]{csre-logo}};
+      \node[anchor=north,text width=0.84\paperwidth,align=center,inner sep=0pt]
+        at ([yshift=-33mm]current page.north)
+        {\talkdetails};
+    \end{tikzpicture}
+  \end{frame}
+}
+
+% ---------------------------------------------------------------------------
+% Closing frame: the words alone, at the exact centre of the page, large, bold, navy
+% ---------------------------------------------------------------------------
+\newcommand{\makeclosingframe}[1]{%
+  \begin{frame}[plain,noframenumbering,c]
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[anchor=center,inner sep=0pt] at (current page.center)
+        {\fontsize{30}{34}\selectfont\bfseries\color{navy}#1};
+    \end{tikzpicture}
+  \end{frame}
+}
