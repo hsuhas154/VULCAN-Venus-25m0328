@@ -255,87 +255,36 @@
 \begin{frame}{What was done, in four stages}
   \finding{Fourteen experiments; each stage builds on the one before.}
   \centering
-  \includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{F04_CTX_what-was-done_ch3_report.pdf}
+  \includegraphics[width=\linewidth,height=0.61\textheight,keepaspectratio]{F04_CTX_what-was-done_ch3_report.pdf}
+  \par\vskip1mm
+  \raggedright
+  \begin{itemize}
+    \item Each effect is one number: the change in sunlight, in per cent of the sunlight itself.
+  \end{itemize}
 \end{frame}
 
-% Slide 8. Report Sections 4.4 and 4.5, Table 4.2.
-% Numbers: e7a.L2pct 2.2498; e7b.L2pct 0.3067; e6.interval.<share>.lo, .hi, .contained;
-% e6.A1.meanz 82.044; pnom.cloud 90.194.
-\begin{frame}{Measuring a change, and where it happens}
-  \vskip1mm
+% Slide 9. Report Sections 4.6 and 6.3, Figure F13 (the two floor slides merged).
+% Numbers: e10.fielddiff_pct 0.0017; res.e9.SO.inband 0.7384; res.e10.SO.inband 2.5278.
+\begin{frame}{How small a change is real}
+  \finding{Experiment 10 repeats Experiment 9; the gap between them is numerical noise.}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.44\textwidth}
-      \colhead{One number for a whole field}
+    \begin{column}{0.58\textwidth}
       \centering
-      \begin{tikzpicture}
-        \node[draw=iitblue,line width=0.6pt,fill=iitblue!5,inner sep=2.5mm,font=\small] (f)
-          {$\dfrac{\text{Size of the change in sunlight}}{\text{Size of the reference sunlight}}$};
-        \node[note, below=1mm of f] {Size: root of summed squares over\\57 layers by 1670 bins; in per cent};
-      \end{tikzpicture}
-      \vskip3mm
-      \small
-      \renewcommand{\arraystretch}{1.25}
-      \begin{tabular}{@{}lr@{}}
-        \toprule
-        Absorber moved up   & 2.2498\%\\
-        Absorber moved down & 0.3067\%\\
-        \bottomrule
-      \end{tabular}
+      \includegraphics[width=\linewidth,height=0.66\textheight,keepaspectratio]{F13_E10_noise-floors_ch6_backup.pdf}
     \end{column}
-    \begin{column}{0.53\textwidth}
-      \colhead{The response band: narrowest range holding a share}
+    \begin{column}{0.39\textwidth}
+      \vskip2mm
       \small
-      \renewcommand{\arraystretch}{1.25}
-      \centering
-      \begin{tabular}{@{}cccc@{}}
-        \toprule
-        Share asked & Range, km & Width, km & Held\\
-        \midrule
-        50 per cent & 73 to 83 & 10 & 54.567\%\\
-        80 per cent & 71 to 89 & 18 & 81.479\%\\
-        \textbf{90 per cent} & \textbf{69 to 93} & \textbf{24} & \textbf{91.370\%}\\
-        99 per cent & 65 to 103 & 38 & 99.138\%\\
-        \bottomrule
-      \end{tabular}
-      \vskip3mm
-      \raggedright
-      \begin{itemize}\setlength{\itemsep}{1.5mm}
-        \item Centre of the response: 82.044 km.
-        \item Absorber particles sit lower: 90.194\% at 58 to 69 km.
+      \begin{itemize}\setlength{\itemsep}{2.5mm}
+        \item Sunlight: the runs differ by 0.0017\% of the change. Resolved.
+        \item SO in the band: 0.7384\% against 2.5278\%. Noise.
       \end{itemize}
+      \vskip3mm
+      \begin{block}{The rule}
+        Abundance changes below 2.5278\% are upper bounds, not measurements.
+      \end{block}
     \end{column}
   \end{columns}
-\end{frame}
-
-% Slide 9. Report Sections 4.6 and 6.3.
-% Numbers: e10.fielddiff_pct 0.0017; res.e9.SO.inband 0.7384; res.e10.SO.inband 2.5278.
-\begin{frame}{The reproducibility floor}
-  \finding{Experiments 9 and 10 should agree; their gap is numerical noise.}
-  \vskip2mm
-  \centering
-  \small
-  \renewcommand{\arraystretch}{1.3}
-  \begin{tabular}{@{}lccl@{}}
-    \toprule
-    Quantity & Experiment 9 & Experiment 10 & Verdict\\
-    \midrule
-    Field of sunlight & \multicolumn{2}{c}{differ by 0.0017\% of the change} & Resolved\\
-    SO inside the band & 0.7384\% & 2.5278\% & Numerical\\
-    \bottomrule
-  \end{tabular}
-  \vskip6mm
-  \normalsize
-  \begin{block}{The rule}
-    In-band abundance changes below 2.5278\% are upper bounds, not measurements.
-  \end{block}
-\end{frame}
-
-% Slide 9b. Report Section 6.3, Figure F13.
-% Numbers inside the figure: e10.fielddiff_pct 0.0017; res.e10.SO.inband 2.5278.
-\begin{frame}{The two floors}
-  \finding{The chemistry floor applies to abundance changes only.}
-  \centering
-  \includegraphics[width=\linewidth,height=0.64\textheight,keepaspectratio]{F13_E10_noise-floors_ch6_backup.pdf}
 \end{frame}
 
 % ===========================================================================
@@ -477,16 +426,17 @@
 
 % Slide 14. Report Section 5.6, Figure F10.
 % Numbers: e7.7a.centroid_shift 17.8439; e7.7b.centroid_shift -18.0000;
-% e7a.L2pct 2.2498; e7b.L2pct 0.3067; e7.ratio_7A_over_7B 7.34; res.e7a.SO.inband 8.404.
+% e7a.L2pct 2.2498; e7b.L2pct 0.3067; e7.ratio_7A_over_7B 7.34; res.e7a.SO.inband 8.404;
+% pnom.cloud 90.194.
 \begin{frame}{Experiment 7: does placement matter?}
   \finding{Moved up, the same absorber has 7.34 times more effect than moved down.}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.66\textwidth}
+    \begin{column}{0.62\textwidth}
       \centering
       % The figure's own top line repeats the finding, so it is trimmed off here
       \includegraphics[trim=0 0 0 40,clip,width=\linewidth,height=0.70\textheight,keepaspectratio]{F10_E07_placement-first-order_ch5_s11.pdf}
     \end{column}
-    \begin{column}{0.32\textwidth}
+    \begin{column}{0.36\textwidth}
       \vskip4mm
       \small
       \renewcommand{\arraystretch}{1.25}
@@ -500,10 +450,9 @@
         \textbf{Ratio} & \textbf{7.34}\\
         \bottomrule
       \end{tabular}
-      \vskip4mm
-      \normalsize
+      \vskip3mm
       \begin{itemize}\setlength{\itemsep}{1.5mm}
-        \item Same amount, same spectrum.
+        \item As supplied: 90.194\% at 58 to 69 km, below the band.
         \item Moved up, SO in the band: 8.404\%.
       \end{itemize}
     \end{column}
@@ -528,17 +477,17 @@
   \end{itemize}
 \end{frame}
 
-% Slide 16. Report Sections 6.1 and 6.2, Figure F12 (top line trimmed for the slide).
+% Slide 16. Report Sections 6.1 to 6.3 (Experiment 10 folded in), Figure F12 (top line trimmed for the slide).
 % Numbers: scr.ClS2.short 121.914; pnom.centroid 63.419; p9.centroid 13.656;
 % pnom.inband 9.1940; p9.inband 0.0000; tau.reduction 2.0e8; id.l2_ratio_pct 0.001487.
-\begin{frame}{Experiment 9: the chemistry places the candidate}
+\begin{frame}{Experiments 9 and 10: the chemistry places the candidate}
   \finding{Placed by its own chemistry, ClS\sub{2} falls out of the response band.}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.61\textwidth}
+    \begin{column}{0.58\textwidth}
       \centering
       \includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio,trim=0 0 0 46,clip]{F12_E09_ClS2-self-placement_ch6_s13.pdf}
     \end{column}
-    \begin{column}{0.36\textwidth}
+    \begin{column}{0.39\textwidth}
       \small
       \renewcommand{\arraystretch}{1.25}
       \begin{tabular}{@{}lcc@{}}
@@ -550,36 +499,15 @@
         \bottomrule
       \end{tabular}
       \vskip3mm
-      \begin{itemize}
-        \item Closest in amount: short by 121.914.
-        \item Optical depth above 69 km: $2.0\times10^{8}$ times less.
+      \small
+      \begin{itemize}\setlength{\itemsep}{0.8mm}
+        \item Closest in amount, short by 121.914.
+        \item Above 69 km: $2.0\times10^{8}$ times less optical depth.
         \item Same as no absorber, to 0.001487\%.
+        \item Experiment 10, rerun with S\sub{3}: the same.
       \end{itemize}
     \end{column}
   \end{columns}
-\end{frame}
-
-% Slide 17. Report Section 6.3.
-% Numbers: tau.9_minus_10 0; twoby2.nominal_ratio 1.2365; twoby2.cls2_ratio 1.000003;
-% chr.mean 1.0474; chr.flux_ratio 1.0473.
-\begin{frame}{Experiment 10: a replicate, and a retraction}
-  \finding{S\sub{3} on the ClS\sub{2} profile gave the same optical depth: a replicate of Experiment 9.}
-  \vskip4mm
-  \centering
-  % One size for every box: 34 mm wide, 15 mm tall
-  \begin{tikzpicture}[node distance=7mm,
-      every node/.append style={minimum height=15mm}]
-    \node[keybox=34mm] (r) {Replicate of\\Experiment 9};
-    \node[box=34mm, below left=10mm and 14mm of r] (a) {Two floors\\{\scriptsize\color{softgrey}radiation and chemistry}};
-    \node[box=34mm, below=10mm of r] (b) {Shape matters\\only in the band};
-    \node[box=34mm, below right=10mm and 14mm of r] (c) {Fingerprint\\withdrawn};
-    \draw[flow] (r.south) -- ++(0,-4mm) -| (a.north);
-    \draw[flow] (r) -- (b);
-    \draw[flow] (r.south) -- ++(0,-4mm) -| (c.north);
-    \node[note, below=1.5mm of a, minimum height=0pt] {see \emph{The two floors}};
-    \node[note, below=1.5mm of b, minimum height=0pt] {S\sub{3} over ClS\sub{2}: 1.2365 in band,\\1.000003 out of it};
-    \node[note, below=1.5mm of c, minimum height=0pt] {constant 1.0474 is the flux\\ratio 1.0473: linear response};
-  \end{tikzpicture}
 \end{frame}
 
 % Slide 18. Report Section 6.4, Figure F14.
@@ -748,117 +676,50 @@
   \end{itemize}
 \end{frame}
 
-% Slide 26. Report Section 8.1, Example 1. Number: e12.S2O2.short.360 2.4563e5.
-% The one slide where a key is shown, because reading a key is its subject.
-\begin{frame}{Verification: reading one registry entry}
-  \finding{Each name reads from left to right, from the general to the particular.}
-  \vskip5mm
-  \centering
-  % One size for every box: 28 mm wide, 12 mm tall
-  \begin{tikzpicture}[node distance=3mm,
-      every node/.append style={minimum height=12mm}]
-    \node[keybox=28mm] (a) {\texttt{e12}};
-    \node[keybox=28mm, right=of a] (b) {\texttt{S2O2}};
-    \node[keybox=28mm, right=of b] (c) {\texttt{short}};
-    \node[keybox=28mm, right=of c] (d) {\texttt{360}};
-    \node[box=28mm, below=6mm of a] (a2) {Group\\{\scriptsize\color{softgrey}Experiment 12}};
-    \node[box=28mm, below=6mm of b] (b2) {Species\\{\scriptsize\color{softgrey}S\sub{2}O\sub{2}, that is OSSO}};
-    \node[box=28mm, below=6mm of c] (c2) {Quantity\\{\scriptsize\color{softgrey}shortfall factor}};
-    \node[box=28mm, below=6mm of d] (d2) {Qualifier\\{\scriptsize\color{softgrey}at 360 nm}};
-    \foreach \u/\v in {a/a2,b/b2,c/c2,d/d2} \draw[flow] (\u) -- (\v);
-  \end{tikzpicture}
-  \vskip6mm
-  \finding{Value $2.4563\times10^{5}$: the model holds that many times too little OSSO above 69 km.}
-\end{frame}
-
 % ===========================================================================
-\section{Phase 2}
+\section{Future work}
 % ===========================================================================
 
-% Slide 27. Report Section 9.1, Figure F19.
+% Slide 27. Report Chapter 9: Section 9.1, Figure F19, and Section 9.4.
 % Numbers: p2.gap.Bkzz.t_days 552; figure values p2.*.
-\begin{frame}{Phase 2: fast winds, slow rising}
-  \finding{Mixing needs 552 days to cross the 55 to 69 km gap; the winds circle Venus in 4 to 6.}
-  \centering
-  \includegraphics[width=\linewidth,height=0.64\textheight,keepaspectratio]{F19_P2_transport-timescales_ch9_s19.pdf}
+\begin{frame}{Future work}
+  \finding{Phase 2: can realistic transport carry a candidate into the response band?}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.57\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.52\textheight,keepaspectratio]{F19_P2_transport-timescales_ch9_s19.pdf}
+      \par\vskip1mm
+      \raggedright
+      {\small Mixing needs 552 days to cross the 55 to 69 km gap; the winds circle Venus in 4 to 6.\par}
+    \end{column}
+    \begin{column}{0.40\textwidth}
+      \colhead{Six work packages}
+      \centering
+      % One size for every box: 24 mm wide, 9 mm tall
+      \begin{tikzpicture}[node distance=2mm and 2.5mm,
+          every node/.append style={minimum height=9mm, font=\small}]
+        \node[keybox=24mm] (w1) {WP1\\Stronger mixing};
+        \node[box=24mm, right=of w1] (w2) {WP2\\Cloud-top layer};
+        \node[box=24mm, below=of w1] (w3) {WP3\\Upwelling};
+        \node[box=24mm, below=of w2] (w4) {WP4\\Noon column};
+        \node[keybox=24mm, below=of w3] (w5) {WP5\\Lifetime test};
+        \node[box=24mm, below=of w4] (w6) {WP6\\Ferric chloride};
+      \end{tikzpicture}
+      \par\vskip2mm
+      \raggedright
+      {\small WP1 and WP5 first, ferric chloride last.\par}
+    \end{column}
+  \end{columns}
   \refline{Limaye et al.\ (2018); Bertaux et al.\ (2016)}
 \end{frame}
 
-% Slide 28. Report Section 9.2, Figure F20. Band: e6.interval.90.lo and .hi.
-\begin{frame}{Phase 2: where the layers sit}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.50\textwidth}
-      \centering
-      \includegraphics[height=0.70\textheight]{F20_P2_altitude-map_ch9_s19.pdf}
-    \end{column}
-    \begin{column}{0.47\textwidth}
-      \vskip8mm
-      \begin{itemize}\setlength{\itemsep}{4mm}
-        \item Deep convective layer: 50 to 60 km.
-        \item Cloud-top layer near 70 km, at noon only.
-        \item It overlaps the response band.
-        \item Its authors call it still speculative.
-      \end{itemize}
-    \end{column}
-  \end{columns}
-  \refline{Lef\`evre et al.\ (2022)}
-\end{frame}
-
-% Slide 29. Report Section 9.3, Figure F18.
-% Numbers: p2.kzz.raised.ratio_min 8716; p2.kzz.raised.ratio_max 14011;
-% p2.raised.Bkzz.t_days 118; p2.raised.BDkzz.t_minutes 17.
-\begin{frame}{Phase 2: a second mixing profile, never used}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.52\textwidth}
-      \centering
-      \includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{F18_P2_two-mixing-profiles_ch9_report.pdf}
-    \end{column}
-    \begin{column}{0.45\textwidth}
-      \vskip8mm
-      \begin{itemize}\setlength{\itemsep}{4mm}
-        \item Every Phase 1 run used the weak profile.
-        \item The unused file: 8716 to 14011 times stronger at 47 to 53 km.
-        \item Crossing that layer: 118 days becomes 17 minutes.
-        \item It stops at 53 km, below the band.
-      \end{itemize}
-    \end{column}
-  \end{columns}
-  \refline{Bierson and Zhang (2020); Dai et al.\ (2023); Lef\`evre et al.\ (2024)}
-\end{frame}
-
-% Slide 30. Report Section 9.4.
-\begin{frame}{Phase 2: six work packages}
-  \finding{Does placement survive realistic transport, and can transport lift a candidate into the band?}
-  \vskip4mm
-  \centering
-  % One size for every box: 26 mm wide, 13 mm tall
-  \begin{tikzpicture}[node distance=9mm and 7mm,
-      every node/.append style={minimum height=13mm}]
-    \node[keybox=26mm] (w1) {WP1\\Stronger mixing};
-    \node[box=26mm, right=of w1] (w2) {WP2\\Cloud-top layer};
-    \node[box=26mm, right=of w2] (w4) {WP4\\Noon column};
-    \node[box=26mm, right=of w4] (w6) {WP6\\Ferric chloride};
-    \node[keybox=26mm, below=of w1] (w5) {WP5\\Lifetime test};
-    \node[box=26mm, below=of w2] (w3) {WP3\\Upwelling};
-    \draw[flow] (w1) -- (w2); \draw[flow] (w2) -- (w4); \draw[flow] (w4) -- (w6);
-    \draw[flow] (w1) -- (w5); \draw[flow] (w5) -- (w3);
-    \draw[flow] (w3.east) -| (w6.south);
-  \end{tikzpicture}
-  \vskip4mm
-  \raggedright
-  \begin{itemize}
-    \item WP1 and WP5 come first; together they can give a result on their own.
-    \item WP3 runs alongside WP2; ferric chloride comes last.
-  \end{itemize}
-\end{frame}
-
 % ===========================================================================
-\section{Conclusion}
+\section{Summary}
 % ===========================================================================
 
 % Slide 31. Report Section 10.1. Band: e6.interval.90.lo and .hi.
-\begin{frame}{Conclusion}
-  \vskip4mm
+\begin{frame}{Summary}
+  \vskip3mm
   \begin{itemize}\setlength{\itemsep}{4mm}
     \item Switched on, the absorber acts in one band: 69 to 93 km.
     \item Where an absorber sits matters more than its spectrum.
@@ -921,10 +782,7 @@
     0.3067\% & Field change, absorber moved down & \texttt{e7b.L2pct} & 5.6\\
     7.34 & Ratio of the two moves & \texttt{e7.ratio\_7A\_over\_7B} & 5.6\\
     69 to 93 km & Response band, 90 per cent share & \texttt{e6.interval.90.lo, .hi} & 4.5\\
-    91.370\% & Share held by that band & \texttt{e6.interval.90.contained} & 4.5\\
-    54.567, 81.479, 99.138\% & Shares held by the 50, 80, 99 per cent bands & \texttt{e6.interval.<share>.contained} & 4.5\\
-    82.044 km & Centre of the response & \texttt{e6.A1.meanz} & 4.5\\
-    90.194\% & Absorber particles at 58 to 69 km & \texttt{pnom.cloud} & 4.5\\
+    90.194\% & Absorber at 58 to 69 km, as supplied & \texttt{pnom.cloud} & 4.5\\
     0.0017\% & Radiation floor, share of the change & \texttt{e10.fielddiff\_pct} & 6.3\\
     0.7384, 2.5278\% & SO in the band, Experiments 9 and 10 & \texttt{res.e9.SO.inband, res.e10.SO.inband} & 6.3\\
     0.013553\% & Experiment 1, mean change & \texttt{e1.aflux.meanrel} & 5.1\\
@@ -972,8 +830,6 @@
     9.1940, 0.0000\% & Share in the band, set and by chemistry & \texttt{pnom.inband, p9.inband} & 6.2\\
     $2.0\times10^{8}$ & Fall in optical depth above 69 km & \texttt{tau.reduction} & 6.2\\
     0.001487\% & Difference from no absorber & \texttt{id.l2\_ratio\_pct} & 6.2\\
-    1.2365, 1.000003 & S\sub{3} over ClS\sub{2}, in and out of the band & \texttt{twoby2.nominal\_ratio, .cls2\_ratio} & 6.3\\
-    1.0474, 1.0473 & Withdrawn constant, flux ratio & \texttt{chr.mean, chr.flux\_ratio} & 6.3\\
     0.114\%, 0.156 nm & SSCl\sub{2} peak match & \texttt{iso.SSCl2.val\_pct, .val\_nm} & 6.4\\
     0.079\%, 0.331 nm & ClSSCl peak match & \texttt{iso.ClSSCl.val\_pct, .val\_nm} & 6.4\\
     0.19465, 0.30144\% & Field change, SSCl\sub{2} and ClSSCl & \texttt{e11a.L2pct, e11b.L2pct} & 6.4\\
@@ -994,13 +850,10 @@
     \midrule
     23, 16, 2, 0 & Screened, placement, both, all three & \texttt{e12.n\_screened, e12.gate.n\_placement, .n\_place\_and\_spec, .n\_all} & 6.5\\
     62 & Species the model tracks & \texttt{e12.n\_tracked} & 6.5\\
-    $2.4563\times10^{5}$ & OSSO shortfall at 360 nm & \texttt{e12.S2O2.short.360} & 8.1\\
     1278 per cm & Absorption the droplets need at 375 nm & \texttt{e13.A\_required} & 6.6\\
     71.0\% & Ferric chloride need, aqueous & \texttt{e14.aqueous\_pct\_of\_droplet} & 6.7\\
     2.82, 17.05\% & Ferric chloride need, hydrochloric acid & \texttt{e14.ClA.pct\_of\_droplet, e14.ClE.pct\_of\_droplet} & 6.7\\
     552 days & Mixing across the 55 to 69 km gap & \texttt{p2.gap.Bkzz.t\_days} & 9.1\\
-    118 days, 17 minutes & Crossing 47 to 53 km, weak and raised & \texttt{p2.raised.Bkzz.t\_days, p2.raised.BDkzz.t\_minutes} & 9.3\\
-    8716 to 14011 & How much stronger the unused profile is & \texttt{p2.kzz.raised.ratio\_min, .ratio\_max} & 9.3\\
     10830 & Values in the registry & all entries of \texttt{verify/registry.json} & 8.1\\
     407, 129 & Numbers checked, report and figures & checker output & 8.2\\
     \bottomrule
