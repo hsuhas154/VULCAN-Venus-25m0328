@@ -13,13 +13,16 @@ aqueous solution of 1 g/L FeCl3 has a(375) ~ 1 cm-1", giving about 1.3 kg/L by
 linear extrapolation. That input is AQUEOUS. Egan et al. state that the spectrum
 of FeCl3 in concentrated sulfuric acid "does not appear to have been measured
 previously" and that "the choice of solvent has a significant effect on the
-measured spectrum". Figure 5a is that measurement, and it is the correct input
-for a Venus droplet.
+measured spectrum". Figure 5a gives the molar absorptivity of ferric chloride
+in hydrochloric acid at five strengths, which Egan et al. use as the ferric
+chloride components when they fit their mixed sulfuric and hydrochloric acid
+samples. It is a better input than the aqueous value, but it is not a
+measurement in sulfuric acid, so any result from it stays conditional.
 
-There is no single FeCl3 coefficient. In sulfuric acid the iron speciates into
-chloro complexes whose populations depend on chloride activity, so Figure 5a
-gives five curves spanning 1.54 to 12.2 M HCl. All five are extracted and the
-downstream result is reported as a range.
+There is no single FeCl3 coefficient. The iron speciates into chloro complexes
+whose populations depend on chloride activity, so Figure 5a gives five curves
+spanning 1.54 to 12.2 M HCl. All five are extracted and the downstream result is
+reported as a range.
 
 METHOD
 ------

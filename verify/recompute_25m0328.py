@@ -12,14 +12,13 @@ TWO PHOTOLYSIS CONVENTIONS, WHICH MUST NEVER BE MIXED
 
 Experiment 6 reported d(J y). Experiments 7 through 10 reported dJ. A number
 carried from one convention into a sentence written for the other will look like
-an altitude disagreement of several kilometres and is not one. This note
-supersedes the standalone verify_all_25m0328.py, which recorded it first.
+an altitude disagreement of several kilometres and is not one.
 
-FOUR COMPARISON CONVENTIONS, RECOVERED FROM THE DOCUMENTS THEMSELVES
---------------------------------------------------------------------
+FOUR COMPARISON CONVENTIONS (report Chapter 4)
+----------------------------------------------
  1. A relative change divides by max(|reference|, |case|), not by the reference.
-    Experiment 2's actinic-flux section prints this formula explicitly; the
-    abundance tables of Experiments 1, 2 and 3 use it without saying so.
+    Experiment 2's actinic-flux comparison uses this formula, and so do the
+    abundance comparisons of Experiments 1, 2 and 3.
  2. A mean over a saved field is unweighted, over every element of the array.
     The "bounded relative" means instead average only over elements whose
     denominator is non-zero.
@@ -540,7 +539,7 @@ for b in B4:
     put(f"e4b.{b}.share", 100 * REG[f"e4b.{b}.L2"] / _tot)
 
 # ---------------------------------------------------------------------------
-# Solver convergence diagnostics. The Experiment 1, 2 and 3 documents quote the
+# Solver convergence diagnostics. Experiments 1, 2 and 3 cite the
 # run-termination state of each integration (longdy, longdydt, aflux_change and
 # the step statistics) as evidence that the runs converged. These are stored
 # scalars, not derived quantities: they are read straight out of each .vul.
@@ -567,14 +566,14 @@ for tag, sol in RUNS_ALL.items():
 # ---------------------------------------------------------------------------
 # Whole-array comparisons for Experiments 2 and 3.
 #
-# Two conventions matter here and both are taken from the documents themselves.
+# Two conventions matter here, both set out in report Chapter 4.
 # (1) The mean is over EVERY element of the stored array, unweighted: no
 #     quadrature weight and no altitude weight. It is a diagnostic of the saved
 #     field, not a physical column integral.
 # (2) The relative difference divides by max(|ref|, |case|), which the
-#     Experiment 2 actinic-flux section prints explicitly as
-#     max|dF / max(|F0|,|F1|)|. The abundance tables in Experiments 2 and 3 use
-#     the same denominator, which is how that convention was recovered.
+#     Experiment 2 actinic-flux comparison writes explicitly as
+#     max|dF / max(|F0|,|F1|)|. The abundance comparisons in Experiments 2 and 3
+#     use the same denominator.
 # ---------------------------------------------------------------------------
 def array_pair(tag, field, ref, case):
     a = np.asarray(ref["variable"][field]); b = np.asarray(case["variable"][field])
@@ -1204,7 +1203,7 @@ for nm, m in (("excl", (bins > 620) & (bins <= 698)), ("incl", (bins >= 620) & (
 # instead would raise the required loading by ln(10), not lower it.
 # ---------------------------------------------------------------------------
 A_REQ_DECADIC = 1278.0        # cm^-1 at 375 nm, Spacek et al. (2026)
-RHO_SOLUTION = 1.8            # g cm^-3, the droplet solution density they state
+RHO_SOLUTION = 1.8            # g cm^-3, the droplet density used by Dai et al. (2023)
 LAMBDA_REQ = 375.0
 put("e13.A_required", A_REQ_DECADIC)
 put("e13.rho_solution", RHO_SOLUTION)
@@ -1282,7 +1281,7 @@ else:
 # The audit compared the preserved reference state with a fresh baseline and found
 # one localised disagreement in optical depth: interface 28, near 201.6 nm. It was
 # traced to SO2, not to any absorber. The two saved optical depths and their
-# difference are quoted in the synthesis reports, so they are registered here from
+# difference are quoted in report Section 3.4, so they are registered here from
 # the same two committed files the audit read.
 # ---------------------------------------------------------------------------
 _REF = L("Nominal_Bkzz_SO2-25m0328-reference.vul")
@@ -1297,7 +1296,7 @@ put("falselead.tau_diff", REG["falselead.tau_reference"] - REG["falselead.tau_ba
 
 # ---------------------------------------------------------------------------
 # Experiment 14: ferric chloride against the bulk-absorbance requirement, using
-# the absorbance measured in concentrated sulfuric acid (Egan et al. 2025).
+# the ferric chloride absorptivity in hydrochloric acid (Egan et al. 2025, Figure 5a).
 #
 # As with Experiment 12, the arithmetic is not reimplemented here. The experiment
 # script writes Experiment14/fecl3_result_25m0328.json and this block folds that
@@ -1370,18 +1369,19 @@ put("e12.gate.n_all", len(_ga & _gp & _gs))
 
 # ---------------------------------------------------------------------------
 # Phase 2: the two eddy diffusion profiles and the diffusion crossing times
-# (handoff Section 14.1 and 14.4, figures F18 and F19).
+# (report Section 9.3, figures F18 and F19).
 #
 # atm/atm_Venus_Bkzz.txt is the profile every Phase 1 run used. atm/atm_Venus_B+Dkzz.txt
 # is identical except at four levels, where Dai et al. (2023) raised it. Both files
 # are on the model's own pressure grid, so each row sits at the layer centre zmco.
-# On that grid the four raised levels are the layer centres 47, 49, 51 and 53 km
-# (the handoff calls this 48 to 54 km).
+# On that grid the four raised levels are the layer centres 47, 49, 51 and 53 km,
+# as report Section 9.3 states.
 #
 # Crossing time over a layer of thickness L is L^2 / K, with K the geometric mean
-# of Kzz over the layer centres inside it. The windows below reproduce the handoff
-# table exactly: the raised levels with L = 6 km; the gap with centres 55 to 67 km
-# and L = 14 km (55 to 69 km); the band with centres 69 to 91 km and L = 24 km.
+# of Kzz over the layer centres inside it. The windows below give the crossing
+# times plotted in figure F19: the raised levels with L = 6 km; the gap with
+# centres 55 to 67 km and L = 14 km (55 to 69 km); the band with centres 69 to
+# 91 km and L = 24 km.
 # ---------------------------------------------------------------------------
 _KB = np.loadtxt(os.path.join("atm", "atm_Venus_Bkzz.txt"), skiprows=2)[:, 2]
 _KD = np.loadtxt(os.path.join("atm", "atm_Venus_B+Dkzz.txt"), skiprows=2)[:, 2]

@@ -28,4 +28,17 @@ fastchem_vulcan/fastchem
 *.tmp
 *.swp
 *~
-verify/registry.json
+
+# LaTeX build files for the slides and the report (the PDFs stay tracked)
+ppt/*.aux
+ppt/*.log
+ppt/*.nav
+ppt/*.out
+ppt/*.snm
+ppt/*.toc
+report/*.aux
+report/*.lof
+report/*.lot
+report/*.log
+report/*.out
+report/*.toc

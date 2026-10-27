@@ -10,17 +10,15 @@ Repository:
 Upstream VULCAN-Venus repository:
 `https://github.com/dai-lk/VULCAN-Venus.git`
 
-The local repository keeps the upstream repository as the `origin` remote and the personal research repository as the `research` remote.
+This repository is public. It is a fork of the upstream repository, whose last commit before the MTP work began is `ce78aa2`; every later commit is MTP work. A clone made with `git clone` has this repository as its `origin` remote.
 
 ## Working directory
 
-The intended project root is:
+The project root is the clone itself:
 
-`~/projects-25m0328/venus-photochemistry/VULCAN-Venus`
+`~/VULCAN-Venus-25m0328`
 
-The parent project directory is:
-
-`~/projects-25m0328/venus-photochemistry`
+Every command in this guide is run from that folder with the `venus` environment active.
 
 The embedded FastChem component is located at:
 
@@ -292,13 +290,7 @@ Only the explicit UUV optical-depth term is to be activated for the first experi
 
 ## Current scientific status
 
-The project has completed the reproducibility and baseline-audit phase.
-
-The baseline has been preserved, reproduced, and diagnosed.
-
-The UUV experiment has not yet been executed.
-
-The next scientific task is to activate only the explicit UUV optical-depth pathway, introduce the controlled `A_UUV` parameter, verify that `A_UUV = 0` reproduces the existing baseline, and then perform the first `A_UUV = 1` experiment.
+This guide covers the setup, the baseline and the checkpoint before the first absorber experiment. Experiments 1 to 14 were run after it, and are described in the Phase 1 report (`report/Phase1-Report-25m0328.pdf`), with the file of each run listed in its Appendix A. Every number in the report is recomputed from the committed files into `verify/registry.json` by `verify/recompute_25m0328.py` (report Chapter 8).
 
 ## Portability principle
 
@@ -306,7 +298,7 @@ Do not copy the laboratory Conda environment directory itself to another machine
 
 Instead:
 
-1. Clone the private research repository.
+1. Clone this repository.
 2. Recreate the `venus` environment from `environment/environment.yml`.
 3. Apply or verify the documented compatibility corrections.
 4. Build FastChem with `make`.

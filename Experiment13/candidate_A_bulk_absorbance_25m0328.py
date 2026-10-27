@@ -56,8 +56,10 @@ FECL3_A_PER_GPL = 1.0      # their stated a(375) for a 1 g/L aqueous solution
 FECL3_STATED_KGPL = 1.3    # the loading they print
 FECL3_DENSITY = 2.90       # g/cm3
 
+# ---- Dai et al. 2023: droplet density ----------------------------------------
+RHO_SOLUTION = 1.8         # g/cm3, the droplet density used by Dai et al. (2023)
+
 # ---- Jiang et al. 2024, Science Advances 10, eadg8826, supplementary --------
-RHO_SOLUTION = 1.8         # g/cm3, the sulfuric acid solution
 MINERALS = {
     "rhomboclase":         dict(rho=2.23, loading=0.0100, label="rhomboclase"),
     "acid-ferric-sulfate": dict(rho=2.80, loading=0.0125, label="acid ferric sulfate"),

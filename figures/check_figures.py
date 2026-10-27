@@ -6,7 +6,7 @@ printed number came from, the format it was printed with, and all text drawn.
 This script re-reads the CURRENT registry and result files, formats each value
 again, and confirms the printed text is identical and still present. It also
 fails on any en dash, em dash or minus-sign character. The figure equivalent
-of verify/check_documents_25m0328.py (handoff Section 11.5).
+of verify/check_documents_25m0328.py (report Section 8.2).
 
 Run from the repository root: python figures/check_figures.py
 """

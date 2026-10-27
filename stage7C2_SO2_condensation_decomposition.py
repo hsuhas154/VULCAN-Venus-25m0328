@@ -182,7 +182,7 @@ def print_rates(label, data):
 def compare_states(ref, base):
     print()
     print("=" * 120)
-    print("REFERENCE vs BASELINE — REACTANT STATE COMPARISON")
+    print("REFERENCE vs BASELINE: REACTANT STATE COMPARISON")
     print("=" * 120)
 
     species = ["SO2", "SO2_l", "H2SO4", "H2SO4_l"]
@@ -222,7 +222,7 @@ def compare_states(ref, base):
 def compare_k(ref, base):
     print()
     print("=" * 120)
-    print("REFERENCE vs BASELINE — RATE COEFFICIENT COMPARISON")
+    print("REFERENCE vs BASELINE: RATE COEFFICIENT COMPARISON")
     print("=" * 120)
 
     for reaction in REACTIONS:
@@ -285,7 +285,7 @@ def compare_reconstructed_rates(ref, base):
 
 def main():
     print("=" * 120)
-    print("STAGE 7C.2 — SO2 REACTANT-STATE AND RATE-COEFFICIENT DECOMPOSITION")
+    print("STAGE 7C.2: SO2 REACTANT-STATE AND RATE-COEFFICIENT DECOMPOSITION")
     print("=" * 120)
 
     print()

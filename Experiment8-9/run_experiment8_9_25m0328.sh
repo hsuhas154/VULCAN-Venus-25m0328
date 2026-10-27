@@ -5,8 +5,8 @@
 # Run from the REPOSITORY ROOT with the venus conda environment active:
 #   bash Experiment8-9/run_experiment8_9_25m0328.sh
 #
-# The four input files must sit in the repository's own atm/ directory:
-#   cp Experiment8-9/atm/*.txt atm/
+# The four input files are already committed in the repository's own atm/
+# directory (UV_absorber_Experiment8A/8B/8C and mode1+2_Experiment9).
 #
 # Each run takes roughly one minute. The active config is archived once, and
 # restored automatically on exit, including on error or interrupt.
@@ -39,9 +39,8 @@ for f in "${SPECTRA[@]}"; do
 done
 if [ "$missing" -ne 0 ]; then
   echo >&2
-  echo "The Experiment 8 and 9 input files belong in the repository's atm/ directory." >&2
-  echo "If you copied the bundle in as Experiment8-9/, run:" >&2
-  echo "  cp Experiment8-9/atm/*.txt atm/" >&2
+  echo "The Experiment 8 and 9 input files belong in the repository's atm/ directory," >&2
+  echo "where they are committed. Restore them with: git checkout -- atm/" >&2
   echo "and then start this script again." >&2
   exit 1
 fi

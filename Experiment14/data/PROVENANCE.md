@@ -28,12 +28,15 @@ FeCl3 giving a(375) of about 1 cm-1, linearly extrapolated to 1.3 kg/L. Venus cl
 droplets are roughly 75 wt% sulfuric acid. Egan et al. state that the spectrum in
 concentrated sulfuric acid "does not appear to have been measured previously" and
 that "the choice of solvent has a significant effect on the measured spectrum".
-Figure 5a is that measurement.
+Figure 5a gives the molar absorptivity of ferric chloride in hydrochloric acid at
+five strengths, which Egan et al. use as the ferric chloride components when they
+fit their mixed sulfuric and hydrochloric acid samples. It is not a measurement in
+sulfuric acid, so results from it are conditional.
 
 ## There is no single ferric chloride spectrum
 
-In sulfuric acid the iron speciates into chloro complexes whose populations are set
-by chloride activity. The paper describes the progression with increasing chloride:
+The iron speciates into chloro complexes whose populations are set by chloride
+activity. The paper describes the progression with increasing chloride:
 a single peak above 300 nm (FeCl2+), broader and stronger (FeCl2+), two separate
 peaks (FeCl3), then a pronounced minimum and higher overall absorbance (FeCl4-).
 All five curves are therefore extracted and every downstream result is reported as a

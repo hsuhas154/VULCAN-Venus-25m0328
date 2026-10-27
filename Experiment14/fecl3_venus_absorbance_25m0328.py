@@ -12,15 +12,20 @@ have. They apply it to ferric chloride and reject it:
      aqueous solution of 1 g/L FeCl3 has a375 ~ 1 cm-1. Simple linear
      extrapolation would therefore require approximately 1.3 kg/L FeCl3."
 
-1.3 kg/L is 71 per cent of the droplet mass at their stated solution density of
-1.8 g/cm3, which they call physically implausible.
+1.3 kg/L is 71 per cent of the droplet mass at the droplet density of 1.8 g/cm3
+used by Dai et al. (2023), a loading they call physically implausible.
 
 The input to that extrapolation is an AQUEOUS measurement. Venus cloud droplets
 are roughly 75 wt% sulfuric acid, and Egan et al. (2025) report that the spectrum
 of FeCl3 in concentrated sulfuric acid "does not appear to have been measured
 previously" and that "the choice of solvent has a significant effect on the
-measured spectrum". This experiment substitutes their measurement for the aqueous
-value and recomputes.
+measured spectrum". Their Figure 5a gives the molar absorptivity of ferric
+chloride in hydrochloric acid at five strengths, which they use as the ferric
+chloride components when they fit their mixed sulfuric and hydrochloric acid
+samples. This experiment substitutes those curves for the aqueous value and
+recomputes. The curves are not a measurement in sulfuric acid, so the result is
+conditional: it holds if ferric chloride absorbs in the droplets as it does in
+hydrochloric acid.
 
 WHAT IS AND IS NOT CONCLUDED
 ----------------------------
@@ -30,9 +35,9 @@ absorber, does not test FeCl3 against the altitude criterion of Experiment 9
 does not adjudicate Spacek's requirement itself, which Egan et al. (2026) put in
 question by a separate route.
 
-There is no single answer because there is no single FeCl3. In sulfuric acid the
-iron speciates into chloro complexes set by chloride activity, so the result is
-reported as a range over the five measured HCl concentrations.
+There is no single answer because there is no single FeCl3. The iron speciates
+into chloro complexes set by chloride activity, so the result is reported as a
+range over the five measured HCl concentrations.
 
 Run from this directory, after the extraction script:
     python3 fecl3_venus_absorbance_25m0328.py
@@ -42,7 +47,7 @@ import numpy as np
 
 A_REQUIRED = 1278.0        # cm-1, decadic, at 375 nm (Spacek et al. 2026)
 LAMBDA_NM = 375.0
-RHO_SOLUTION = 1.8         # g cm-3, droplet solution density (Spacek et al.)
+RHO_SOLUTION = 1.8         # g cm-3, droplet density used by Dai et al. (2023)
 M_FECL3 = 162.204          # g mol-1
 SPACEK_AQUEOUS_A_PER_GPL = 1.0     # their stated a(375) for 1 g/L aqueous
 SPACEK_LOADING_KGPL = 1.3          # the figure they print and reject

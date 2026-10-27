@@ -26,7 +26,9 @@ integrates it to a steady state. It is built on the exoplanet chemical kinetics 
 
 The model and its theory are described in:
 
-> Dai, L. et al. (2024). *VULCAN-Venus.* Astronomy & Astrophysics.
+> Dai, L., Shao, W., and Sheng, Z. (2024). An investigation into Venusian atmospheric
+> chemistry based on an open-access photochemistry-transport model at 0 to 112 km.
+> *Astronomy and Astrophysics*, 689, A55.
 > [doi:10.1051/0004-6361/202450552](https://doi.org/10.1051/0004-6361/202450552)
 
 The underlying VULCAN framework is described in
@@ -186,8 +188,7 @@ VULCAN-Venus-25m0328/
 │
 │  ── Fork additions (MTP / 25m0328) ─────────────────────────────
 ├── documentation/
-│   ├── SETUP_AND_REPRODUCTION.md                 # End-to-end setup + reproduction guide
-│   └── VULCAN_Venus_MTP_Progress_..._25m0328.tex # Progress checkpoint write-up
+│   └── SETUP_AND_REPRODUCTION.md                 # End-to-end setup + reproduction guide
 ├── environment/
 │   ├── environment.yml                           # conda environment spec
 │   └── venus-environment-25m0328.txt             # frozen package list
@@ -202,7 +203,16 @@ VULCAN-Venus-25m0328/
 ├── stage7C1_SO2_rates.py                         # SO2 reaction-rate analysis
 ├── stage7C2_SO2_condensation_decomposition.py    # SO2 condensation / decomposition
 ├── stage7C3_final.py                             # Stage-7 consolidation
-├── analyze_Experiment3_sensitivity_25m0328.py    # UUV amplitude-sensitivity analysis
+├── analyze_Experiment3_sensitivity_final_25m0328.py  # Experiment 3 analysis (final)
+├── analyze_Experiment3_sensitivity_25m0328.py    # Experiment 3 analysis (earlier draft)
+├── Experiment4A_*_25m0328.txt                    # Experiment 4A attribution and checks
+├── vulcan_cfg-25m0328-pre-*.py                   # Config before each experiment series
+│
+├── Experiment8-9/ ... Experiment14/              # Scripts and data, one folder each
+├── verify/                                       # Recomputation and the number registry
+├── figures/                                      # The twenty report figures + scripts
+├── report/                                       # Phase 1 report: LaTeX source + PDF
+├── ppt/                                          # Phase 1 slides: LaTeX source + PDF
 │
 └── README.md
 ```
@@ -339,7 +349,11 @@ The upstream model is treated as an **immutable reference**. Before touching the
 pristine snapshots of the code were preserved (`op-25m0328-pre-UUV-experiment.py`,
 `vulcan_cfg-25m0328-pre-UUV-experiment.py`), a baseline was reproduced and audited, and
 only then were controlled experiments layered on. Every experiment writes a uniquely named
-output plus a configuration snapshot, so no result is ever overwritten.
+output plus a configuration snapshot in `output/cfg_<run>.txt`.
+
+The committed `vulcan_cfg.py` holds the nominal settings of Experiment 2 with the output
+name `Nominal_A1_rerun-25m0328.vul`, which matches no committed run, so running the model
+unchanged overwrites nothing. Before any other run, set a new `out_name`.
 
 ### The UUV amplitude parameter
 
@@ -354,14 +368,38 @@ with the mode-1 / mode-2 Mie terms held disabled so the UUV contribution is isol
 
 ### Experiment matrix
 
-| Experiment | `A_UUV` | Role | Output file |
-| --- | --- | --- | --- |
-| Experiment 1 | 0.0 | Implementation control | `output/Experiment1_A0_UUV-control-25m0328.vul` |
-| Experiment 2 | 1.0 | Nominal supplied representation | `output/Experiment2_A1_UUV-nominal-25m0328.vul` |
-| Experiment 3A | 0.5 | Half nominal strength (sensitivity) | `output/Experiment3_A0p5_UUV-half-25m0328.vul` |
-| Experiment 3B | 2.0 | Double nominal strength (sensitivity) | `output/Experiment3_A2_UUV-double-25m0328.vul` |
+The full account is the Phase 1 report (`report/Phase1-Report-25m0328.pdf`, Chapters 5
+and 6); its Appendix A maps every experiment to its files and registry groups. Run names
+below omit the common ending `-25m0328.vul`; each run is in `output/` beside its
+`cfg_*.txt`.
 
-Each run has a matching `cfg_*.txt` snapshot in `output/`.
+| Experiment | Question | Runs in `output/` | Other files |
+| --- | --- | --- | --- |
+| Baseline | reproduce the supplied model | `Nominal_Bkzz_SO2-25m0328-reference`, `-baseline`, `-laptop-baseline` | `stage*` audit logs in `output/`, `stage7C*.py` |
+| 1 and 2 | does the absorber do anything? | `Experiment1_A0_UUV-control`, `Experiment2_A1_UUV-nominal` | |
+| 3 | is the response proportional? | `Experiment3_A0p5_UUV-half`, `Experiment3_A2_UUV-double` | `analyze_Experiment3_sensitivity_final_25m0328.py` |
+| 4A | which wavelengths? | runs of Experiments 1 and 2 | `Experiment4A_exact_spectral_attribution_final_25m0328.txt` |
+| 4B | which wavelengths? | `Experiment4B_B1_300-320` to `Experiment4B_B6_420-698` | `atm/UV_absorber_Experiment4B_B<n>_25m0328.txt`, `output/Experiment4B_consolidated_analysis_25m0328.txt` |
+| 5 | which reactions? | runs of Experiments 1 and 2 | computed in `verify/recompute_25m0328.py` |
+| 6 | which altitudes? | runs of Experiments 1, 2 and 4B | computed in `verify/recompute_25m0328.py` |
+| 7 | does it matter where the absorber sits? | `Experiment7A_UUV-upward18`, `Experiment7B_UUV-downward18` | `atm/mode1+2_Experiment7A_shift18_25m0328.txt`, `atm/mode1+2_Experiment7B_shiftDown18_25m0328.txt` |
+| 8 | spectral shape at a fixed placement | `Experiment8_baseline_A1`, `Experiment8A_ClS2`, `Experiment8B_OSSO_S2O2`, `Experiment8C_S3` | `Experiment8-9/`, `atm/UV_absorber_Experiment8<A,B,C>_*.txt` |
+| 9 | letting the chemistry place the candidate | `Experiment9_ClS2-selfconsistent` | `Experiment8-9/`, `atm/mode1+2_Experiment9_ClS2profile_25m0328.txt` |
+| 10 | a replicate and the noise floors | `Experiment10_S3-on-ClS2profile` | `Experiment10/` |
+| 11 | computed cross sections of two isomers | `Experiment11A_SSCl2`, `Experiment11B_ClSSCl` | `Experiment11/`, `atm/UV_absorber_Experiment11<A,B>_*.txt` |
+| 12 | all three tests on every species | none; reads the saved runs | `Experiment12/` |
+| 13 | iron and sulfur minerals | none; published data | `Experiment13/` |
+| 14 | ferric chloride measured in acid | none; published data | `Experiment14/` |
+
+Experiments 1 to 7 have no folders of their own. Their record is the runs and configs in
+`output/`, the inputs in `atm/`, the `vulcan_cfg-25m0328-pre-Experiment*.py` snapshots
+and the files named above; the numbers of Experiments 5 and 6 come only from
+`verify/recompute_25m0328.py`. Experiments 8 to 11 each have a run script
+(`run_experiment*_25m0328.sh`) that sets the configuration, runs the model and restores
+`vulcan_cfg.py` afterwards.
+
+The molecule OSSO appears as `S2O2` in run names and registry keys; they are the same
+species.
 
 ### Baselines and audit trail
 
@@ -374,23 +412,54 @@ Each run has a matching `cfg_*.txt` snapshot in `output/`.
   `stage6_photolysis_audit-*.txt`, `stage7A_absorber_decomposition-*.txt`,
   `stage7B_SO2_atmospheric_trace-*.txt` : diagnostic logs from successive audit stages
   (optical depth, actinic flux, photolysis, absorber decomposition, SO<sub>2</sub> trace).
+- `photolysis_mapping_source_inspection_25m0328.txt` : inspection of how photolysis
+  branches map to cross sections.
 
 ### Analysis and diagnostic scripts
 
 | Script | Purpose |
 | --- | --- |
-| `diagnose.py` | General model diagnostics |
+| `diagnose.py` | General model diagnostics (upstream) |
 | `stage7C1_SO2_rates.py` | SO<sub>2</sub> reaction-rate breakdown |
 | `stage7C2_SO2_condensation_decomposition.py` | SO<sub>2</sub> condensation / decomposition analysis |
 | `stage7C3_final.py` | Stage-7 consolidation |
-| `analyze_Experiment3_sensitivity_25m0328.py` | UUV amplitude-sensitivity analysis across the Experiment-3 runs |
+| `analyze_Experiment3_sensitivity_final_25m0328.py` | Experiment 3 amplitude-sensitivity analysis (final version) |
+| `analyze_Experiment3_sensitivity_25m0328.py` | Earlier draft of the same analysis, kept for the record |
+
+### Verification: every number has a source
+
+`verify/recompute_25m0328.py` recomputes every number used in the report, the slides and
+the figures from the committed run files and published data, and writes them to
+`verify/registry.json`, one named key per value (report Chapter 8 explains how to read a
+key). Two checkers then compare documents against it:
+
+```bash
+python verify/recompute_25m0328.py            # rebuild verify/registry.json
+python verify/check_documents_25m0328.py report/*.tex ppt/*.tex
+python figures/check_figures.py               # every figure label against the registry
+```
+
+### Figures, report and slides
+
+- `figures/` : the twenty figures as PDF and PNG, one script each in `figures/scripts/`,
+  shared style and number bookkeeping in `figures/style.py`, a manifest per figure in
+  `figures/manifest/`, and the quoted literature values with page and sentence in
+  `figures/literature_values.json`.
+- `report/` : LaTeX source of the Phase 1 report and its compiled PDF. Compile from
+  inside `report/` (the main file reads `../figures`) with
+  `pdflatex Phase1-Report-25m0328.tex`, three passes.
+- `ppt/` : LaTeX source of the Phase 1 slides, `theme.tex`, and the compiled PDF.
+
+LaTeX build files in `report/` and `ppt/` are ignored by `.gitignore`.
 
 ### Reproducing an experiment
 
 1. Recreate the environment (see [Reproducible environment](#reproducible-environment-this-fork)).
-2. Set `A_UUV` and the output name in `vulcan_cfg.py` to match the target experiment.
+2. For Experiments 8 to 11, run that experiment's `run_experiment*_25m0328.sh` from the
+   repository root. For the others, set `A_UUV`, the input paths and a new `out_name` in
+   `vulcan_cfg.py` to match the run's `output/cfg_*.txt`.
 3. Run `python3 vulcan.py` and let it reach steady state.
-4. Compare against the control with the relevant `stage*` / `analyze_*` script.
+4. Rebuild the registry with `python verify/recompute_25m0328.py` and compare.
 
 See [`documentation/SETUP_AND_REPRODUCTION.md`](documentation/SETUP_AND_REPRODUCTION.md)
 for the full procedure.

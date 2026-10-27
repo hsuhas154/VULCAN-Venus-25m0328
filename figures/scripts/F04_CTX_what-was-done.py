@@ -3,7 +3,7 @@
 Switch the absorber on and check it, find where its effect lives (amount,
 wavelength, reaction, altitude), find what decides the size of the effect, then
 test real candidates against what was learned. Box wording follows the
-experiment headings of the Phase 1 handoff, Section 6. No numbers.
+experiments as described in report Chapters 5 and 6. No numbers.
 """
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

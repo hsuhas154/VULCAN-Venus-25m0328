@@ -90,7 +90,7 @@ def reaction_equation(k_index):
 
     def fmt(items):
         if not items:
-            return "—"
+            return "n/a"
 
         counts = {}
         for sp in items:
@@ -166,7 +166,7 @@ def summarize(label, data, term_info):
 
     print()
     print("=" * 120)
-    print(f"{label} — SO2 REACTION-LEVEL RATES")
+    print(f"{label}: SO2 REACTION-LEVEL RATES")
     print("=" * 120)
 
     print(f"Number of SO2 terms : {values.shape[0]}")
@@ -253,7 +253,7 @@ def summarize(label, data, term_info):
 def compare(ref_values, base_values, term_info, ref_data, base_data):
     print()
     print("=" * 120)
-    print("REFERENCE vs BASELINE — SO2 REACTION-RATE DIFFERENCES")
+    print("REFERENCE vs BASELINE: SO2 REACTION-RATE DIFFERENCES")
     print("=" * 120)
 
     ref_Rf = ref_data["variable"]["Rf"]
@@ -319,7 +319,7 @@ def compare(ref_values, base_values, term_info, ref_data, base_data):
 
     print()
     print("=" * 120)
-    print("SO2 NET CHEMICAL TENDENCY — REFERENCE vs BASELINE")
+    print("SO2 NET CHEMICAL TENDENCY: REFERENCE vs BASELINE")
     print("=" * 120)
 
     for level in TARGET_LEVELS:
@@ -336,7 +336,7 @@ def compare(ref_values, base_values, term_info, ref_data, base_data):
 
 def main():
     print("=" * 120)
-    print("STAGE 7C.1 — SO2 CHEMICAL SOURCE/SINK TRACE")
+    print("STAGE 7C.1: SO2 CHEMICAL SOURCE/SINK TRACE")
     print("=" * 120)
 
     print()

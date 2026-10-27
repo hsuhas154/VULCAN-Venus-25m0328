@@ -44,7 +44,7 @@ plt.rcParams.update({
     "savefig.bbox": "tight",
 })
 
-# One colour per meaning, fixed across the whole set (handoff Section 11.1, rule 10).
+# One colour per meaning, fixed across the whole set of twenty figures.
 # Okabe and Ito palette: colourblind safe, and the four stay distinct in greyscale.
 COLOR = {
     "control":   "#000000",   # A = 0, no absorber
@@ -134,7 +134,7 @@ def sci(key, digits, scale=1.0):
     _VALUES.append(dict(source="registry", key=key, fmt=f"sci{digits}", scale=scale, text=s))
     return s
 
-# Quantities derived from registry keys rather than stored (handoff Section 16.1),
+# Quantities derived from registry keys rather than stored,
 # computed here and re-computed the same way by check_figures.py.
 DERIVED = {
     "max/min": lambda v: max(v) / min(v),

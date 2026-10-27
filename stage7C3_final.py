@@ -100,7 +100,7 @@ def main():
     base = load(BASE)
 
     print("=" * 120)
-    print("STAGE 7C.3 FINAL — H2SO4 SOURCE/SINK DECOMPOSITION")
+    print("STAGE 7C.3 FINAL: H2SO4 SOURCE/SINK DECOMPOSITION")
     print("=" * 120)
 
     print("\nH2SO4 state comparison")
